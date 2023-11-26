@@ -40,6 +40,7 @@ var majorityElement = function (nums) {
   // let mid = Math.floor(nums.length/2);
   // let store =  nums.sort(function(a, b){return a - b});
   // return store[mid];
+
   // let Obj = {};
   // for(let i = 0; i < nums.length; i++){
   //     if(Obj[nums[i]] > 0){
@@ -48,5 +49,9 @@ var majorityElement = function (nums) {
   //         Obj[nums[i]] = 1;
   //     }
   // }
-  // return Obj;
+  // for(const key in Obj){
+  //     if(Obj[key] > nums.length / 2){
+  //         return key
+  //     }
+  // }
 };
