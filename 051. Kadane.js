@@ -1,21 +1,26 @@
 var maxSubArray = function (nums) {
-  let sum = nums[0];
-  let max = sum;
+  let curSum = nums[0];
+  let maxSum = curSum;
   for (let i = 1; i < nums.length; i++) {
-    sum = sum + nums[i] > nums[i] ? sum + nums[i] : nums[i];
-    max = max > sum ? max : sum;
+    curSum = curSum + nums[i] > nums[i] ? curSum + nums[i] : nums[i];
+    maxSum = maxSum > sum ? maxSum : sum;
   }
-  console.log(max);
+  return maxSum;
 };
 
-maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]);
-maxSubArray([-2, -1, -3, -4, -1, 12, -1, -5, 4]);
+console.log(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
+console.log(maxSubArray([-2, -1, -3, -4, -1, 12, -1, -5, 4]));
 
 var kadane = function (nums) {
-  let maxSum = 0;
-  let curSum = 0;
+  if (nums.length === 0) {
+    return 0;
+  }
+
+  let curSum = nums[0];
+  let maxSum = nums[0];
+
   for (let i = 1; i < nums.length; i++) {
-    curSum = curSum + nums[i];
+    curSum = curSum + nums[i] > nums[i] ? curSum + nums[i] : nums[i];
     if (curSum > maxSum) {
       maxSum = curSum;
     }
@@ -23,8 +28,8 @@ var kadane = function (nums) {
       curSum = 0;
     }
   }
-  return console.log(maxSum);
+  return maxSum;
 };
 
-kadane([-2, 1, -3, 4, -1, 2, 1, -5, 4]);
-kadane([-2, -1, -3, -4, -1, 12, -1, -5, 4]);
+console.log(kadane([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
+console.log(kadane([-2, -1, -3, -4, -1, 12, -1, -5, 4]));
