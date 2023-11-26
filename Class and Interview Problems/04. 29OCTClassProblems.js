@@ -57,29 +57,33 @@ function reverse(arr, n) {
 console.log(reverse(arr, n));
 
 let s = "hello";
-function vowelString(s) {
-  let vowelArray = ["A", "a", "E", "e", "I", "i", "O", "o", "U", "u"];
+function isVowel(char) {
+  let vowels = ["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"];
+  return vowels.indexOf(char) !== -1;
+}
+
+var reverseVowels = function (s) {
+  let sArray = s.split("");
   let start = 0;
   let end = s.length - 1;
+
   while (start < end) {
-    let swap;
-    if (vowelArray.indexOf(s[start] == -1)) {
+    if (!isVowel(sArray[start])) {
       start++;
       continue;
     }
-    if (vowelArray.indexOf(s[end] == -1)) {
+    if (!isVowel(sArray[end])) {
       end--;
       continue;
     }
-    swap = s[start];
-    s[start] = s[end];
-    s[end] = swap;
+    let swap = sArray[start];
+    sArray[start] = sArray[end];
+    sArray[end] = swap;
     start++;
     end--;
   }
-  return s;
-}
-
-console.log(vowelString(s));
+  return sArray.join("");
+};
+console.log(reverseVowels(s));
 
 console.log(s[1]);
