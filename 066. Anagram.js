@@ -1,22 +1,20 @@
-var isAnagram = function (str1, str2) {
-  let n1 = str1.length;
-  let n2 = str2.length;
+var isAnagram = function (s, t) {
+  let n1 = s.length;
+  let n2 = t.length;
 
   // If length of both strings is not same,
   // then they cannot be anagram
   if (n1 != n2) return false;
 
   // Sort both strings
-  str1.sort();
-  str2.sort();
+  let str1 = s.split("").sort().join("");
+  let str2 = t.split("").sort().join("");
 
   // Compare sorted strings
   for (let i = 0; i < n1; i++) if (str1[i] != str2[i]) return false;
 
   return true;
 };
-
-
 
 let s1 = "hello";
 let s2 = "heloo";
@@ -40,3 +38,8 @@ function isAnagram(str1, str2) {
 }
 
 console.log(isAnagram(s1, s2));
+
+// HW:
+// - Strings Assignment
+// - https://leetcode.com/problems/first-unique-character-in-a-string/
+// - https://leetcode.com/problems/longest-substring-without-repeating-characters/
