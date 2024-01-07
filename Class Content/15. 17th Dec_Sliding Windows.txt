@@ -1,0 +1,788 @@
+Date : 17th Dec 2023
+Mentor: DEVANG SHARMA
+Batch: Oct Batch (DSA) - Tutort Academy
+
+Agenda:
+- Two Sum with all approaches and a basic understanding of hashmap: DONE
+- Given an array replace every element with a greater element on the right side: DONE
+(not including the current element) 
+- Given an array replace every element with a greater element on the left side: DONE
+(not including the current element) 
+- Majority Element:  https://leetcode.com/problems/majority-element: DONE
+- Wiggle Sort: https://www.lintcode.com/problem/508/description:  DONE
+- Decompress RLE: DONE
+- Kids With the Greatest Number of Candies: https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/: DONE
+- Intersection of Two Arrays: https://leetcode.com/problems/intersection-of-two-arrays/ - DONE
+- Rotate Array: https://leetcode.com/problems/rotate-array/ - DONE
+- XOR Concept: DONE
+- 136. Single Number: DONE
+- 268. Missing Number: DONE
+- 1720. Decode XORed Array: DONE
+- Product of Array Except Self: DONE
+- Prime Numbers: DONE
+- Primality Test:  DONE
+- Seive Of Erastothenes: IMP : DONE
+- Count Primes:https://leetcode.com/problems/count-primes/: DONE
+- Sexy Primes: https://www.codechef.com/problems/EXCG1806: DONE
+(Sliding Window Algo) 
+- Max Consecutive Ones-1: https://leetcode.com/problems/max-consecutive-ones-i/
+- Max Consecutive Ones-2: https://leetcode.com/problems/max-consecutive-ones-ii/
+ (LC Premium)
+- Lintcode: https://www.lintcode.com/problem/883/description
+- Max Consecutive Ones-3: https://leetcode.com/problems/max-consecutive-ones-iii/
+
+TODO:
+- Strings
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+
+
+---------> SLIDING WINDOW:
+
+
+Q-16: [LC-485] Max Consecutive Ones-1
+https://leetcode.com/problems/max-consecutive-ones/
+
+Given a binary array nums, return the maximum number of consecutive 1s in the array.
+
+
+Example 1:
+
+Input: nums = [1,1,0,1,1,1]
+Output: 3
+Explanation: The first two digits or the last three digits are consecutive 1s. The maximum number of consecutive 1s is 3.
+
+Example 2:
+
+Input: nums = [1,0,1,1,0,1]
+Output: 2
+ 
+
+Constraints:
+
+1 <= nums.length <= 105
+nums[i] is either 0 or 1.
+
+
+
+
+    public int findMaxConsecutiveOnes(int[] nums) 
+    {
+
+    }
+
+
+Understanding:
+
+
+Input: nums = [1,1,0,1,1,1]
+Output: 3
+
+
+
+[1,1]: 2
+Index: 0-1
+
+[1,1,1]: 3
+Index: 3-5
+
+OP: max(2,3) = 3 - ANS
+
+
+
+
+Solution:
+
+
+Transformation:
+
+"return the maximum number of consecutive 1s in the array"
+
+--------> "Find the length of largest subarray of 1 in binary array"
+
+
+consecutive 1s -----> Subarray of 1
+
+maximum number -----> length of largest
+
+
+
+
+
+
+
+
+"Find the length of largest subarray of 1 in binary array"
+
+
+
+Approach:
+
+A Variable ans to find largest subarray of 1
+
+if arr[i] == 0, reset ans = 0
+else ans -> ++ans
+
+
+Final Ans: MAX of All Ans
+
+
+Note:
+
+arr[i] == arr[i+1] ----> Largest Subarray of Consecutive Values
+
+
+DRY RUN:
+
+
+ans = 0
+
+[1,1,0,1,1,1]
+ ^
+ans = 0->1
+
+
+
+[1,1,0,1,1,1]
+   ^
+ans = 1-> 2
+
+
+
+[1,1,0,1,1,1]
+     ^
+ans = 2 -> 0 : RESET
+
+
+
+[1,1,0,1,1,1]
+       ^
+ans = 0 -> 1
+
+
+[1,1,0,1,1,1]
+         ^
+ans = 1 -> 2
+
+
+[1,1,0,1,1,1]
+           ^
+ans = 2 -> 3 
+
+
+Final Ans = max(2,3) = 3
+
+
+max(1,2,3)
+
+
+
+
+
+
+[1,2,3,4,5]
+Max = 5
+
+for (int val: arr)
+	ans = max(val, ans);
+
+
+
+
+
+
+
+CODE:
+
+
+
+class Solution 
+{
+    public int findMaxConsecutiveOnes(int[] nums) 
+    {
+        int ans = 0;
+        int res = Integer.MIN_VALUE;
+
+    // ans = 2, ans = 3
+    // res = max(2,3) = 3
+        for (int val: nums)
+            res = Math.max(res, ans = val == 0 ? 0 : ans+1);
+
+        return res;
+    }
+}
+
+
+TC: O(N)
+SC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-17: [LC-487] Max Consecutive Ones-2 [Google]
+https://leetcode.com/problems/max-consecutive-ones-ii/
+
+- Max Consecutive Ones-2: https://leetcode.com/problems/max-consecutive-ones-ii/
+ (LC Premium)
+- Lintcode: https://www.lintcode.com/problem/883/description
+
+
+
+
+Given a binary array nums, 
+return the maximum number of consecutive 1s in the array if you can flip at most one 0.
+
+ 
+
+Example 1:
+
+Input: nums = [1,0,1,1,0]
+Output: 4
+Explanation: 
+- If we flip the first zero, nums becomes [1,1,1,1,0] and we have 4 consecutive ones.
+- If we flip the second zero, nums becomes [1,0,1,1,1] and we have 3 consecutive ones.
+The max number of consecutive ones is 4.
+Example 2:
+
+Input: nums = [1,0,1,1,0,1]
+Output: 4
+Explanation: 
+- If we flip the first zero, nums becomes [1,1,1,1,0,1] and we have 4 consecutive ones.
+- If we flip the second zero, nums becomes [1,0,1,1,1,1] and we have 4 consecutive ones.
+The max number of consecutive ones is 4.
+ 
+
+Constraints:
+
+1 <= nums.length <= 105
+nums[i] is either 0 or 1.
+ 
+
+Follow up: 
+What if the input numbers come in one by one as an infinite stream? 
+In other words, you cant store all numbers coming from the stream as its too large to hold in memory. Could you solve it efficiently?
+
+
+
+
+
+Solution:
+
+
+Transformation:
+
+"return the maximum number of consecutive 1s in the array if you can flip at most one 0."
+
+--------> "Find the length of largest subarray of 1 in binary array by flipping at most one 0"
+number_of_flip <= 1
+
+consecutive 1s -----> Subarray of 1
+
+maximum number -----> length of largest
+
+
+
+
+
+[1,0,1,1,0]
+Condition: Flip at most 1 zero to find maximum number of consecutive ones
+
+
+[1,0,1,1,0]: Curr Ans = 2
+
+
+If I flip 0 at Index 4:
+[1,0,1,1,1]: Curr Ans = 3
+
+
+If I flip 0 at Index 1:
+[1,1,1,1,0]: Curr Ans = 4
+
+Final Ans = 4 
+OP: 4
+
+
+
+
+
+
+Solution:
+
+
+// TC - O(N), SC - O(1)
+
+
+class Solution {
+    public int findMaxConsecutiveOnes(int[] nums) 
+    {
+        int i=0, j;
+        int k = 1;
+        
+        // j = 0 to N: Always Increasing
+        // Goal: "Find the largest Subarray with AT MOST K 0s"
+
+
+        for (j=0; j<nums.length; j++)
+        {
+            // If Found 0 -> Flip, k -> K-1
+            // j = 3, k = 2->1
+            // j = 4, k = 1->0
+            // j = 5, k = 0->-1
+            if (nums[j] == 0)
+                k--;
+
+            // K < 0 -> Number of Zeroes > K
+            // count > K: Decrease Window Size
+            // i++: Shrinking the Window
+            if (k < 0 && nums[i++] == 0)
+                k++; // i = 1,2,3,4,5, j = 11
+            
+        /*
+            if (k<0)
+            {
+                if (nums[i]== 0)
+                    k++;
+                    i++;
+
+            }
+            
+          */  
+            
+        }
+        
+        //System.out.println("i: " + i + " j: " + j); // i =5, j = 11
+       // Length of longest subarray with AT MOST K Zeroes 
+        return j-i; // 11-5 = 6
+
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-18: [LC-1004] Max Consecutive Ones III - [Google]
+https://leetcode.com/problems/max-consecutive-ones-iii/
+
+
+Given a binary array nums and an integer k, 
+return the maximum number of consecutive 1s in the array if you can flip at most k 0's.
+
+ 
+Example 1:
+
+Input: nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2
+Output: 6
+Explanation: [1,1,1,0,0,1,1,1,1,1,1]
+Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.
+
+Example 2:
+
+Input: nums = [0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1], k = 3
+Output: 10
+Explanation: [0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1]
+Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.
+ 
+
+Constraints:
+
+1 <= nums.length <= 105
+nums[i] is either 0 or 1.
+0 <= k <= nums.length
+
+    public int longestOnes(int[] nums, int k) 
+    {
+
+    }
+
+
+
+
+
+Variation:
+
+Max Consecutive Ones III - Flip at Most K Zeroes - K
+Max Consecutive Ones II - Flip at Most 1 Zeroes - K = 1
+Max Consecutive Ones I - Flip at Most 0 Zeroes - K = 0
+
+
+
+Solution:
+
+
+Approach:
+
+Sliding Window:
+
+Sliding: Moving in Nature
+Window: Range of Values
+
+
+......i......j......
+
+
+- A Window (Range of Values) Moving in Nature
+- Range (Size of Window) Can be fixed or variable
+Fixed Size: K Size Window
+- Every Window will ALWAYS be Subarray
+
+
+Two Pointer: Sorted Values
+
+i...............j
+
+
+if (key < arr[i])
+	i++;
+
+else if (key > arr[i])
+	j--;
+
+
+Sliding Window: SuperSet
+Two Pointers: SubSet
+
+
+
+
+
+Transformation:
+
+
+"return the maximum number of consecutive 1s in the array if you can flip at most k 0s"
+
+
+-------> Find the longest subarray with AT MOST K 0s
+
+consecutive 1s -----> Subarray of 1
+
+maximum number -----> length of largest
+
+
+
+
+Input: nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2
+Output: 6
+OP: [1,1,1,0,0,1,1,1,1,1,1]
+
+
+
+
+0,1,1,1,1,0: Flipped K = 2 Zeroes
+1,1,1,1,1,1: Total - OP: 6
+
+
+0,1,1,1,1,0: Longet Subarray with AT MOST K = 2 Zeroes
+
+
+
+
+
+"Find the longest subarray with AT MOST K 0s"
+
+
+
+At Most K = 0 to K
+Window Size = 0 to K
+
+
+Irrespective of i and j position, 
+arr[i....j] -----> Sliding Window: .......i.......j.......
+
+
+j = 0 to N
+
+For Each A[j],
+Find the longest Subarray with at Most K Zeroes.
+
+
+
+
+i......j
+
+increment j: Expanding the Window
+increment i: Shrinking the Window
+
+
+
+(1) if A[i......j] has zeroes < K
+continue to increment j
+
+Meaning:
+My Count < K
+
+EXPAND My Window Size: j++
+
+
+(2) if A[i....j] has zeroes > K
+continue to increment i
+
+Meaning:
+My Count > K
+
+SHRINK My Window Size: i++
+
+
+
+
+
+
+
+
+
+CODE:
+
+
+class Solution {
+    
+    // i, j: Two Ends of Window
+    // j++: Window Increasing: EXPAND
+    // i++: Window Decreasing: SHRINK
+    
+
+    // nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2
+    //.                  i.         j
+    // OP: 6
+    // len = 11
+    public int longestOnes(int[] nums, int k) 
+    {
+        int i=0, j;
+        
+        // j = 0 to N: Always Increasing
+        // Goal: "Find the largest Subarray with AT MOST K 0s"
+
+
+        for (j=0; j<nums.length; j++)
+        {
+            // If Found 0 -> Flip, k -> K-1
+            // j = 3, k = 2->1
+            // j = 4, k = 1->0
+            // j = 5, k = 0->-1
+            if (nums[j] == 0)
+                k--;
+
+            // K < 0 -> Number of Zeroes > K
+            // count > K: Decrease Window Size
+            // i++: Shrinking the Window
+            if (k < 0 && nums[i++] == 0)
+                k++; // i = 1,2,3,4,5, j = 11
+            
+        /*
+            if (k<0)
+            {
+                if (nums[i]== 0)
+                    k++;
+                    i++;
+
+            }
+            
+          */  
+            
+        }
+        
+        //System.out.println("i: " + i + " j: " + j); // i =5, j = 11
+       // Length of longest subarray with AT MOST K Zeroes 
+        return j-i; // 11-5 = 6
+        
+    }
+}
+
+
+
+TC: O(N)
+SC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DONE:
+
+Arrays
+2D Arrays
+Two Pointers
+LS, BS
+Prefix Sum
+XOR and Opeations - Bits Manipulation
+Array Rotation
+Primes and Seive
+Sliding Window
+
+
+TODO:
+
+Strings
+Stacks and Queues
+Linked Lists
+Sorting
+Sets and Maps
+DP (Dynamic Programming)
+Backtracking
+Greedy
+Heaps
+Trees
+Graphs
+Tries
+
+
+
+
+
+
+
+
+
+----------> STRINGS:
+
+Strings:
+Array of Characters
+
+
+char ch = {'d','e','v'};
+String s = new String(ch);
+
+OR
+
+String str = "dev";
+
+OP: "dev"
+
+
+
+CODE:
+
+
+
+// "static void main" must be defined in a public class.
+public class Main {
+    public static void main(String[] args) 
+    {
+        char[] ch = {'d','e','v'};
+        String s = new String(ch);
+        System.out.println(s);
+        
+        String str = "dev";
+        System.out.println(str);
+    }
+}
+
+
+
+OP:
+
+dev
+dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

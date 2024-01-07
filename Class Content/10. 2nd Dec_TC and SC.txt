@@ -1,0 +1,619 @@
+Date : 2nd Dec 2023
+Mentor: DEVANG SHARMA
+Batch: Oct Batch (DSA) - Tutort Academy
+
+Agenda:
+- Arrays- DONE
+- Binary Search and Time Complexity-DONE
+- Questions- DONE
+- Prefix Sum - DONE
+
+Questions:
+- Two Sum with all approaches and a basic understanding of hashmap: DONE
+- Given an array replace every element with a greater element on the right side: DONE
+(not including the current element) 
+- Given an array replace every element with a greater element on the left side: DONE
+(not including the current element) 
+- Majority Element:  https://leetcode.com/problems/majority-element: DONE
+- [Google] Wiggle Sort: https://www.lintcode.com/problem/508/description - DONE
+- Decompress RLE: 
+- Kids With the Greatest Number of Candies: https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/
+
+TODO:
+- Product of Array Except Self
+- Intersection of Two Arrays: https://leetcode.com/problems/intersection-of-two-arrays/
+- Rotate Array: https://leetcode.com/problems/rotate-array/
+
+
+-------> Time and Space Complexity
+
+- Compilation: DONE
+- Execution: DONE
+- Compiled Languages and Interpreted Languages: DONE
+- What is TC and SC- DONE
+- Why O Notation is Required- DONE 
+- Order of O Complexity - DONE
+- Compare different algos- faster and slowest - DONE
+- Total Complexity in multiple functions with different complexities- DONE
+
+TODO:
+- How to Find Complexity from Code? - DONE
+- Time and Space Complexity - Real Life Meaning - DONE
+- Space Complexity - Auxliary and In memory - DONE
+- CP Trick to Pass all Test Cases-EXTRA
+- Recursion: 
+
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+
+
+Q-9: [LC-152] Maximum Product Subarray - [Amazon, Adobe]
+https://leetcode.com/problems/maximum-product-subarray/
+
+Given an integer array nums, find a subarray that has the largest product, and return the product.
+
+The test cases are generated so that the answer will fit in a 32-bit integer.
+
+ 
+
+Example 1:
+
+Input: nums = [2,3,-2,4]
+Output: 6
+Explanation: [2,3] has the largest product 6.
+
+Example 2:
+
+Input: nums = [-2,0,-1]
+Output: 0
+Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
+ 
+
+Constraints:
+
+1 <= nums.length <= 2 * 104
+-10 <= nums[i] <= 10
+The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+
+
+
+Understanding:
+
+Input: nums = [2,3,-2,4]
+Output: 6
+
+
+Subarrays:
+
+[2]: 2
+[2 3]: 6
+[2 3 -2]: -12
+[2 3 -2 4]: -48
+
+
+Max Product = 6
+
+
+
+    public int maxProduct(int[] A) 
+    {
+
+
+    }
+
+
+IP: [2,1,-1]
+OP: [2]
+
+
+
+Solution:
+
+
+
+[..........i............j..........]
+
+
+Subarray with Max product = arr[i.......j]
+
+Product of arr[i....j] = max(prefix, suffix)
+
+Edge Case:
+If 0 is present, Reset prod = 1
+
+
+
+Approach:
+
+(1) Find prefix prod, handle 0 case
+(2) Find suffix prod, handle 0 case
+(3) Find max(prefix, suffix)
+
+
+
+
+CODE:
+
+
+
+class Solution {
+    public int maxProduct(int[] A) 
+    {
+        int len = A.length;
+        int prod = 1;
+        int max = Integer.MIN_VALUE;
+        int i = 0;
+
+        // Prefix Product
+        // prefix_prod = prefix_prod * A[i] = Multiply from Beginning
+
+        for (i=0; i<len; i++)
+        {
+            max = Math.max(prod*=A[i], max);
+            //System.out.println("Prefix: " + max);
+
+        // Edge case for 0 in Subarray
+            if (A[i] == 0)
+                prod = 1;
+        }
+
+        prod = 1;
+
+        // Suffix Prod
+        // suffix_prod = suffix_prod * A[n-1-i] = Multiply from End
+
+        for (i=len-1; i>=0; i--)
+        {
+            max = Math.max(prod*=A[i], max);
+            //System.out.println("Suffix: " + max);
+
+
+        // Edge case for 0 in Subarray
+            if (A[i] == 0)
+                prod = 1;
+        }
+
+        return max;
+    }
+}
+
+
+TC: O(N) + O(N)
+SC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> Time and Space Complexity
+
+- Compilation: DONE
+- Execution: DONE
+- Compiled Languages and Interpreted Languages: DONE
+- What is TC and SC- DONE
+- Why O Notation is Required- DONE 
+- Order of O Complexity - DONE
+- Compare different algos- faster and slowest - DONE
+- Total Complexity in multiple functions with different complexities- DONE
+
+TODO:
+- How to Find Complexity from Code? - DONE
+- Time and Space Complexity - Real Life Meaning - DONE
+- Space Complexity - Auxliary and In memory - DONE
+- CP Trick to Pass all Test Cases-EXTRA
+- Recursion: 
+
+
+
+
+
+
+
+
+--------> Time and Space Complexity
+
+
+
+High Level Languages:
+Java, C, C++, Go, Perl, Python
+
+Converter:
+Compilation: Source Code ------> Machine Code
+
+Machine: 0/1
+
+
+Compilation + Execution -----> Online IDE
+
+Compilation:
+
+javac Main.java
+(Java Compile)
+
+
+Main.java ---------> Main.class (Byte Code)
+
+
+Main.class ------> Execute
+
+
+java Main 
+(Java Run)
+
+
+
+System.out.println("Dev");
+OP: Dev
+
+
+Run Without Compile:
+
+System.out.println("Sharma");
+OP: Dev
+
+
+Run With Compile:
+OP: Sharma
+
+
+
+
+What Happens During Compilation?
+(Source Code -----> Machine Code)
+
+
+- Check for Syntax Error ({(;...)})
+- Check for Compile Time Errors
+(Calling an undefined function, variable, scope etc)
+- Allocate Memory to static data structures (Arrays etc)
+- Check for Memory Errors: MLE
+- Check for Div by 0 Error
+
+
+
+int arr[100];
+400 Bytes -----> RAM : Compilation
+
+
+int a = 10/0;
+OP: Arithmetic Exception
+
+
+
+
+After Compilation:
+
+(1) Success: Machine Code will be Generated
+
+(2) Errror: No Machine Code will be Generated
+
+
+FLOW:
+
+VS Code ------> Java Code ------> javac Main.java -----> Main.class -----> java Main ------> OP
+                                   COMPILATION                             EXECUTION
+
+
+
+Execution:
+Takes the Machine Code and Executes It
+
+
+
+
+
+
+
+
+
+
+
+-------> Compiled Languages:
+
+C++, Java, C, Golang, C#, Typescript etc
+
+
+- Entire Code is Compiled at Once and 1 Machine Code File is Created
+
+10K LOC -----> 1 Machine Code File
+
+
+
+
+------> Interpreted Languages:
+
+Python, Javascript
+
+Directly execute the code line by line
+
+Workflow for Interpreted Languages:
+
+1 Line -------> OP
+
+
+
+RAM ----> Buffer (TTL) -----> Free : C++, Java: Garbage Collection
+
+
+RAM ----> Buffer (TTL) -----> Free : C    (malloc, free)
+
+
+
+
+
+
+
+C++/Java/Go: (Compiled Languages)
+
+..................
+System.out.println("Devang");
+int a = 4/0;
+System.out.println("Sharma");
+..................
+
+OP:
+Arithmetic Exception: Div by Zero Error
+
+
+
+Python: (Interpeted Languages)
+
+..................
+print("Devang")
+a = 5/0
+print("Sharma");
+..................
+
+OP:
+
+Devang
+Error
+
+
+
+
+
+
+
+---------> Strictly Typed vs Loosely Typed Languages:
+
+
+
+
+Strictly Typed ------> Compiled Time Languages:
+C++, C, Java, Go etc
+
+
+
+int a = 10;
+a = "dev";
+
+
+OP:
+String cannot be inverted to int
+
+
+
+NOTE:
+Each Literal (Variable/Constant) is associated with a Data Type which is
+checked till Program Execution End
+
+
+
+
+
+Loosely Typed Languages -------> Interpreted Languages:
+Python, JS
+
+
+a = "devang";
+typeof(a);
+
+a = 10;
+typeof(a);
+
+OP:
+
+'string'
+'number'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- Execution
+- Compile
+- Compile + Execution
+
+
+Time Complexity:
+Time Taken to RUN the Program/ Execution Time for a Program
+
+
+Space Complexity:
+Memory Occupied during the RUN Time/ Execution Memory for a Program
+
+
+
+
+
+
+-------> Why a Notation is Required?
+
+Same Code: JAVA: 20 LOC, 2 KB : .class File Size
+
+
+M1 Mac: 1.4 sec
+Windows: 
+Linux: 
+
+
+
+
+Solution:
+
+There MUST be a Generic template (Irrespective of Language/OS)
+which EVERY Developer Across teh Globe Understands
+
+
+Notation:
+
+(1) Big O
+(2) Small o
+(3) Theta
+(4) Omega
+(5) Alpha
+
+
+
+Big O Notation:
+- Used to define the Time and Space Complexity of a Program
+- Provides Asymptotic Complexity
+
+
+
+
+Order of Complexity:
+
+O(1) < O(log N) < O(N) < O(NlogN) < O(N^2) < O(N^3) < O(base ^ N) < O(N!) < O(N^N)
+
+BEST --------------------------------------------------------------------- WORST
+
+FASTEST --------------------------------------------------------------------- SLOWEST
+
+
+
+
+
+
+Use-Cases of Order of Complexity:
+
+(1) Compare Different Algorithms:
+
+Ramesh: O(N)
+Suresh: O(log N)
+
+
+Faster?
+Suresh
+
+- Check Best and Worst
+- Arrange Different Algos from Worst Case to Best Case
+
+
+
+
+(2) More than 1 Operations in a Single Program with Different Complexity
+
+
+int f1() - Printing an Array
+{
+	O(N)
+}
+
+
+int f2() - Binary Search
+{
+	O(log N)
+}
+
+
+Total TC of Program?
+
+
+ANS: Always HIGHEST Complexity (Slowest In Execution)
+
+
+N = 100
+log N = 6.56
+2^K = 100
+K = ? (b/w 6 and 7)
+
+
+log (base a) K = b
+a^b = K
+
+
+
+N + log N = 100 + 6.56 = 106.56 ~= 100
+
+
+
+Eg:
+
+O(N) + O(log N) + O(N^2) = O(N^2)
+
+O(N!) + O(N^2) + O(NlogN) = O(N!)
+
+
+
+Limiting Reagent:
+Slowest Element will Determine the Rate of reaction
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------> How to Find Complexity from Code:
+: Next Class
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,852 @@
+Date : 9th Dec 2023
+Mentor: DEVANG SHARMA
+Batch: Oct Batch (DSA) - Tutort Academy
+
+Topics:
+- Arrays: DONE
+- Binary Search and Time Complexity: DONE
+- Prefix Sum Array- DONE
+- Questions - DONE
+- Two Pointer- DONE
+- Question- DONE
+- Compilation: DONE
+- Execution: DONE
+- Compiled Languages and Interpreted Languages: DONE
+- What is TC and SC- DONE
+- Why O Notation is Required- DONE 
+- Order of O Complexity - DONE
+- Compare different algos- faster and slowest - DONE
+- Total Complexity in multiple functions with different complexities- DONE
+- How to Find Complexity from Code? - DONE
+- Time and Space Complexity - Real Life Meaning - DONE
+- Space Complexity - Auxliary and In memory - DONE
+- CP Trick to Pass all Test Cases-EXTRA: DONE
+- Recursion: DONE
+
+- Rotate Array: DONE
+- Bits Manipulations
+- Prime Numbers - Seive
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+
+
+List of Leetcode Pattern Questions:
+
+- Blind 75
+- Grind 75
+- Leetcode Top 150 Questions
+
+---------> Pattern Trick of LC:
+
+(1) If Input Array is Sorted:
+- Binary Search
+- Two Pointers
+
+(2) If Asked for All Permutations/ Subsets:
+- Backtracking
+
+
+(3) If Given a Graph
+- DFS
+- BFS
+
+
+(4) If Given a Linked List
+- Two Pointers (Fast and Slow) Nodes in LL
+
+
+(5) If Recursion is Not Allowed
+- Stack
+
+
+(6) If Solve In-Place (SC: O(1))
+- Swap
+
+
+(7) Maximum/Minimum/Smallest/Largest:
+- DP 
+
+(8) Top K Items/Least K Items/Kth Max/Kth Min
+- Heap (Min Heap/Max Heap) - PQ
+- Greedy
+
+
+(9) Common Strings:
+- Map
+- KMP: Advanced (Knuth Morris Pratt)
+- Trie: Auto Suggestions
+
+(10) Best Complexity for Lookup/Search and Insertion
+- Map/Set: O(1)
+
+(11) Sorting: O(NlogN)
+If Range is Given (1 <= val <= n) - O(N) - Count Sort and Bucket Sort
+
+(12) Range Based Query
+- Segment Tree
+- Fenwick Tree
+
+(13) BST:
+- InOrder Traversal
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------> RECURSION:
+
+A Function which calls itself inside its definition
+
+
+Recursion:
+
+func()
+{
+	......
+	func()
+}
+
+
+
+Not a Recursion
+
+func1()
+{
+	......
+}
+
+
+func2()
+{
+	func1();
+	......
+}
+
+
+
+
+
+
+Factorial of a Number:
+Product of All Values from 1 to N
+
+N! = 1 * 2 * 3 * 4............*N
+
+5! = 5 * 4 * 3 * 2 * 1 = 120 = 5 * 4!
+4! = 4 * 3 * 2 * 1 = 24 = 4 * 3!
+3! = 3 * 2 * 1 = 6 = 3 * 2!
+
+
+
+N! = N * (N-1)! -------- TRIGGER ALERT
+
+
+func(N) = N * func(N-1) ------ RECURSION
+
+prefixSum[i] = prefixSum[i-1] + arr[i] ----- TRIGGER ALERT
+
+prefixSumFunc(n) = prefixSumFunc(n-1) + arr[i] ----- RECURSION
+
+fib(n) = fib(n-1) + fib(n-2) -------- TRIGGER ALERT
+
+
+
+
+
+func(N) = N * func(N-1) ------ RECURSION
+
+
+int factorial(int n)
+{
+	return n * factorial(n-1);
+}
+
+factorial(5)
+
+Expected OP: 120
+Current OP: MLE
+
+
+OP:
+
+5 * factorial(4)
+= 20 * factorial(3)
+= 60 * factorial(2)
+= 120 * factorial(1)
+= 0 * factorial(0)
+= 0 * factorial(-1)
+.........................
+
+
+
+
+Base Condition:
+Tells Recursion to Stop
+
+
+
+
+for (i=0; Condition; i++)
+
+
+
+
+
+CORRECT CODE:
+
+
+int factorial(int n)
+{
+	// Base Condition
+	if (n==1 || n==0)
+		return 1;
+
+	return n * factorial(n-1);
+}
+
+factorial(5)
+
+Expected OP: 120
+Current OP: 120
+
+
+OP:
+
+5 * factorial(4)
+= 20 * factorial(3)
+= 60 * factorial(2)
+= 120 * factorial(1)
+= 120 * 1
+= 120
+
+
+
+Constraints: 
+0 <= N <= 100
+
+
+
+
+TC: O(N)
+
+
+
+
+Recursion Stack:
+
+factorial(1)
+factorial(2)
+factorial(3)
+factorial(4)
+factorial(5)
+
+N Calls, That is Why, O(N) Space Complexity - Auxiliary Memory
+
+
+
+
+
+
+
+
+
+
+All Recursion Code can be Solved by Iteration?
+- Yes
+
+
+All Iterative Code can be Solved by Recursion?
+- Yes
+
+
+
+
+
+
+
+
+
+
+
+Q-9: [LC- 189] Rotate Array
+https://leetcode.com/problems/rotate-array/
+
+Given an integer array nums, rotate the array to the right by k steps, 
+where k is non-negative.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,4,5,6,7], k = 3
+Output: [5,6,7,1,2,3,4]
+Explanation:
+rotate 1 steps to the right: [7,1,2,3,4,5,6]
+rotate 2 steps to the right: [6,7,1,2,3,4,5]
+rotate 3 steps to the right: [5,6,7,1,2,3,4]
+
+
+Example 2:
+
+Input: nums = [-1,-100,3,99], k = 2
+Output: [3,99,-1,-100]
+Explanation: 
+rotate 1 steps to the right: [99,-1,-100,3]
+rotate 2 steps to the right: [3,99,-1,-100]
+ 
+
+Constraints:
+
+1 <= nums.length <= 105
+-231 <= nums[i] <= 231 - 1
+0 <= k <= 105
+ 
+
+Follow up:
+
+Try to come up with as many solutions as you can. There are at least three different ways to solve this problem.
+Could you do it in-place with O(1) extra space?
+
+
+
+    void rotate(vector<int>& nums, int k) 
+    {
+
+
+    }
+
+
+Expectations:
+(1) As Many Solutions - Brute Force - Optimised
+(2) Template: Extensible: Also Applicable to Left Shift - Good Code
+(3) O(1) - Extra Space - In Place
+
+
+
+
+
+
+Understanding:
+
+
+nums = [1,2,3,4,5,6,7]
+k = 3 (RIGHT)
+
+After 1st Rotation:
+[7 1 2 3 4 5 6]
+
+After 2nd Rotation:
+[6 7 1 2 3 4 5]
+
+After 3rd Rotation:
+[5 6 7 1 2 3 4] - OP
+
+
+
+
+
+
+
+
+Solution:
+
+nums = [1 2 3 4 5 6 7]
+
+K = 0
+OP: [1 2 3 4 5 6 7]
+
+K = N  or multiple of N -----> K % N == 0
+OP: [1 2 3 4 5 6 7] - Same
+
+
+K > N
+OP: K%N
+
+K < N
+OP: K%N = K Times Rotate
+
+
+N = 3
+K = 10
+OP: 10%3 = 1 Rotation
+
+
+
+
+
+
+(1) With Extra Space
+
+res[n]; // Extra Array
+
+arr[(i+K) % n] = res[i]; // RIGHT SHIFT
+
+arr[(i-K) % n] = res[i]; // LEFT SHIFT
+
+
+
+TC: O(N)
+SC: O(N)
+
+
+
+
+
+
+DRY RUN:
+
+arr = [1 2 3 4 5 6 7] 
+K = 1
+
+Originally:
+res = [1 2 3 4 5 6 7] 
+
+OP:
+res = [7 1 2 3 4 5 6]
+
+
+arr[(i+K) % n] = res[i]; // RIGHT SHIFT
+
+arr[(i-K) % n] = res[i]; // LEFT SHIFT
+
+
+i = 0
+arr[(0+1) % 7] = res[0]
+arr[1] = res[0]
+arr[1] = 1 -----> RIGHT SHIFT
+
+
+LEFT SHIFT:
+
+arr = [1 2 3 4 5 6 7] 
+K = 1
+
+Originally:
+res = [1 2 3 4 5 6 7] 
+
+OP:
+res = [2 3 4 5 6 7 1]
+
+
+i = 0
+arr[(1-0) % 7] = res[0]
+arr[1] = res[0]
+arr[1] = 2 ----> LEFT SHIFT
+
+
+
+
+
+
+CODE:
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) 
+    {
+        int n = nums.size();
+        vector<int> res(n); // Extra Array/Vector
+        
+        if (n==0 || (k<=0))
+            return;
+        
+        int i = 0;
+        for (i=0; i<n; i++)
+        {
+            res[i] = nums[i];
+        }
+        
+        
+        for (i=0; i<n; i++)
+        {
+            nums[(i+k)%n] = res[i]; 
+            // i ----> i + k: RIGHT SHIFT
+            // i ----> i - k: LEFT SHIFT
+        }
+    }
+};
+
+
+
+TC: O(N)
+SC: O(N)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(2) Without Extra Space
+
+K = K % nums.size();
+
+
+-----> RIGHT SHIFT:
+
+- Reverse Complete Array (0 to N)
+- Reverse Array from 0 to K 
+- Reverse Array from K to N
+
+
+-----> LEFT SHIFT:
+
+- Reverse Complete Array (0 to N)
+- Reverse Array from K to N
+- Reverse Array from 0 to K 
+
+
+nums = [1 2 3 4 5 6 7] 
+K = 3
+
+OP: [5 6 7 1 2 3 4]
+
+nums.size() = 7
+K%N = 3%7 = 3
+
+
+(1) reverse(nums.begin(), nums.end()) // S: O(1)
+
+reverse = [7 6 5 4 3 2 1]
+
+(2) reverse(nums.begin(), nums.begin() + K) // S: O(1)
+
+reverse = [5 6 7 4 3 2 1]
+
+(3) reverse(nums.begin() + K, nums.end()) // S: O(1)
+
+reverse = [5 6 7 1 2 3 4] - ANS
+
+In-Space/In-Place Solution: S: O(1)
+Modify Original DS, Do Not create additional DS
+
+
+TC: O(N) + O(N)
+SC: O(1)
+
+
+
+
+
+
+
+CODE:
+
+
+class Solution 
+{
+public:
+    void rotate(vector<int>& nums, int k) 
+    {
+        int n = nums.size();
+        
+        if (n==0 || (k<=0))
+            return;
+        
+        int i = 0;
+        k%= n;
+        
+        reverse(nums.begin(), nums.end()); //S: O(1), T: O(N)
+        // reverse = [7 6 5 4 3 2 1]
+
+        reverse(nums.begin(), nums.begin() + k); //S: O(1), T: O(K)
+        // reverse = [5 6 7 4 3 2 1]
+        
+        reverse(nums.begin()+k, nums.end());  //S: O(1), T: O(N-K)
+        // reverse = [5 6 7 1 2 3 4]   
+    }
+};
+
+
+
+TC: O(N) + O(K) + O(N-K) = O(N) + O(N)
+SC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> Bits Manipulation
+
+(1) AND, OR, NOT Operators
+(2) Left Shift (<<) and Right Shift (>>) Operators
+(3) XOR Operators
+
+
+
+
+
+AND:
+
+0 AND 0 = 0
+0 AND 1 = 0
+1 AND 0 = 0
+1 AND 1 = 1
+
+
+OR:
+
+0 OR 0 = 0
+0 OR 1 = 1
+1 OR 0 = 1
+1 OR 1 = 1
+
+NOT:
+
+!0 = 1
+!1 = 0
+
+
+
+
+
+-----> Left Shift:
+
+1010101
+--> Decimal
+
+1 *2^0 + 0 *2^1 + ......= 
+
+
+Left Shift Operator: Left Shifts the Binary Values 
+
+int a = 10;
+a << 1;
+
+Ans = a * (2^1)
+
+
+int a = 10;
+a << k;
+
+Ans = a * (2^K)
+
+
+
+
+CODE:
+
+public class Main 
+{
+    public static void main(String[] args)
+    { 
+        // Left Shift
+        int a = 10;
+        System.out.println(a << 1); // a * 2^1
+        System.out.println(a << 2); // a * 2^2
+        System.out.println(a << 3); // a * 2^3
+        System.out.println(a << 4); // a * 2^4
+        
+    }
+}
+
+
+
+OP:
+
+20
+40
+80
+160
+
+
+
+
+
+
+
+
+
+-------> RIGHT SHIFT
+
+1010101
+--> Decimal
+
+1 *2^0 + 0 *2^1 + ......= 
+
+
+Right Shift Operator: Right Shifts the Binary Values 
+
+int a = 10;
+a >> 1;
+
+Ans = a / (2^1)
+
+
+int a = 10;
+a >> k;
+
+Ans = a / (2^K)
+
+
+
+CODE:
+
+public class Main 
+{
+    public static void main(String[] args)
+    { 
+        // Right Shift
+        int a = 160;
+        System.out.println(a >> 1); // a / 2^1
+        System.out.println(a >> 2); // a / 2^2
+        System.out.println(a >> 3); // a / 2^3
+        System.out.println(a >> 4); // a / 2^4
+    }
+}
+
+    
+OP:
+
+80
+40
+20
+10
+    
+    
+
+
+
+
+0 1 0 1: Binary
+
+
+Decimal:
+
+1 * 2^0 = 1
+0 * 2^1 = 0
+1 * 2^2 = 4
+0 * 2^3 = 0
+
+OP: 5
+
+1010: 10 
+0101: 5
+
+0101 -----> Left Shift -----> 1010 (x2)
+
+1010 -----> Right Shift -----> 0101 (/2)
+
+
+
+
+
+
+
+
+
+
+
+-----> XOR Concept:
+
+XOR Gate:
+
+0 XOR 0 = 0
+0 XOR 1 = 1
+1 XOR 0 = 1
+1 XOR 1 = 0
+
+
+
+Extended Version of XOR on Bits to Numbers
+
+TRICK:
+Apply on Numbers ------> Perform Bitwise XOR Operation on Binary Values (Bits)
+
+(1) A ^ A = 0
+
+5 % 5 = 0
+0101 ^ 0101 = 0000
+
+CODE:
+
+public class Main 
+{
+    public static void main(String[] args)
+    { 
+        int a = 55;
+        System.out.println(a ^ a); 
+    }
+}
+
+OP: 0
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

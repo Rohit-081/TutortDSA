@@ -1,0 +1,886 @@
+Date : 5th Nov 2023
+Mentor: DEVANG SHARMA
+Batch: OCT Batch (DSA) - Tutort Academy
+
+Agenda:
+
+- Follow Up of Fizzbuzz without If-Else/Switch: DONE
+
+- Matrix/2D Arrays : DONE 
+- Jagged Array: DONE
+- Sum and Prod of Matrix- Optimised: DONE
+- Transpose: DONE
+- Max column sum in a 2D array: DONE
+- Max Row sum in a 2D array: DONE
+- Diff in Diagonal: DONE
+- Search: LS and Binary Search: DONE
+
+TODO:
+- Time and Space Complexity
+- CP Trick to Pass All Test Cases: Conditional
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+HW:
+- LC-1672: Richest Customer Wealth
+
+
+
+
+Q-4: [LC-1672] Richest Customer Wealth
+https://leetcode.com/problems/richest-customer-wealth/
+
+
+You are given an m x n integer grid accounts where accounts[i][j] is the amount of money the ith bank. Return the wealth that the richest customer has.
+
+A customers wealth is the amount of money they have in all their bank accounts. The richest customer is the customer that has the maximum wealth.
+
+ 
+
+Example 1:
+
+Input: accounts = [[1,2,3],[3,2,1]]
+
+Output: 6
+
+Explanation:
+1st customer has wealth = 1 + 2 + 3 = 6
+2nd customer has wealth = 3 + 2 + 1 = 6
+Both customers are considered the richest with a wealth of 6 each, so return 6.
+
+Example 2:
+
+Input: accounts = [[1,5],[7,3],[3,5]]
+
+Output: 10
+
+Explanation: 
+1st customer has wealth = 6
+2nd customer has wealth = 10 
+3rd customer has wealth = 8
+The 2nd customer is the richest with a wealth of 10.
+
+Example 3:
+
+Input: accounts = [[2,8,7],[7,1,3],[1,9,5]]
+Output: 17
+ 
+
+Constraints:
+
+m == accounts.length
+n == accounts[i].length
+1 <= m, n <= 50
+1 <= accounts[i][j] <= 100
+
+
+
+
+
+Understanding:
+
+[
+	[1,2,3],
+	[3,2,1]
+]
+
+
+Cust-1: 1 + 2 + 3 = 6
+Cust-2: 3 + 2 + 1 = 6
+
+Wealthy: Max(6,6) = 6  - OP
+
+
+
+
+[
+	[1,5],
+	[7,3],
+	[3,5]
+]
+
+
+Cust-1: 1 + 5 = 6
+Cust-2: 7 + 3 = 10
+Cust-3: 3 + 5 = 8
+
+Wealthy: Max(6,10,8) = 10 - OP
+
+
+
+"Max Sum Row in a Matrix"
+
+Variations:
+
+Max Sum Row in a Matrix
+Min Sum Row in Matrix
+Max Sum Col in Matrix
+Min Sum Col in Matrix
+
+
+    public int maximumWealth(int[][] accounts) 
+    {
+
+    }
+
+
+
+
+
+Solution:
+
+
+// Maximum Sum Row in a Matrix
+// TC: O(M*N)
+// SC: O(1)
+
+class Solution 
+{
+    public int maximumWealth(int[][] accounts) 
+    {
+        int maximumRowSum = 0;
+        int rowSum = 0 ;
+
+        for(int i=0;i<accounts.length;i++)
+        {
+            rowSum = 0;
+
+            for(int j=0;j<accounts[i].length;j++)
+            {
+                rowSum+=accounts[i][j];
+            }
+
+            if(rowSum > maximumRowSum){
+                maximumRowSum = rowSum;
+            }
+        }
+        return maximumRowSum;
+    }
+}
+
+TC: O(M*N)
+SC: O(1)
+
+
+
+
+Constraints:
+
+1 <= m, n <= 50
+1 <= accounts[i][j] <= 100
+
+
+
+Max Rows: 50
+Max Cols: 50
+Max Value: 100
+
+Max Value of Row Sum = 50 * 100 = 5000 : Within Range of int
+Max Value of Col Sum = 50 * 100 = 5000 : Within Range of int
+
+Max Value of Matrix Sum = 50 * 50 * 100 = 2,50,000 : Within Range of int
+
+
+
+Array - Sum:
+
+1 <= n < = 3
+1 <= arr[i] <= 100
+
+
+Max Sum Possible: 300
+
+[100 100 100]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> Transpose of a Matrix
+
+Transpose: 
+Rows Will become Cols and Vice-Versa
+
+
+
+{
+	[1 2 3]
+	[4 5 6]
+	[7 8 9]
+}
+
+
+Transpose:
+
+
+1 4 7
+2 5 8
+3 6 9
+
+
+Q: Print Transpose of a Matrix
+
+Original Matrix: M * N
+
+Transpose Matrix: N * M
+
+
+Eg:
+
+Original Matrix: 3 x 4
+
+1 2 3 4
+5 6 7 8
+9 10 11 12
+
+Transpose Matrix: 4 x 3
+
+1 5 9
+2 6 10
+3 7 11
+4 8 12
+
+
+
+void transpose(int[][] matrix)
+{
+
+}
+
+
+Solution:
+
+(1) Create an Extra Matrix:
+
+int b[col][row];
+
+b[i][j] = a[j][i]
+
+TC: O(col*row)
+SC: O(col*row)
+
+
+(2) Directly Print Transpose
+
+mat[m][n] ----> Transpose: n * m
+
+static void transposeOfMatrix(int[][] mat) 
+{
+         int row = mat.length;
+         for(int i=0;i<col;i++) 
+         {
+             for(int j=0;j<mat[i].length;j++)
+             {
+                 System.out.print(mat[i][j] + " ");
+             }
+             System.out.println(" ");
+         }
+
+         System.out.println(" ");
+}
+
+
+TC: O(M*N)
+SC: O(1)
+
+
+
+
+
+
+
+
+- Arrays:
+
+- Linear Search: DONE
+- Binary Search: DONE
+- Prefix Sum
+- Two Pointers
+
+
+
+
+Two Types:
+
+Unsorted Array = [5 2 1 4 3]
+
+Sorted Array = [1 2 3 4 5]
+
+
+
+-------> Case-1: Unsorted Array
+
+
+
+(1) Search in Unsorted Array: Linear Search/ Sequential Search
+
+Return the Index of Key if it exists in the Array,
+Else return -1
+
+
+arr = [5 2 1 3 4 -6 -2]
+
+key = -6
+OP: 5
+
+
+key = 10
+OP: -1
+
+
+
+
+Approach:
+
+Traverse each and every element of the array and check if arr[i] == key
+If found, return index
+If not found in arr, then return -1
+
+
+IMP:
+Brownie Points (INTERVIEW)
+
+
+Best Case: O(1), key == arr[0]
+Worst Case: O(N), key does not exist or key == arr[n-1]
+
+
+
+CODE:
+
+Duplicate Values: First Occurence
+
+int linearSearch(int[] arr, int key)
+{
+	for (i=0; i<arr.length; i++)
+	{
+		if (arr[i] == key)
+			return i;
+	}
+
+	return -1;
+}
+
+
+
+
+Duplicate Values: Last Occurence
+
+int linearSearch(int[] arr, int key)
+{
+	int ans = -1;
+	for (i=0; i<arr.length; i++)
+	{
+		if (arr[i] == key)
+			ans = i;
+	}
+
+	return ans;
+}
+
+
+TC:
+SC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+COMMON BUG:
+
+[5 2 1 3 4]
+key = 1, Expected OP: 2
+Received OP: -1
+
+int linearSearch(int[] arr, int key)
+{
+	for (i=0; i<arr.length; i++)
+	{
+		if (arr[i] == key)
+			return i;
+
+		else
+			return -1;
+	}
+}
+
+
+
+
+
+
+
+
+(2) Insert in Unsorted Array
+
+
+arr = [2 5 1 3 4 7 _ _ _]
+
+Insert 6 and Index 1
+
+OP:
+[2 6 5 1 3 4 7 _ _]
+
+
+Steps:
+
+(1) Shift All Elements after 2 to the right // O(N-x)
+
+[2 _ 5 1 3 4 7 _ _]
+
+
+(2) arr[1] = 6 // O(1)
+
+
+TC: O(N-x)
+
+Best Case: Insert at End
+Worst Case: Insert at Beginning
+
+
+
+
+
+
+
+(3) Replace in Unsorted Array
+
+
+arr = [2 5 1 3 4 7]
+Replace 6 and Index 1
+
+
+OP: [2 6 1 3 4 7]
+
+Steps:
+
+arr[1] = 6
+
+arr[idx] = val;
+TC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+Operations          Time        Space
+
+Search              O(N)         O(1)
+Insert              O(N)         O(1)
+Replace             O(1)         O(1)
+Delete              O(N)         O(1)
+
+
+
+
+
+
+
+
+---------> Case-2: Sorted Array
+
+
+(1) Search in a Sorted Array: Binary Search
+
+Return the Index of Key if it exists in the Array,
+Else return -1
+
+arr = [1 2 3 4 5]
+
+
+key = 3
+OP: 2
+
+key = 1
+OP: 0
+
+key = 20
+OP: -1
+
+
+
+int binarySearch(int[] arr, int key)
+{
+
+}
+
+
+Approach:
+
+arr = [1 2 3 4 5]
+  	   l   m   h
+
+
+2: mid
+arr[2]: 3
+
+2: mid-1
+4: mid+1
+
+
+if (key == arr[mid]) // key = 3
+	return mid;
+
+
+else if (key > arr[mid])  // 10 > 3: RIGHT, Focus Area: [4 5]: [mid+1, high]
+	low = mid + 1;
+
+
+else  // 2 < 3: LEFT, Focus Area: [1 2]
+	high = mid-1;
+
+
+
+a, b
+
+a == b: key == arr[mid]
+a > b: key > arr[mid]
+a < b: key < arr[mid]
+
+
+
+
+
+
+
+Solution:
+
+
+
+
+
+
+CODE:
+
+
+int binarySearch(int[] arr, int key)
+{
+	int low = 0;
+	int high = arr.length-1;
+	int mid = 0;
+
+	while (low <= high)
+	{
+		mid = low + (high-low)/2; // Optimisation
+
+		if (key == arr[mid]) // key = 3
+			return mid;
+
+		else if (key > arr[mid])  // 10 > 3: RIGHT, Focus Area: [4 5]: [mid+1, high]
+			low = mid + 1;
+
+		else  // 2 < 3: LEFT, Focus Area: [1 2]
+			high = mid-1;
+	}
+
+	return -1;
+}
+
+
+				1 2 3 4 5
+
+			[1 2]  3 [4 5]
+
+			[1] [2] 3  [4] [5]
+
+
+
+mid = (low + high)/2 = low/2 + high/2
+mid = low + (high-low)/2 = low + high/2 - low/2 = low/2 + high/2
+
+
+
+(low + high) ----> Can Give Overflow
+(high-low) ------> No Overflow
+
+
+
+Overflow:
+
+int: -2^31 to 2^31-1
+	: -2 Bn to +2 Bn
+
+
+
+int a = 1.5 Bn;
+int b = 1.5 Bn;
+
+
+
+int c = a + b; // int Overflow
+
+print(c): Negative Value: Garbage Value
+
+Cyclic Dependency:
+
+-2 Bn -----> 2 Bn -----> -2 Bn -----> 2 Bn....
+
+
+Silent Killer: WA
+
+10 TC, 8 TC Passed, 2 WA
+
+
+
+
+
+NOTE: 
+
+When Taking Sum or Product, Always Think About Overflow
+
+To Avoid Overflow:
+(1) Use long or long long
+(2) Use Modulo Arithmetic
+
+
+
+
+
+
+
+Time Complexity of Binary Search:
+
+Mathematical Way:
+
+= O(N/2) + O(N/4) + O(N/8) + O(N/16) + ............ O(N/2^K-1)
+
+
+
+Here, r = 1/2
+
+Sum of GP = a * (1-r^n)/ (1-r), r < 1
+
+TC: O(log (base 2) N)
+
+
+
+
+
+
+
+
+Theoretical Way:
+
+
+Master Theorem:
+
+Recurrence Relation:
+
+T(N) = T(N/2) + C
+
+OP: O(log (base 2) N)
+
+
+
+
+
+O(log N)  <   O(N)
+
+
+N = 1024 
+1 Iteration = 1 sec
+
+O(N) = 1024 Iterations = 1024 sec = 17 Mins 4 sec
+
+
+O(log N) = log (base 2) 1024 = 10 Iterations = 10 sec
+
+
+
+log (base 2) N = 1024
+2^N = 1024
+N = 10
+
+
+
+
+Prod:
+
+E-Commerce: Amazon/Flipkart
+Search Catalouge: uuid
+
+
+
+
+
+
+Operations          Time             Space
+
+Search              O(log N)         O(1)
+Insert              O(N)             O(1)
+Replace             O(1)             O(1)
+Delete              O(N)             O(1)
+
+
+
+
+
+
+
+
+
+Q-11: [Amazon] Leaders in an Array
+
+
+Leader: There is NO Element greater than it on the WHOLE Right Side of the Array
+
+arr = [16 17 4 3 5 2]
+
+OP: [17 5 2]
+
+16: 17 4 3 5 2: NO
+17: 4 3 5 2: YES
+4: 3 5 2: NO
+3: 5 2: NO
+5: 2: YES
+2: _: YES
+
+
+Hint: 
+Last Element is ALWAYS a Leader.
+
+void leadersInArray(int[] arr, int n)
+{
+	
+}
+
+
+30 sec: Code, TC, SC
+
+Solutions:
+
+
+(1) Brute Force: Two Nested Loops
+
+for (i=0; i<n; i++)
+{
+	for (j=i+1; j<n; j++)
+	{
+		// There is a Value greater than arr[i] on right, NOT A LEADER
+		if (arr[i] < arr[j])
+			break;
+	}
+
+	if (j==n) // - YES, Its a Leader
+		cout<<arr[i]<<" ";
+}
+
+TC: O(N^2)
+SC: O(1)
+
+
+
+(2) Optimised Solution:
+
+Traverse from Right to Left
+max = Right Most Element
+
+
+Right Most Element -----> ALWAYS a Leader
+
+
+if (arr[i] > max)
+	max = arr[i];
+	max ----> Leader
+
+
+
+
+CODE:
+
+int max = arr[n-1];
+cout<<max; // ALWAYS A LEADER
+
+for (i=n-2; i>=0; i--)
+{
+	if (arr[i] > max)
+	{
+		max = arr[i]; // Update max
+		cout<<max; // Leader
+	}
+}
+
+
+
+TC: O(N)
+SC: O(1)
+
+
+
+
+DRY RUN:
+
+arr = [16 17 4 3 5 2]
+
+OP: [17 5 2]
+
+
+Right to Left:
+
+max = 2 : YES
+arr[i] = 5
+5 > 2: YES
+max = 5
+arr[i] = 3
+3 > 5: NO
+arr[i] = 4
+4 > 5: NO
+arr[i] = 17
+17 > 5: YES
+max = 17
+arr[i] = 16
+16 > 17: NO
+
+
+OP: [2 5 17]
+
+
+
+
+
+
+
+
+
+
+
+
+
+HW:
+
+LC - First and Last Index of an Element in a Sorted Array
+https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+
+
+LC-1299: Replace Elements with Greatest Element on Right Side
+https://leetcode.com/problems/replace-elements-with-greatest-element-on-right-side/
+
+
+

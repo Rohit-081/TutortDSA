@@ -1,0 +1,934 @@
+Date : 4th Nov 2023
+Mentor: DEVANG SHARMA
+Batch: OCT Batch (DSA) - Tutort Academy
+
+Agenda:
+
+- Follow Up of Fizzbuzz without If-Else/Switch: DONE
+
+- Matrix/2D Arrays : DONE 
+- Jagged Array: DONE
+- Sum and Prod of Matrix- Optimised: DONE
+- Transpose: 
+- Max column sum in a 2D array: 
+- Max Row sum in a 2D array:
+- Diff in Diagonal: DONE
+
+- Search: LS and Binary Search
+- Time and Space Complexity
+- CP Trick to Pass All Test Cases: Conditional
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+
+
+
+
+
+Q-8: [LC-412] Fizzbuzz
+https://leetcode.com/problems/fizz-buzz/
+
+
+Given an integer n, return a string array answer (1-indexed) where:
+
+answer[i] == "FizzBuzz" if i is divisible by 3 and 5.
+answer[i] == "Fizz" if i is divisible by 3.
+answer[i] == "Buzz" if i is divisible by 5.
+answer[i] == i (as a string) if none of the above conditions are true.
+ 
+
+Example 1:
+
+Input: n = 3
+Output: ["1","2","Fizz"]
+
+Example 2:
+
+Input: n = 5
+Output: ["1","2","Fizz","4","Buzz"]
+
+Example 3:
+
+Input: n = 15
+Output: ["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"]
+ 
+
+Constraints:
+
+1 <= n <= 104
+
+
+
+
+
+
+3 -----> Fizz
+
+5 -----> Buzz
+
+3 and 5 -----> FizzBuzz
+
+none -----> As it is
+
+
+N = 5
+
+1: 1
+2: 2
+3: Fizz
+4: 4
+5: Buzz
+
+
+    public List<String> fizzBuzz(int n) 
+    {
+        
+    }
+
+
+
+Solution:
+
+
+
+3 -----> Fizz
+
+5 -----> Buzz
+
+3 and 5 -----> FizzFizz
+
+none -----> As it is
+
+
+
+if ()
+
+else if ()
+
+else if ()
+
+else
+
+
+
+
+if (i%3==0)
+	"Fizz"
+
+else if (i%5==0)
+	"Buzz"
+
+else if (i%3==0 && i%5 ==0)
+	"FizzBuzz"
+
+else
+	return i
+
+
+
+Eg: 15 - "Fizz"
+
+Correct OP: "FizzBuzz"
+
+
+
+
+Correct Solution:
+
+ALWAYS GO FROM LARGEST TO SMALLEST: Pass All Test Cases
+
+
+if (i%15==0)
+	"FizzBuzz"
+
+else if (i%5==0)
+	"Buzz"
+
+else if (i%3==0 )
+	"Fizz"
+
+else
+	return i
+
+
+Since 3 and 5 are co-prime numbers - replace else if condition
+
+Co-Prime Numbers: GCD/HCF is 1
+
+
+
+if (i%15==0)
+	"FizzBuzz"
+
+else if (i%3==0 )
+	"Fizz"
+
+else if (i%5==0)
+	"Buzz"
+
+else
+	return i
+
+
+
+[15,5,3] OR [15,3,5]
+
+
+
+
+
+Solutions:
+
+(1) If - Else Ladder (Largest to Smallest)
+
+(2) Ternary 
+
+(3) Without If-Else: Switch
+
+(4) Without If-Else: For Loops (Smallest to Largest)
+
+
+
+
+for (i=0; i<n; i++)
+	arr[i] = 5;
+
+OP: [5 5 5 5 5....]
+
+for (i=0; i<n; i++)
+	arr[i] = 10;
+
+OP: [10 10 10 10 10....]
+
+
+Intuition: Last Changes would be Final/Latest.
+
+
+
+Idea: Reverse the if-else approach
+
+Go in Increasing Order
+
+
+
+
+CODE:
+
+for (i=1; i<=n; i++)
+	res[i] = to_string(i);
+
+
+for (i=3; i<=n; i+=3)
+	res[i] = "Fizz";
+
+
+for (i=5; i<=n; i+=5)
+	res[i] = "Buzz";
+
+
+for (i=15; i<=n; i+=15)
+	res[i] = "FizzBuzz";
+
+
+
+
+TC: O(N) + O(N/3) + O(N/5) + O(N/15) = O(N)
+SC: O(1)
+
+
+
+
+
+
+Extendable:
+
+SDE-2
+
+2: Sachin
+3: Fizz
+4: Elon
+5: Buzz
+8: Devang
+15: FizzBuzz
+
+
+
+SDE-3 and Above
+
+2: Sachin
+3: Fizz
+4: Elon
+5: Buzz
+8: Devang
+15: FizzBuzz
+.........Conditions Change at Run Time
+
+
+
+
+
+
+
+Expectations:
+
+- Strategy Design Patterns
+(Conditions Changed at Run Time)
+- Bean Class (Java)
+- Lambda - Java 8 Streams
+
+
+
+
+
+
+
+
+
+
+
+
+-------> Matrix/2D Arrays:
+
+D: Dimension
+
+
+1-D Array: [1 2 3 4 5]
+
+
+Real-Life Example:
+
+
+Line: 1 D (X or Y Axis)
+Rectangle: 2 D (X and Y Axis)
+Cube: 3 D (X,Y,Z)
+
+
+
+
+2-D Arrays: Rows + Cols
+
+[......]
+[......]
+[......]
+[......]
+
+
+
+{
+	{1,2,3},
+	{1,2,3,4}
+}
+
+
+
+mat = 
+{
+	{1,2,3},
+	{4,5,6},
+	{7,8,9}
+}
+
+
+Size: row * col  = 3 * 3
+
+mat: 
+- First Row: No Exact Position
+- First Col: No Exact Position
+
+
+mat[row][col]: Exact Position
+
+mat[2][1]: 8
+
+
+
+
+
+
+CODE:
+
+C++:
+
+int arr[n]; // 1 Dimension
+
+int mat[row][col]; // 2 Dimension
+
+int mat[row][col][height]; // 3 Dimensions
+
+
+Java:
+
+int[] arr = new int[n];
+
+int[][] mat = new int[row][col];
+
+int[][][] mat = new int[row][col][height];
+
+
+
+
+Initialsing 1 D Array:
+
+int arr[3];
+arr = {1,2,3};
+
+
+Initialsing 2 D Array:
+
+int arr[3][2];
+
+arr = {
+	{1,2},
+	{3,4},
+	{5,6}
+}
+
+
+
+Row: Horizontal
+Col: Vertical
+
+
+
+
+Square Matrix: row == col
+
+Rectangular Matrix: row != col
+
+
+
+
+
+
+
+
+
+-------> Memory Diagram:
+
+int[] arr = new int[2];
+
+Compiler: Reserve 8 Bytes of Contiguous Space in RAM ------> arr
+
+
+int[][] mat = new int[2][2];
+Size: 2*2*4 = 16 Bytes
+
+Compiler: Reserve 16 Bytes of Contiguous Space in RAM ------> mat
+
+
+
+
+
+Two Ways:
+Row Wise and Column Wise
+
+
+[
+	[1 2]
+	[3 4]
+]
+
+
+
+Row Wise Storage:
+
+
+-------- 1-------- --------- 2-------- --- 3 ------ 
+
+1000 1001 1002 1003 1004 1005 1006 1007 1008
+
+
+
+Column Wise Storage:
+
+
+-------- 1-------- --------- 3-------- --- 2 ------ 
+
+1000 1001 1002 1003 1004 1005 1006 1007 1008
+
+
+
+
+
+
+
+
+
+
+
+Approach:
+
+
+
+
+arr = [1 2 3]
+arr.length = 3 (Counting - 1,2,3)
+
+
+mat = {{1,2}, {3,4}}
+
+mat.length =  2
+- Counts the Number of Rows
+
+mat[0].length = {1,2}.length 
+			  = 2
+
+mat[1].length = {3,4}.length 
+			  = 2
+
+
+- Counts the Number of Cols
+
+
+
+Number of Rows = mat.length
+Number of Cols = mat[0].length
+
+
+
+int mat[][] = {{1,2}};
+
+Size: 1 * 2
+
+
+Any Matrix would have MINIMUM 1 Row,
+If All Cols are of same length,
+col size = mat[0].length
+
+
+
+
+
+NOTE:
+"N Dimension Array = List of N-1 Dimension Array"
+
+
+
+
+
+
+CODE:
+
+- Traversal of Matrix
+
+
+(A) Case-1: If All Cols are of "Same Length"
+
+
+// "static void main" must be defined in a public class.
+public class Main 
+{
+    static void traversal(int mat[][])
+    {
+        int i=0, j = 0;
+        int row = mat.length;
+        System.out.println("Row Size: " + row);
+        
+        int col = mat[0].length;
+        System.out.println("Col Size: " + col);
+        
+        System.out.println(" ");
+        
+        for (i=0; i<row; i++)
+        {
+            for (j=0; j<col; j++)
+            {
+                System.out.print(mat[i][j] + " ");
+            }
+            
+            System.out.println(" ");
+        }
+    }
+    
+    public static void main(String[] args) 
+    {
+        int mat[][] = {
+            {1,2,3,4},
+            {5,6,7,8},
+            {9,10,11,12}
+        };
+        
+        traversal(mat);
+    }
+}
+
+
+OP:
+
+
+Row Size: 3
+Col Size: 4
+ 
+1 2 3 4  
+5 6 7 8  
+9 10 11 12  
+
+
+
+TC: O(row * col)
+SC: O(1)
+
+
+
+
+
+
+
+
+
+
+(B) Case-2: If All Cols are of "DIFFERENT Length" - JAGGED ARRAYS
+
+// "static void main" must be defined in a public class.
+public class Main 
+{
+    static void traversal(int mat[][])
+    {
+        int i=0, j = 0;
+        int row = mat.length;
+        System.out.println("Row Size: " + row);
+               
+        System.out.println(" ");
+        
+        for (i=0; i<row; i++)
+        {
+            for (j=0; j<mat[i].length; j++)
+            {
+                System.out.print(mat[i][j] + " ");
+            }
+            
+            System.out.println(" ");
+        }
+    }
+    
+    public static void main(String[] args) 
+    {
+        int mat[][] = {
+            {1,2},
+            {5,6,7},
+            {9,10,11,12}
+        };
+        
+        traversal(mat);
+    }
+}
+
+
+
+
+OP:
+
+
+Row Size: 3
+ 
+1 2  
+5 6 7  
+9 10 11 12  
+
+
+
+
+
+TC: O(row * row.length)
+SC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Pattern:
+Ques, Sample IP, Sample OP, Company
+
+30 Sec:
+Function, TC, SC
+
+
+
+
+
+
+Q-2: Sum of All Values in a Matrix
+
+Note: Matrix Can be Jagged Array as well
+
+
+int mat[][] = {
+	{1,2,3,4},
+	{5,6,7,8},
+	{9,10,11,12}
+}
+
+
+Sum =  78
+
+
+_ sumofMatrix(int[][] mat)
+{
+
+}
+
+
+
+Solution:
+
+
+(1) sum: long instead of int
+(2) sum = sum + mat[i][j] - Not Optimised
+	sum += mat[i][j] - Optimised
+(3) Edge Case:
+	If mat is empty -> return 0
+(4) Jagged Arrays, mat[i].length
+
+
+
+sum = sum + arr[i];
+- Creating a copy of sum, then adding arr[i], then assigning it.
+TC: O(N)
+
+sum += arr[i];
+- Adding arr[i], Then Assigning it
+TC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-3: [Hackerrank]: Diagonal Difference - [Walmart]
+https://www.hackerrank.com/challenges/diagonal-difference/problems
+
+Given a "square matrix", calculate the absolute difference between the sums of its diagonals.
+
+For example, the square matrix  is shown below:
+
+1 2 3
+4 5 6
+9 8 9
+
+The left-to-right diagonal = . The right to left diagonal = . Their absolute difference is .
+
+Function description
+
+Complete the  function in the editor below.
+
+diagonalDifference takes the following parameter:
+
+int arr[n][m]: an array of integers
+Return
+
+int: the absolute diagonal difference
+
+Input Format
+
+The first line contains a single integer, , the number of rows and columns in the square matrix .
+Each of the next  lines describes a row, , and consists of  space-separated integers .
+
+Constraints
+
+Output Format
+
+Return the absolute difference between the sums of the matrixs two diagonals as a single integer.
+
+Sample Input
+
+3
+11 2 4
+4 5 6
+10 8 -12
+
+Sample Output
+
+15
+
+Explanation
+
+The primary diagonal is:
+
+11
+   5
+     -12
+Sum across the primary diagonal: 11 + 5 - 12 = 4
+
+The secondary diagonal is:
+
+     4
+   5
+10
+Sum across the secondary diagonal: 4 + 5 + 10 = 19
+Difference: |4 - 19| = 15
+
+Note: |x| is the absolute value of x
+
+
+
+
+
+1 2 3
+4 5 6
+9 8 9
+
+
+Primary Diagonal: mat[0][0] to mat[N-1][N-1]
+
+Secondary Diagonal: mat[N-1][0] to mat[0][N-1]
+
+
+Primary Diagonal Sum = 1 + 5 + 9 = 15
+
+Secondary Diagonal Sum = 9 + 5 + 3 = 17
+
+Abs Diff = abs(17-15) = 2
+
+
+
+    public static int diagonalDifference(int[][] arr) 
+    {
+
+    }
+
+
+
+Brownie Points:
+TC: O(row)
+
+
+
+Solution:
+
+1 2 3
+4 5 6
+9 8 9
+
+
+Primary Diagonal: mat[0][0] to mat[N-1][N-1]
+
+i == j
+
+1 = mat[0][0]
+5 = mat[1][1]
+9 = mat[2][2]
+
+
+
+Secondary Diagonal: mat[N-1][0] to mat[0][N-1]
+
+i + j == n-1
+
+9: mat[2][0]
+5: mat[1][1]
+3: mat[0][2]
+
+2 + 0 = 2 = 3-1
+1 + 1 = 2 = 3-1
+0 + 2 = 2 = 3-1
+
+
+
+
+
+Solutions:
+
+(1) Brute Force: O(N^2)
+
+int d1=0, d2=0;
+
+for (i=0; i<n; i++)
+{
+	for (j=0; j<n; j++)
+	{
+		if (i == j)
+			d1 += mat[i][j];
+
+		if (i+j == n-1)
+			d2 += mat[i][j];
+	}
+}
+
+return abs(d1-d2);
+
+TC: O(N^2)
+SC: O(1)
+
+
+
+(2) Optimised: O(N)
+
+i + j == n-1
+-----> j = n-1-i
+
+
+a + b = c
+b = c - a
+
+
+
+Note:
+Represent j in terms if i
+-----> NO NEED for inner loop for j
+-----> O(N^2) -----> O(N)
+
+
+
+
+int d1=0, d2=0;
+for (i=0; i<n; i++)
+{
+	d1 += mat[i][i];
+	d2 += mat[i][n-1-i];
+}
+
+return abs(d1-d2);
+
+
+
+
+TC: O(N)
+SC: O(1)
+
+
+
+
+
+
+
+
+HW:
+- LC-1672: Richest Customer Wealth
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

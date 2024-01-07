@@ -1,0 +1,740 @@
+Date : 22nd Oct 2023
+Mentor: DEVANG SHARMA
+Batch: OCT Batch (DSA) - Tutort Academy
+
+Agenda:
+- Introduction: DONE
+- Basics of DSA: DONE
+- Data Types : DONE
+- Operators: DONE
+- Loops: DONE
+- Pattern Printing Questions (Language Agnostic): WIP
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+HW:
+
+(1) What is size of character?: DONE
+- Other Languages: 1 Byte
+- Java: 2 Bytes
+
+
+(2) Range of byte: -128 to 127: DONE
+
+byte a = 150; 
+
+Error or not?
+
+
+
+
+
+
+----- Operator Overloading
+
+One Operator behaves DIFFERENTLY with different data types.
+
+
+
+Eg: 
+
++: Operator
+
+
+int: Add the number
+String: Concatenate the String
+
+
+5 + 2 = 7
+"dev" + "ang" = "devang" (Concatenate/Append/Merge)
+
+
+
+
+
+
+
+(2) Relational Operators: true/false
+
+<
+>
+<=
+>=
+==: Equal to
+!= : Not Equal to
+
+
+Note:
+
+In Programming,
+
+= : Assignment
+== : Equality
+!= : Inequality
+
+
+
+In JS,
+
+==: Value Check Only: Soft Check
+===: Value and Data/Type Check: Hard Check
+
+
+a = 10
+b = "10"
+
+In JS:
+
+a == b: true
+a === b: false
+
+
+
+
+
+
+
+(3) Unary Operators:
+
+
+Unary: 1 Operand
+Binary: 2 Operands
+Ternary: 3 Operands
+
+
+One Operand:
+
+- Increment (Pre/Post)
+- Decrement (Pre/Post)
+- Not (!)
+
+
+
+
+Pre-Increment/Decrement: ++a, --a
+Increase/Decrease the value by 1 BEFORE and then use it.
+
+
+int a = 10;
+
+++a; // 10 -> 11
+--a; // 11 -> 10
+
+
+
+Post-Increment/Decrement: a++, a--
+Use it and then Increase/Decrease the value by 1.
+
+
+Eg:
+
+int main()
+{
+	int a = 10;
+	int c = a++ (10->11) + ++a (11->12);
+	// 10 + 12 = 22
+	cout<<c;
+}
+
+
+A - 20
+B - 21
+C - 22
+D - 23
+
+
+
+
+
+
+
+
+(4) Ternary Operators
+
+3 Operands
+
+int a = 20;
+
+if (a==10)
+	cout<<"Yes";
+else
+	cout<<"No";
+
+OP: No
+
+
+
+Ternary Operators Code:
+
+
+(Condition) ? (Success) : (Non-Success)
+
+(a==10) ? cout<<"Yes" : cout<<"No";
+
+
+? -> If
+: -> Else
+
+
+
+
+
+
+
+
+(5) Logical Operators: true/false
+
+&&: AND
+||: OR
+!: NOT
+^: XOR
+
+
+AND:
+
+1 && 1 = 1
+1 && 0 = 0
+0 && 1 = 0
+0 && 0 = 0
+
+
+
+
+OR:
+
+1 || 1 = 1
+1 || 0 = 1
+0 || 1 = 1
+0 || 0 = 0
+
+
+
+NOT:
+
+!0 = 1
+!1 = 0
+
+
+
+
+^: XOR
+
+
+Both Operands Are Same, OP: 0
+Both Operands Are Different, OP: 1
+
+
+1 XOR 1 = 0 
+1 XOR 0 = 1
+0 XOR 1 = 1
+0 XOR 0 = 0
+
+
+
+
+
+
+
+
+
+
+------> LOOPS:
+Same Thing on Repetition
+
+
+
+
+Q: WAP to Print "Hello World" 1000 Times
+
+
+print("Hello World")
+.........
+.........
+1000 Times
+
+
+
+Loops:
+
+for i in range(1000):
+	print("Hello World")
+
+
+
+
+
+for: Entry Based
+while: Entry Based
+do-while: Exit Based
+
+
+
+
+(1) For Loop:
+
+
+Syntax:
+
+for (intilisation; condition; Increment/Decrement)
+{
+	// Code to be executed
+}
+
+
+int i;
+for (i=0; i<10; i++)
+{
+	cout<<i;
+}
+
+cout<<i; // 10
+
+
+OP: 0 1 2 3 4 5 6 7 8 9
+
+
+
+
+
+
+
+int i;
+for (i=0; i<=10; i++)
+{
+	cout<<i;
+}
+
+cout<<i; // 11
+
+
+OP: 0 1 2 3 4 5 6 7 8 9 10
+
+
+
+
+
+for (i=0; i<N; i++) // N Times
+
+	N = 5
+	0 to 4: 0,1,2,3,4: 5 Values
+
+
+- N Times
+- N-1 Time
+- N+1 Times
+
+
+
+for (i=1; i<=N; i++) // N Times
+
+
+
+
+
+Edge Cases:
+
+for (int i=1; i<10; )
+{
+	cout<<i;
+}
+
+
+OP: 1 1 1 1 1 1.......Infinite Times - TLE (Time Limit Exceed)
+
+
+
+
+
+
+
+
+for (int i = 1; ; i++)
+{
+	cout<<i;
+}
+
+
+OP: 1 2 3 4 ......INT_MAX......INT_MIN.... TLE
+
+
+
+
+int i = 5;
+for (; ;)
+{
+	cout<<i;
+}
+
+
+
+OP: 5 5 5 5 5 5 5 5 ......TLE
+
+
+
+
+for (int i = 10; i>=0; i--)
+{
+	cout<<i;
+}
+
+
+OP: 10 - 0
+
+
+
+for (i=0; i<N; i++) - N Times
+{
+
+}
+
+TC: O(N)
+
+
+
+Nested Loops:
+Loop Inside a Loop
+
+
+for (i=0; i<3; i++)
+{
+	for (j=0; j<3; j++)
+	{
+		cout<<i<<" "<<j<<endl;
+	}
+}
+
+
+
+Total Number of Executions = N * N = N^2 = 9
+TC: O(N^2)
+
+
+OP:
+
+0 0
+0 1
+0 2
+
+
+1 0 
+1 1 
+1 2
+
+
+2 0 
+2 1
+2 2
+
+
+
+
+
+
+
+
+
+Q: TC
+
+
+for (i=0; i<p; i++)
+{
+	for (j=0; j<q; j++)
+	{
+		for (k=r; k>=0; k--)
+		{
+			//Code
+		}
+	}
+}
+
+TC: O(p * q * r)
+
+
+
+
+
+
+Questions:
+
+Time Complexity:
+
+
+(1) for (i=0; i<N; i++)
+	O(N)
+
+(2) for (i=0; i<N/2; i++)
+	O(N/2)
+
+(3) for (i=0; i<N; i+=2)
+	O(N/2)
+
+(4) for (i=0; i<N; i+=3)
+	O(N/3)
+
+(5) for (i=0; i<N; i+=K)
+	O(N/K)
+
+
+(6) for (i=0; i<N/2; i+=K)
+	O(N/(2*K))
+
+
+
+
+
+
+
+
+
+
+
+
+Q-1: Given 3 Values,
+Find Maximum of 3 Values
+
+
+a b c
+
+
+a = 10, b = 20, c = 15
+OP: 20
+
+
+
+a = 20, b = 20, c = 15
+OP: 20
+
+
+
+int maxofThree(int a, int b, int c)
+{
+
+}
+
+
+
+
+
+Solution:
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int maxOfThree(int a, int b, int c)
+{
+    // 1st Way:
+    int largest = 0;
+    largest = c > (a > b ? a: b) ? c : ((a > b) ? a : b);
+    return largest;
+    
+    
+    // 2nd Way:
+    int res = INT_MIN;
+    
+    if (a>=b && a>=c)
+        res = a;
+    
+    else if (b>=c && b>=a)
+        res = b;
+    
+    else 
+        res = c;
+    
+    return res;
+    
+    
+        
+    // 3rd Way
+    int res = max(a, max(b,c));
+    return res;
+    
+}
+
+int main()
+{
+    cout<<(maxOfThree(10,20,5) == 20)<<endl;
+    cout<<(maxOfThree(10,20,30) == 30)<<endl;
+    cout<<(maxOfThree(20,20,20) == 20)<<endl;
+    cout<<(maxOfThree(20,20,10) == 20)<<endl;
+}
+
+
+
+OP:
+
+1
+1
+1
+1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> PATTERN PRINTING
+
+Two Changing Values:
+- Rows: Horizontal: Outer Loops
+- Cols: Vertical: Inner Loops
+
+
+
+Rows: Always be Increasing
+First Loop - Outer Loop: 
+for (i=0; i<N; i++)
+
+
+
+
+------ DECREASING PATTERN
+Cols are DECREASING as Rows are Increasing
+
+
+
+N = 5
+
+*****
+****
+***
+**
+*
+
+
+
+N = 6
+
+******
+*****
+****
+***
+**
+*
+
+
+
+
+Temeplate/Problem Solving:
+
+Row 1, Cols 5 = 1 + 5 = 6
+Row 2, Cols 4 = 2 + 4 = 6
+Row 3, Cols 3 
+Row 4, Cols 2
+Row 5, Cols 1
+
+
+i + j == N + 1 (1 Based Indexing)
+
+
+
+i + j == N (0 Based Indexing)
+
+
+Row + Col == N
+
+
+Aproach:
+
+First Loop - Outer Loop: for (i=0; i<N; i++)
+
+Second Loop - Inner Loop: for (j=0; i+j<N; j++)
+
+
+
+
+CODE:
+
+#include<bits/stdc++.h>
+using namespace std;
+
+void pattern(int N)
+{
+    int i =0, j = 0;
+    for (i=0; i<N; i++)
+    {
+        for (j=0; i+j<N; j++)
+        {
+            cout<<"*";
+        }
+        
+        cout<<endl;
+    }        
+}
+
+int main()
+{
+   // pattern(5);
+    pattern(6);
+}
+
+
+
+
+
+
+
+
+HW:
+
+Increasing Pattern:
+
+
+N = 5
+
+OP:
+
+*
+**
+***
+****
+*****
+
+
+
+N = 6
+
+OP:
+
+*
+**
+***
+****
+*****
+******
+
+
+
+
+
+
+
+
+
+
+
+
+
+

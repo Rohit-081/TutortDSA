@@ -1,0 +1,797 @@
+Date : 29th Oct 2023
+Mentor: DEVANG SHARMA
+Batch: OCT Batch (DSA) - Tutort Academy
+
+Agenda:
+- Introduction: DONE
+- Data Types :DONE 
+- Operators: DONE
+- Basics of DSA: DONE
+- Loops: DONE
+- Questions on Loops and TC: DONE
+- Pattern Printing Questions (Language Agnostic): 
+
+- How to setup leetcode and submit a question: DONE
+
+TODO:
+- Arrays: DONE
+- Find max element is an array: DONE
+- Find max element and min element in a single pass:  DONE
+- Find 2 max elements in a single pass: DONE
+- Reverse an array of chars: DONE
+- Max column sum in a 2D array
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+
+Q-3: Find Max Element in an Array
+
+Q-4: Find Max and Min Element in an Array in a Single Pass
+
+
+
+arr = {10,-2,30,45,56}
+OP:
+
+
+Max: 56
+Min: -2
+
+void maxandminElement(int[] arr, int n)
+{
+
+}
+
+
+
+
+
+Solution:
+
+(1) Brute Force: Sort the Array
+
+a[] = {10,-2,30,45,56}
+
+After Sorting:
+
+a = {-2,10,30,45,56}
+
+arr[0]: Min
+arr[n-1]: Max
+
+
+
+C++: sort(arr, arr + N); // Randomised Quick Sort
+TC: O(NlogN)
+
+
+
+Java: Arrays.sort(arr); // Tim Sort: Hybrid Sort = Quick Sort + Merge + Insertion
+TC: O(NlogN)
+
+
+SC: O(1)
+
+
+
+
+
+(2) Two Pass:
+
+void maxandminElement(int[] arr, int n)
+{
+	int min_e = arr[0];
+	int max_e = arr[0];
+	int i = 1;
+
+	for (i=1; i<n; i++) // 1 2 3 4
+	{
+		if (arr[i] > max_e)
+			max_e = arr[i]; // max = 2, 3, 4
+	}
+
+	for (i=1; i<n; i++)
+	{
+		if (arr[i] < min_e)
+			min_e = arr[i]; // min = 1
+	}
+
+	cout<<max_e<<" "<<min_e; // max = 4, min = 1
+}
+
+
+
+TC: O(N) + O(N)
+SC: O(1)
+
+
+
+
+[1 2 3 4]
+
+Max: 4
+Min: 1
+
+
+
+
+
+(3) One Pass: Most Optimised
+
+void maxandminElement(int[] arr, int n)
+{
+	int min_e = arr[0];
+	int max_e = arr[0];
+	int i = 1;
+
+	for (i=1; i<n; i++) // 1 2 3 4
+	{
+		if (arr[i] > max_e)
+			max_e = arr[i]; // max = 2, 3, 4
+	
+		if (arr[i] < min_e)
+			min_e = arr[i]; // min = 1
+	}
+
+	cout<<max_e<<" "<<min_e; // max = 4, min = 1
+}
+
+
+TC: O(N)
+SC: O(1)
+
+
+
+(4) Two Pass: STL (Standatd Template Library)
+
+
+void maxandminElement(int[] arr, int n)
+{
+	int min_e = *min_element(arr, arr+n);
+	int max_e = *max_element(arr, arr+n);
+
+	cout<<max_e<<" "<<min_e; // max = 4, min = 1
+}
+
+
+TC: O(N) + O(N)
+SC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-5: Find 2 Max Elements in a Single Pass - IMP
+[Morgan Stanley]
+
+arr = [10, 12, 20, 4]
+
+OP:
+first_max = 20
+second_max = 12
+
+
+
+
+
+arr = [10, 20, 20, 4]
+
+OP:
+first_max = 20
+second_max = 20
+
+
+
+void find2Max(int arr[], int n)
+{
+
+}
+
+
+TC, SC
+
+
+Edge Cases:
+
+(1) arr.size() < 2
+- "Invalid Input"
+
+arr = [5]
+
+first_max = 5
+second_max = Not Defined
+
+
+
+(2) Repeated Values
+
+arr = [10, 20, 20, 4]
+
+OP:
+first_max = 20
+second_max = 20
+
+
+
+
+
+Solutions:
+
+
+(1) Sort the Array
+
+
+first_max = arr[n-1]
+second_max = arr[n-2]
+
+Edge cases of Duplicate Value - YES
+
+
+arr = [10, 20, 20, 4]
+
+After Sorting:
+
+arr = [4 10 20 20]
+
+first_max = arr[n-1] = 20
+second_max = arr[n-2] = 20
+
+
+TC: O(NlogN)
+SC: O(1)
+
+
+
+
+
+
+
+(2) Two Pass Solution
+
+first_max:
+	arr[i] > first
+	first = arr[i]
+
+
+
+second_max:
+
+
+1 2 4 3
+
+Left to Right
+
+first  = 1
+second = 0
+
+
+2 > first
+first = 2
+second = previous first = 1
+
+
+4 > first
+first = 4
+second = previous first = 2
+
+
+3< first and 3 > second
+first =   No Change
+second = new value = 3
+
+Final Ans:
+
+first = 4
+second = 3
+
+
+
+
+
+
+Approach:
+
+(1) value > first
+- Both first and second will change
+- second = previous first
+
+(2) second < value < first
+- Only second will change
+- No change in first
+
+(3) value < second
+- No change in first
+- No change in second
+
+
+
+(3) Single Traversal:
+
+
+CODE:
+
+#include<bits/stdc++.h>
+using namespace std;
+        
+void find2Max(int arr[], int n) 
+{
+    int first = INT_MIN, second = INT_MIN;
+    int i = 0;
+    
+    if (n < 2)
+    {
+        cout<<"Invalid Input";
+        return;
+    }
+    
+    for (i=0; i<n; i++)
+    {
+        // arr[i] > first
+        if (arr[i] > first)  // 1 2 4 3, first = 1, second = 1
+        {
+            second = first; 
+            first = arr[i]; 
+        }
+        
+        // second < arr[i] < first
+        else if (arr[i] > second)
+        {
+            second = arr[i];
+        }
+    }
+    
+    cout<<first<<" "<<second<<endl;
+}
+
+int main() 
+{
+    int arr[]= {-2,1,10,15}; // first = 15, second = 10
+    int n = sizeof(arr)/sizeof(arr[0]); // Number of Elements in Array
+    find2Max(arr,n);
+    
+    int arr2[]= {-2,1,10,15,15}; // first = 15, second = 15
+    int n2 = sizeof(arr2)/sizeof(arr2[0]); // Number of Elements in Array
+    find2Max(arr2,n2);
+    
+    int arr3[]= {2,13,15,17,9,5,12,8,16,19,18,19}; // first = 19, second = 19
+    int n3 = sizeof(arr3)/sizeof(arr3[0]); // Number of Elements in Array
+    find2Max(arr3,n3);
+    
+    int arr4[]= {4,1}; // first = 4, second = 1
+    int n4 = sizeof(arr4)/sizeof(arr4[0]); // Number of Elements in Array
+    find2Max(arr4,n4);
+
+    int arr5[]= {1,1}; // first = 1, second = 1
+    int n5 = sizeof(arr5)/sizeof(arr5[0]); // Number of Elements in Array
+    find2Max(arr5,n5);
+    
+    int arr6[]= {1}; // Invalid Input
+    int n6 = sizeof(arr6)/sizeof(arr6[0]); // Number of Elements in Array
+    find2Max(arr6,n6);    
+}
+
+
+
+OP:
+
+15 10
+15 15
+19 19
+4 1
+1 1
+Invalid Input
+
+
+
+TC: O(N)
+SC: O(1)
+
+
+
+
+
+    int arr4[]= {4,1};
+
+    first = arr[0], second = arr[0]
+    first = 4, second = 4
+
+    - Condition Never Hit
+        // second < arr[i] < first
+        else if (arr[i] > second)
+        {
+            second = arr[i];
+        }
+
+
+
+
+
+
+
+
+
+
+
+Q-6: Reverse an array of chars/int
+
+
+arr = [1 5 2 4 3 6]
+OP: [6 3 4 2 5 1]
+
+
+Bonus: In Place: O(1)
+
+
+
+void reverse(int[] arr, int n)
+{
+
+}
+
+
+
+
+Solution:
+
+(1) Using Inbuilt Functions
+
+C++: reverse(v.begin(), v.end());
+Py: A[::-1]
+Java: Reverse ArrayList, Not Array
+
+
+TC: O(N)
+SC: O(1)
+
+
+
+(2) Create Extra Array and Move Right to Left
+
+int[] b = new int[n];
+for (i=n-1; i>=0; i--)
+	b[n-i-1] = a[i];
+
+
+TC: O(N)
+SC: O(N)
+
+
+
+(3) Two Pointers and Swap
+
+void reverse(int[] arr, int n)
+{
+	int start = 0, end = n-1;
+
+	while(start<end)
+	{
+		swap(arr[start], arr[end]);
+		start++;
+		end--;
+	}
+}
+
+
+
+TC: O(N/2)
+SC: O(1)
+
+
+DRY RUN:
+
+[1 2 3 4 5]
+start = 0
+end = 4
+
+
+arr[start] = 1
+arr[end] = 5
+
+swap(1,5) = [5 2 3 4 1]
+
+start = 1
+end = 3
+
+arr[start] = 2
+arr[end] = 4
+
+swap(2,4) = [5 4 3 2 1] - ANS
+
+
+
+
+
+
+void swap(int a, int b)
+{
+	int temp = a;
+	a = b;
+	b = temp;
+}
+
+
+
+
+(4) Travelling Till Half and Swap
+
+void reverse(int[] arr, int n)
+{
+	for (i=0; i<n/2; i++) // i=0, i = 1
+		swap(arr[i], arr[n-1-i]);
+}
+
+
+TC: O(N/2)
+SC: O(1)
+
+
+DRY RUN:
+
+[1 2 3 4 5]
+n = 5
+n/2 = 2
+
+
+i = 0
+n-1-i = 4
+swap(arr[0], arr[4]) = swap(1,5) - [5 2 3 4 1]
+
+
+i = 1
+n-1-i = 3
+swap(arr[1], arr[3]) = swap(2,4) - [5 4 3 2 1]
+
+OP: [5 4 3 2 1]
+
+
+
+
+
+
+
+(5) Using Stack:
+
+Stack: Reverse Order
+
+TC: O(N)
+SC: O(N)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-7: [LC-345] Reverse Vowels of a String
+https://leetcode.com/problems/reverse-vowels-of-a-string/
+
+
+
+Given a string s, reverse only all the vowels in the string and return it.
+
+The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both lower and upper cases, more than once.
+
+ 
+
+Example 1:
+
+Input: s = "hello"
+Output: "holle"
+
+
+Example 2:
+
+Input: s = "leetcode"
+Output: "leotcede"
+ 
+
+Constraints:
+
+1 <= s.length <= 3 * 105
+s consist of printable ASCII characters.
+
+
+
+
+
+
+leetcode
+
+Vowels: eeoe
+Reverse: eoee
+
+OP: l e o t c e d e
+
+
+
+
+
+IP: "abceo"
+
+Vowels: aeo
+Reverse: oea
+
+OP: o b c e a
+
+
+
+
+    public String reverseVowels(String s) 
+    {
+
+    }
+
+
+
+Solution:
+
+
+
+Two Pointers/Swap - In Place Solution
+
+TC: O(N)
+SC: O(1)
+
+
+CODE:
+
+
+// "hello"
+
+class Solution {
+public:
+
+    bool isVowel(char c)
+    {
+        return (c=='a' || c=='e' || c=='i' || c=='o' || c=='u' || c=='A' || c=='E' || c=='I' || c=='O' || c=='U');
+    }
+
+
+    string reverseVowels(string s) 
+    {
+        //" hello", start=0, end = 4
+        int start=0, end = s.length()-1;
+
+        while(start<end) // 0<4, 1<4, 2<3, 3<3- INCORRECT
+        {
+            if (!isVowel(s[start])) 
+            // s[0]=h, s[1] = e, s[2] = l
+            {
+                start++; // start = 1, start=3
+                continue;
+            }
+
+            if (!isVowel(s[end])) // s[4] = o
+            {
+                end--;
+                continue;
+            }
+
+            // Vowel - SWAP
+            swap(s[start], s[end]); // swap(e,o) = o,e
+            // s = holle
+            start++;// start = 2
+            end--; //end = 3
+        }
+        
+        return s; // holle
+    }
+};
+
+
+
+TC: O(N)
+SC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+HW:
+
+Max 3 Elements in an Array in a Single Pass - [Goldman Sachs]
+
+
+arr = [10 20 10 20 10]
+
+first = 20
+second = 20
+third = 10
+
+
+Approach:
+
+(1) value > first
+- first, second and third will change
+
+(2) second < value < first
+- second, third will change
+- No change in first
+
+(3) value > third
+- third will change
+- No change in first, second
+
+(4) value < third
+- No change anywhere
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

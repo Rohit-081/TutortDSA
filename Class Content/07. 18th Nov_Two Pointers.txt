@@ -1,0 +1,743 @@
+Date : 18th Nov 2023
+Mentor: DEVANG SHARMA
+Batch: OCT Batch (DSA) - Tutort Academy
+
+Agenda:
+
+- Arrays: DONE
+- Binary Search and Time Complexity: DONE
+- Advanced Questions on Array - DONE
+- Two Pointer- DONE
+- Question- DONE
+- Two Sum: All Solutions: DONE
+
+- Prefix Sum Array-DONE 
+- Questions - WIP
+- Majority Element https://leetcode.com/problems/majority-element
+- Product of Array Except Self
+- Wiggle Sort: https://www.lintcode.com/problem/508/description
+- Intersection of Two Arrays: https://leetcode.com/problems/intersection-of-two-arrays/
+
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+- Linear Search: DONE
+- Binary Search: DONE
+- Two Pointers: DONE
+- Prefix Sum: WIP
+
+
+
+
+
+
+Q: Two Sum
+
+Given an Array arr[] of size n and a target 
+Find the pair(s) with sum == target
+
+
+arr = [1,2,3,4,5,6]
+target = 6
+
+
+Pair = ?
+
+OP: [1,5], [2,4]
+
+
+
+
+
+LC-1: Two Sum
+https://leetcode.com/problems/two-sum/
+
+Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+ 
+
+Example 1:
+
+Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+
+Example 2:
+
+Input: nums = [3,2,4], target = 6
+Output: [1,2]
+
+Example 3:
+
+Input: nums = [3,3], target = 6
+Output: [0,1]
+ 
+
+Constraints:
+
+2 <= nums.length <= 104
+-109 <= nums[i] <= 109
+-109 <= target <= 109
+Only one valid answer exists.
+ 
+
+Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity?
+
+
+    public int[] twoSum(int[] nums, int target) 
+    {
+
+
+	}
+
+
+
+
+Solution:
+
+
+(1) Brute Force Solution: Two Nested Loops: TC: O(N^2), SC: O(1)
+
+(2) Sorting and Two Pointers: TC: O(NlogN), SC: O(1)
+
+(3) Hashing: Set or Map: TC: O(N), SC: O(N)
+
+
+
+
+(1) Brute Force Solution
+
+
+a + b == target
+
+count = 0;
+for (i=0; i<n; i++) // a
+{
+	for (j=i+1; j<n; j++) // b
+	{
+		if (arr[i] + arr[j] == target)
+			++count;
+	}
+}
+
+
+TC: O(N^2)
+SC: O(1)
+
+
+
+
+
+(2) Sorting and Two Pointers:
+
+
+Sliding Window: SUPERSET
+
+- Two Variable Pointers which can move either directions
+- Reason: Sliding Window
+
+.......i.......j......
+
+arr[i]......arr[j]: Window
+
+i and j Both are Movable
+- Increase the Window Size
+- Decrease the Window Size
+
+
+
+
+Two Pointer: SUBSET
+
+- Sorted List of Values
+
+
+[1 2 3 4 5]
+ i       j
+
+1st Pointer: Beginning
+2nd Pointer: End
+
+
+Move to Right: INCREASING VALUES
+i++
+
+
+Move to Left: DECREASING VALUES
+j--
+
+
+
+
+
+
+Sorting and Two Pointer:
+
+- Sort the Array
+- Two Pointer
+
+
+[1 2 3 4 5]
+target = 6
+
+Pairs: [1,5], [2,4]
+
+
+[1 2 3 4 5]
+ l       r
+
+l = 0, r = 4
+arr[l] + arr[r] = 1 + 5 = 6: TARGET
+
+l = 1, r = 4
+arr[l] + arr[r] = 2 + 5 = 7 > 6: curr_sum > target
+
+r--; // DECERASE VALUES
+
+l = 1, r = 3
+arr[l] + arr[r] = 2 + 4 = 6: TARGET
+
+
+l = 0, r = 3
+arr[0] + arr[3] = 1 + 4 = 5 < 6: curr_sum < target
+
+l++; // INCREASE VALUES
+
+
+
+
+
+
+sort(arr, arr+n);
+int l = 0, r = n-1;
+
+while (l < r) // for(; l<r;)
+{
+	if (arr[l] + arr[r] == target)
+	{
+		++count;
+		l++;
+		r--;
+	}
+
+	else if (arr[l] + arr[r] < target) // curr_sum < target
+		l++;
+
+	else
+		r--; // curr_sum > target
+}
+
+TC: O(NlogN) + O(N) = O(NlogN)
+SC: O(1)
+
+
+
+
+NOTE:
+
+If Input Array ----> Sorted
+TC: O(N)
+SC: O(1)
+
+
+
+
+
+
+(3) Hashing: Set or Map
+
+
+target = 6
+In Hand: 1
+Need: 6-1 = 5 (target - a)
+
+
+In Hand: a
+Need: target - a
+
+
+
+a + b == target
+b = target - a
+
+In Hand: a
+Need: target - a
+
+
+
+
+You are trying to insert "a" in set/map and
+
+if (target - a) exist in set/map:
+	return true
+else
+	return false
+
+TC: O(N)
+SC: O(N)
+
+
+
+
+
+arr = [1 2 3 1 2 3]
+
+-----> SET:
+
+Stores Unique Values Only.
+
+
+set = [1 2 3]
+
+Java:
+
+- HashSet: Does not Order Guarantee 
+- LinkedHashSet: Does Order Guarantee Order
+- TreeSet : Stores in Sorted Values
+
+
+arr = [4 2 3 4 2 3]
+
+HashSet = [4 2 3], [2 3 4] etc
+LinkedHashSet: [4 2 3]
+TreeSet: [2 3 4] - Sorted
+
+
+Py:
+- Set
+
+
+C++:
+- set
+
+
+
+
+
+------> MAP
+
+Key: Value
+
+1: 1 Or 1: N
+
+JSON
+
+"name": devang
+"company": Facebook, NASA, Google
+
+
+Java:
+
+- HashMap: Does not Order Guarantee 
+- LinkedHashMap: Does Order Guarantee Order
+- TreeMap : Stores in Sorted Values
+
+
+Py:
+- Dict: {}
+
+
+C++:
+- Map
+
+
+
+CODE:
+
+[1 2 3 4 5]
+target = 6
+
+Count = 2
+
+
+HashSet<Integer> s = new HashSet<Integer>();
+
+for (i=0; i<n; i++)
+{
+	if (s.contains(target-arr[i]))
+		++count;
+
+	s.insert(arr[i]);
+}
+
+
+Set: [1 2 3 4 5]
+
+count = 0 -> 1 -> 2
+
+
+TC: O(N)
+SC: O(N)
+
+
+
+
+Map: Duplicate Values in Array
+Set: Unique Values in Array
+
+
+
+
+
+
+
+Leetcode Solution:
+
+
+
+// TC: O(N)
+// SC: O(N)
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) 
+    {
+        int[] result = new int[2];
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        // Key: Element, Value: Index
+        
+        int i = 0;
+        for (i=0; i<nums.length; i++)  // O(N)
+            // target=6, nums[i] = 1, target- nums[i] = 5
+        {
+            if (map.containsKey(target-nums[i])) // O(1)
+            {
+                result[1] = i;
+                result[0] = map.get(target-nums[i]); // O(1)
+                return result;
+            }
+            
+            map.put(nums[i], i);
+        }
+        
+        return result;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> PREFIX SUM Array/ Running Sum Array/ Cumulative Sum
+
+Given an array arr[] of size n,
+Prefix Sum Array is another Array of SAME SIZE N such that:
+
+prefixSum[i] = a[0] + a[1] + a[2].......... + a[i]
+			 = Sum of All Elements upto arr[i]
+
+
+
+arr = [10 20 10 5 15]
+
+prefixSum[] = [10 30 40 45 60]			 
+
+prefixSum[i] = Sum of arr[0......i]
+
+
+-----> Based upon Current Understanding:
+
+void prefixSum(int[] arr, int n)
+{
+	int[] prefixSum = new int[n];
+
+	for (i=0; i<n; i++)
+	{
+		for (j=0; j<=i; j++)
+		{
+			prefixSum[i] += arr[j];
+		}
+	}
+}
+
+TC: O(N^2)
+SC: O(N)
+
+
+
+------> Optimised Form:
+
+
+prefixSum[i] = (arr[0] + arr[1] + arr[2] + arr[3] + .......+ arr[i-1]) + arr[i]
+
+prefixSum[i-1] = arr[0] + arr[1] + arr[2] + arr[3] + .......+ arr[i-1]
+
+prefixSum[i] = prefixSum[i-1] + arr[i]; ----- TRIGGER ALERT
+
+Sum of Values till (i)
+=
+Sum of Values till (i-1)
+	+ 
+arr[i]
+
+
+-----> Optimised Code:
+
+
+void prefixSum(int[] arr, int n)
+{
+	int[] prefixSum = new int[n];
+	prefixSum[0] = arr[0];
+
+	for (i=1; i<n; i++)
+	{
+		prefixSum[i] = prefixSum[i-1] + arr[i];
+	}
+}
+
+TC: O(N)
+SC: O(N)
+
+
+
+
+
+fact(N) = N * fact(N-1) ----- TRIGGER ALERT
+
+fibo(N) = fibo(N-1) + fibo(N-2) ----- TRIGGER ALERT
+
+
+int fact(int N)
+{
+	if (n==0 || n==1)
+		return 1;
+
+	return N * fact(N-1);
+}
+
+
+
+
+
+
+
+
+
+
+Q-1: [Microsoft] Find Equilibrium Index in an Array
+
+
+Equilibrium Index in an Array is an index such that:
+
+Sum of Elements on its left == Sum of Elements on its right
+
+
+Index: i: Equilibrium Index
+
+Sum of arr[0......i-1] = Sum of arr[i+1......n-1]
+
+_ _ _ _ i _ _ _ _
+
+
+
+
+arr[] = [-7 1 5 2 -4 3 0]
+OP: 3
+
+
+idx = 3
+left: [-7 1 5]
+right: [-4 3 0]
+
+leftSum = -1
+rightSum = -1
+
+
+
+
+
+Edge Cases:
+
+(1) Can there be Multiple Equilibrium Indices in an Array?
+
+arr = [0 0 0 0]
+- All Indices are Equilibrium Indices
+
+
+(2) If n == 1
+Ans: 0
+
+
+arr = [10]
+OP: 0
+
+
+(3) If n == 0
+Ans: -1
+
+arr = []
+OP: -1
+
+(4) Can Even Size Arrays have Equilibrium Index?
+
+arr = [6 10 3 3]
+OP: 1
+
+(5) Value at Equilibrium Index has No Effect
+
+
+int equilibriumIndex(int[] arr, int n)
+{
+
+}
+
+
+Solution:
+
+(1) Brute Force Solution: Two Nested Loops
+
+
+For Every Element, Calculate leftSum and rightSum 
+
+if (leftSum == rightSum)
+	return i;
+
+
+CODE:
+
+
+int equilibriumIndex(int[] arr, int n)
+{
+	int lsum, rsum;
+
+	for (i=0; i<n; i++)
+	{
+		lsum = 0;
+		for (j=0; j<i; j++)
+			lsum += arr[j];
+
+		rsum = 0;
+		for (j=i+1; j<n; j++)
+			rsum += arr[j];
+
+		if (lsum == rsum)
+			return i;
+	}
+
+	return -1;
+}
+
+
+TC: O(N^2)
+SC: O(1)
+
+
+
+
+
+
+
+
+(2) Optimised Solution: Prefix Sum Array
+
+Approach:
+
+Initialise leftSum = 0
+Get the totalSum of Array - totalSum
+
+
+totalSum = totalSum - arr[i] ------> RIGHTSUM
+
+
+leftSum == totalSum, return i
+
+Update leftSum:
+	leftSum += arr[i]
+
+
+
+
+
+int equilibriumIndex(int[] arr, int n)
+{
+	int totalSum = 0;
+	int leftSum = 0;
+
+	for (i=0; i<n; i++)
+		totalSum += arr[i]; // totalSum = 0
+
+
+	for (i=0; i<n; i++)
+	{
+/*
+		arr[] = [-7 1 5 2 -4 3 0]
+		totalSum = 0
+
+		i = 0
+		totalSum = totalSum - arr[0] = 0 - (-7) = 7 : RIGHTSUM
+*/
+		
+		totalSum = totalSum - arr[i]; // RIGHTSUM
+
+		if (leftSum == totalSum)
+			return i;
+
+		leftSum += arr[i];
+	}
+
+	return -1;
+}
+
+
+TC: O(N)
+SC: O(1)
+
+
+
+
+
+HW: 
+
+- Pivot Element - LC
+(https://leetcode.com/problems/find-pivot-index)
+- Prefix Sum Ques - LC
+(Running Sum Array)
+(https://leetcode.com/problems/running-sum-of-1d-array/)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

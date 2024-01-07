@@ -1,0 +1,661 @@
+Date : 23rd Dec 2023
+Mentor: DEVANG SHARMA
+Batch: Oct Batch (DSA) - Tutort Academy
+
+Questions:
+- XOR Concept: DONE
+- 136. Single Number: DONE
+- 268. Missing Number: DONE
+- 1720. Decode XORed Array: DONE
+- Product of Array Except Self: DONE
+- Prime Numbers: DONE
+- Primality Test: DONE 
+- Seive Of Erastothenes: DONE
+- Count Primes:https://leetcode.com/problems/count-primes/: DONE 
+- Sexy Primes: https://www.codechef.com/problems/EXCG1806: DONE
+(Sliding Window Algo) 
+- Max Consecutive Ones-1: https://leetcode.com/problems/max-consecutive-ones/
+- Max Consecutive Ones-2: https://leetcode.com/problems/max-consecutive-ones-ii/
+ (LC Premium)
+- Lintcode: https://www.lintcode.com/problem/883/description
+- Max Consecutive Ones-3: https://leetcode.com/problems/max-consecutive-ones-iii/
+
+
+- Strings: DONE
+- https://leetcode.com/problems/valid-anagram/: DONE
+
+TODO:
+
+- https://leetcode.com/problems/first-unique-character-in-a-string/
+- https://leetcode.com/problems/longest-substring-without-repeating-characters/ 
+- https://leetcode.com/problems/longest-palindrome/
+- Stacks And Queues
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+----------> STRINGS:
+
+Strings:
+Array of Characters
+
+
+char[] ch = {'d','e','v'};
+String s = new String(ch);
+
+OR
+
+String str = "dev";
+
+OP: "dev"
+
+
+
+CODE:
+
+
+
+// "static void main" must be defined in a public class.
+public class Main {
+    public static void main(String[] args) 
+    {
+        char[] ch = {'d','e','v','a','n','g'};
+        String s = new String(ch); // s: Object of String Class
+        System.out.println(s);
+        
+        String str = "devang";
+        System.out.println(str);
+        System.out.println(str.length());
+        
+        int i = 0;
+        for (i=0; i<str.length(); i++)
+            System.out.print(str.charAt(i) + " ");
+        
+         System.out.println();
+        
+        // contains() - true/false - O(1)
+        // Tells whether a character or SEQUENCE of Characters (SUBSTRINGS) are present or not in a String
+        
+        System.out.println(str.contains("d"));
+        System.out.println(str.contains("q"));
+        System.out.println(str.contains("dev"));
+        System.out.println(str.contains("dve"));
+        
+        // Equals(): Equality of Two Objects based upon value - true/false - O(1)
+        System.out.println(str.equals("devang"));
+        System.out.println(str == "devang");
+        
+        // Variables are compared based upon values
+        // Objects are compared based upon references
+        
+        // p and q are variables of String Type
+        String p = "test";
+        String q = "test";
+        System.out.println(p == q);
+        System.out.println(p.equals(q));
+                
+        // m and n are OBJECTS of String Class 
+        String m = new String("test");
+        String n = new String("test");
+        System.out.println(m == n);
+        // Comparing Objects based upon reference-hashcode-false 
+        System.out.println(m.equals(n));
+        // Comparing based upon value - true
+       
+        String m1 = new String("test");
+        String n1 = "test";
+        System.out.println(m1 == n1);
+        // Comparing Objects based upon reference-hashcode-false 
+        System.out.println(m1.equals(n1));
+        // Comparing based upon value - true
+        
+        
+        String name = "dev";
+        System.out.println(name);
+        name = "sharma";
+        System.out.println(name);
+        
+            
+/*
+
+Strings are Immutable in Java? 
+
+- Immutability based upon reference (HashCode) NOT on Values
+- Multiple Values can be assigned to same string, Only the reference would change to newly assigned value (In the String Pool), HashCode will NOT Change
+    
+ */  
+    
+
+        // concat(): Concatenation/Append String to Another String - Returns a String
+        
+        System.out.println(str.concat(" sharma"));
+        System.out.println(str + " sharma");
+        System.out.println(str);
+        
+        // replace(): Replaces All Occurences of the given character or Substring - Returns a String
+        
+        System.out.println(str.replace("a", "b"));
+        String s2 = "aaaab";
+        System.out.println(s2.replace("a", "b"));
+        System.out.println(str.replace("dev", "abc"));
+        System.out.println(str);
+        
+        // indexOf(): Gives the index of character ot Substring - returns int
+        // If does not exist, returns -1
+        // In case of multiple occurences of character/Substring, Only first occurence would be returned
+        System.out.println(str.indexOf('d'));
+        System.out.println(str.indexOf('q'));
+        System.out.println(str.indexOf("ev"));
+        // Gives starting index
+        System.out.println(str.indexOf("dvg"));
+        System.out.println(s2.indexOf('a'));
+        
+        // equalsIgnoreCase(): Equality of Two Strings irrespective of cases - Upper Case and Lower Case
+        
+        String str2 = "DEVANG";
+        System.out.println(str.equals(str2));
+        System.out.println(str.equalsIgnoreCase(str2));
+        
+        // toUpperCase() and toLowerCase()
+        
+        str2 = "aBcD%io365847878747#q!";
+        System.out.println(str2.toLowerCase());
+        System.out.println(str2.toUpperCase());
+            
+    }
+}
+
+
+
+
+
+
+
+OP:
+
+devang
+devang
+6
+d e v a n g 
+true
+false
+true
+false
+true
+true
+true
+true
+false
+true
+false
+true
+dev
+sharma
+devang sharma
+devang sharma
+devang
+devbng
+bbbbb
+abcang
+devang
+0
+-1
+1
+-1
+0
+false
+true
+abcd%io365847878747#q!
+ABCD%IO365847878747#Q!
+
+
+
+
+
+
+
+
+
+C++ References:
+
+https://en.cppreference.com/w/cpp/string/basic_string
+https://www.tutorialspoint.com/cplusplus/cpp_strings.htm
+
+
+
+
+
+
+
+
+
+
+
+Q-1: Check if a String "b" is a Substring of another String "a"?
+
+a = "devang"
+b = "dev"
+
+
+OP: true
+
+
+a = "devang"
+b = "dvg"
+
+OP: false (Its a Subsequence)
+
+
+
+boolean checkSubstring(String a, String b)
+{
+
+}
+
+
+
+
+
+Solutions:
+
+
+(1) Brute Force:
+
+- Find First Common Character
+- Two Pointers
+
+(First Pointer - First String, Second Pointer - Second String)
+
+
+TC: O(M + N)
+SC: O(1)
+
+
+
+(2) a.contains(b) - true/false
+
+
+
+boolean checkSubstring(String a, String b)
+{
+	return a.contains(b);
+}
+
+TC: O(1)
+SC: O(1)
+
+
+
+(3) Using indexOf
+
+
+boolean checkSubstring(String a, String b)
+{
+	return (a.indexOf(b)!= -1);
+}
+
+TC: O(1)
+SC: O(1)
+
+
+
+
+
+Py:
+
+def checkSubstring(self, str1, str2):
+	return str2 in str1
+
+TC: (1)
+SC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-2: [LC-242] Valid Anagram
+https://leetcode.com/problems/valid-anagram/
+
+
+
+Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+ 
+
+Example 1:
+
+Input: s = "anagram", t = "nagaram"
+Output: true
+
+Example 2:
+
+Input: s = "rat", t = "car"
+Output: false
+ 
+
+Constraints:
+
+1 <= s.length, t.length <= 5 * 104
+s and t consist of lowercase English letters.
+ 
+
+Follow up: What if the inputs contain Unicode characters? How would you adapt your solution to such a case?
+
+
+
+    public boolean isAnagram(String s, String t) 
+    {
+
+    }
+
+
+
+
+Understanding:
+
+Jumbled Words / Scrabble
+
+a t c ----> act, cat
+
+anagram
+nagaram
+
+rat
+car
+
+
+
+Solutions:
+
+Edge Cases:
+
+if (s.size()! = t.size())
+	return false;
+
+if (s == t)
+	return true;
+
+
+
+
+
+
+(1) Sorting
+
+Anagram: All Characters present with SAME Frequency
+
+Sort Both Strings:
+All SAME Characters would be Adjacent to each other
+
+
+- Sort Both Strings:
+- Compare Two Strings - If Same, Anagram, else no
+
+
+
+s = "anagram", t = "nagaram"
+
+After Sorting:
+
+a = "aaagmnr", t = "aaagmnr"
+
+
+
+TC: O(NlogN) + O(NlogN)
+SC: O(1)
+
+
+
+
+
+CODE:
+
+
+    
+        bool isAnagram(string s, string t) 
+        {
+           // Edge Cases:
+        // Size different, Not Anagram    
+        if (s.size() != t.size())
+            return false;
+        
+        // Same Strings - Anagram    
+        if (s == t)
+            return true;
+         
+            
+        sort(s.begin(), s.end());  // O(nlogn)  
+        sort(t.begin(), t.end());   // O(nlogn)   
+
+        return s==t;
+        }
+
+
+TC: 2*O(NlogN)
+SC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+(2) Hashing - Map
+
+Anagram: All Characters present with SAME Frequency
+
+
+
+
+
+s = "act"
+t = "cat"
+
+OP: true
+
+
+Map:
+
+Initial:
+
+a: 0
+c: 0
+t: 0
+
+mp[s[i]]++;
+
+a: 1
+c: 1
+t: 1
+
+mp[t[i]]--;
+
+a: 0
+c: 0
+t: 0
+
+
+If All Freq of All characters = 0 : ANAGRAM
+
+
+
+
+
+
+
+CODE:
+
+        bool isAnagram(string s, string t) 
+        {
+           // Edge Cases:
+        // Size different, Not Anagram    
+        if (s.size() != t.size())
+            return false;
+        
+        // Same Strings - Anagram    
+        if (s == t)
+            return true;
+                
+        unordered_map<int,int> mp;
+            
+       int i = 0;
+       for (i=0; i<s.size(); i++)  // O(N)
+       {
+           mp[s[i]]++;
+           mp[t[i]]--;
+       }
+        
+            
+        // Maximum Number of Unique Characters = 26
+            
+        // If Anagram - All freq would be 0 at this point
+        for (auto it: mp)    // O(26)
+        {
+            if (it.second) // it.second!=0
+                return false;
+        }
+                
+        return true;
+        }    
+   
+
+
+
+TC: O(N) + O(26)
+SC: O(26)
+    
+
+
+For Follow - Up:
+
+TC: O(N) + O(256)
+SC: O(256)
+
+
+
+"aaaaaaaabbbbbb": N = 14
+Map:
+
+a : 8
+b : 6
+
+Size of Map: 2
+
+
+
+
+
+
+
+
+(3) Array Based Solution:
+
+char[] arr = new char[26];
+
+arr = [0.......25]
+
+0 -> a
+25 -> z
+
+
+
+CODE:
+
+    // Using Arrays:
+    // TC: O(N) + O(26)
+    // SC: O(26)
+
+
+ 
+    class Solution {
+    
+    public boolean isAnagram(String s, String t) 
+    {
+        if (s.length()!=t.length())
+            return false;
+
+        if (s==t)
+            return true;
+        
+        int[] arr = new int[26];
+        int i=0;
+        
+        // arr[] = {}
+        // arr[0]: a, arr[1]: b...arr[25]: z
+        
+        for (i=0; i<s.length(); i++)
+        {
+            arr[s.charAt(i)-'a']++; // C++/Java
+           // ord(s[i]-'0') / Python
+            arr[t.charAt(i)-'a']--;
+        }
+        
+        // Anagram - All Values : 0 after for loop
+        
+        for (i=0; i<26; i++)
+        {
+            if (arr[i]!=0) // arr[i]!=0
+                return false;
+        }
+        
+        return true;
+    }
+    
+};
+
+
+TC: O(N) + O(26)
+SC: O(26)
+
+
+
+
+
+For Follow - Up:
+
+TC: O(N) + O(256)
+SC: O(256)
+
+
+
+
+
+
+
+
+HW:
+- Strings Assignment
+- https://leetcode.com/problems/first-unique-character-in-a-string/
+- https://leetcode.com/problems/longest-substring-without-repeating-characters/ 
+
+
+
+
+
+
+
+
+
+
+
+
+

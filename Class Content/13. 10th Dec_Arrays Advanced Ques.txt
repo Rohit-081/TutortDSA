@@ -1,0 +1,996 @@
+Date : 10th Dec 2023
+Mentor: DEVANG SHARMA
+Batch: Oct Batch (DSA) - Tutort Academy
+
+Topics:
+- Arrays: DONE
+- Binary Search and Time Complexity: DONE
+- Prefix Sum Array- DONE
+- Questions - DONE
+- Two Pointer- DONE
+- Question- DONE
+- Compilation: DONE
+- Execution: DONE
+- Compiled Languages and Interpreted Languages: DONE
+- What is TC and SC- DONE
+- Why O Notation is Required- DONE 
+- Order of O Complexity - DONE
+- Compare different algos- faster and slowest - DONE
+- Total Complexity in multiple functions with different complexities- DONE
+- How to Find Complexity from Code? - DONE
+- Time and Space Complexity - Real Life Meaning - DONE
+- Space Complexity - Auxliary and In memory - DONE
+- CP Trick to Pass all Test Cases-EXTRA: DONE
+- Recursion: DONE
+- Rotate Array: DONE
+- Bits Manipulations: DONE
+
+- Prime Numbers - Seive
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+-----> XOR Concept:
+
+XOR Gate:
+
+0 XOR 0 = 0
+0 XOR 1 = 1
+1 XOR 0 = 1
+1 XOR 1 = 0
+
+
+
+Extended Version of XOR on Bits to Numbers
+
+TRICK:
+Apply on Numbers ------> Perform Bitwise XOR Operation on Binary Values (Bits)
+
+(1) A ^ A = 0
+
+5 ^ 5 = 0
+0101 ^ 0101 = 0000
+
+CODE:
+
+public class Main 
+{
+    public static void main(String[] args)
+    { 
+        int a = 55;
+        System.out.println(a ^ a); 
+    }
+}
+
+OP: 0
+
+
+
+(2) Commutative
+
+A ^ B = B ^ A
+
+
+A + B = B + A
+A * B = B * A
+
+
+A - B != B - A // Not Commutative
+A / B != B / A // Not Commutative
+
+
+
+
+CODE:
+
+public class Main 
+{
+    public static void main(String[] args) 
+    {
+        int a = 10, b = 15;
+        int c = a ^ b;
+        System.out.println(c);
+        
+        int d = b ^ a;
+        System.out.println(d);
+    }
+}
+
+
+OP:
+
+5
+5
+
+
+
+
+
+
+
+
+(3) A ^ 0 = A
+
+Note: 0 is Identity of XOR
+
+A opr B = A
+B -> Identity of opr
+
+A + 0 = A
+0: Additive Identity
+
+A * 1 = A
+1: Product Identity
+
+
+1010 ^ 0000 = 1010
+
+
+CODE:
+
+
+public class Main 
+{
+    public static void main(String[] args) 
+    {
+        int a = 99;
+        System.out.println(a^0);
+    }
+}
+
+OP:
+99
+
+
+
+
+
+(4) A^A^A^A^A^A^A^A^A............: Even Times: 0
+								   Odd Times: A	
+
+
+A^A = 0
+A^0 = A
+
+A^A^A = (0) ^ A = A ^ 0 = A
+
+A^A^A^A = (0)^A^A = A^A = 0
+
+
+
+(5) A^A^B = B^A^A = A^B^A = B
+Position DOES NOT Matter
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Questions:
+- 136: Single Number: DONE
+- 268: Missing Number: DONE
+- 1720: Decode XORed Array: DONE
+
+
+
+
+
+
+
+
+Q-10: [LC-136] Single Number
+https://leetcode.com/problems/single-number/
+
+Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.
+
+You must implement a solution with a linear runtime complexity and use only constant extra space.
+ 
+Example 1:
+
+Input: nums = [2,2,1]
+Output: 1
+
+Example 2:
+
+Input: nums = [4,1,2,1,2]
+Output: 4
+
+Example 3:
+
+Input: nums = [1]
+Output: 1
+ 
+
+Constraints:
+
+1 <= nums.length <= 3 * 104
+-3 * 104 <= nums[i] <= 3 * 104
+Each element in the array appears twice except for one element which appears only once.
+
+
+
+    public int singleNumber(int[] nums) 
+    {
+        
+    }
+
+
+
+
+
+Expectations: 
+TC: O(N)
+SC: O(1)
+
+
+
+Solution:
+
+
+(1) Brute Force Solution:
+
+
+Two Nested Loops,
+if (arr[i] != arr[j]), return that number
+
+TC: O(N^2)
+SC: O(1)
+
+
+
+(2) Sorting:
+
+[2 1 2] -----> [1 2 2]
+
+Al Duplicated values will be Together
+
+CODE:
+
+// Sorting Based Solution
+
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) 
+    {
+        int n = nums.size();
+        sort(nums.begin(), nums.end()); // O(NlogN)
+        
+        // Jump over 2 steps to check which adjacent value is appearing once
+        int i=0;
+        for (i=1; i<n; i+=2) // if all values k times then i+=k
+        {
+            if (nums[i]!=nums[i-1])
+                return nums[i-1];
+        }
+        
+        // If program reached here, single element is last element in array
+        return nums[n-1];
+    }
+};
+
+
+TC: O(NlogN)
+SC: O(1)
+
+
+
+
+
+(3) Using Map/Dictionary
+
+Element: Frequency
+
+if freq == 1
+	return ans
+
+
+TC: O(N)
+SC: O(N)
+
+
+
+
+(4) Using XOR:
+
+
+A^A^A^A^A......Even Times = 0
+
+Duplicate Values (Even Frequency): XOR = 0 
+Single Value: XOR = Single Values
+
+
+A ^ 0 = A
+
+
+CODE:
+
+// XOR Based Solution
+
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) 
+    {
+        int ans = 0;
+        for (auto val: nums)
+            ans ^= val;
+        
+        return ans;
+    }
+};
+
+TC: O(N)
+SC: O(1)
+
+
+
+
+(5) Using Set:
+
+Approach:
+- Convert into set
+- Find Sum*2 of Set
+- Ans = Sum*2 of Set - Sum of Array: Single Number
+
+Array: [4 1 2 1 2]
+OP: 4
+
+
+Set: [1 2 4]
+Sum of Set * 2 = 7 * 2 = 14 (Every Element : Repeating)
+Sum of Array: 10
+
+OP: Sum of Set * 2 - Sum of Array
+  = 14 - 10
+  = 4
+
+
+TC: O(N)
+SC: O(N)
+
+
+
+
+
+
+
+
+
+
+
+
+Q-11: [LC-268] Missing Number
+https://leetcode.com/problems/missing-number/
+
+Given an array nums containing n distinct numbers in the range [0, n], 
+return the only number in the range that is missing from the array.
+
+Example 1:
+
+Input: nums = [3,0,1]
+Output: 2
+Explanation: n = 3 since there are 3 numbers, so all numbers are in the range [0,3]. 2 is the missing number in the range since it does not appear in nums.
+
+Example 2:
+
+Input: nums = [0,1]
+Output: 2
+Explanation: n = 2 since there are 2 numbers, so all numbers are in the range [0,2]. 2 is the missing number in the range since it does not appear in nums.
+
+Example 3:
+
+Input: nums = [9,6,4,2,3,5,7,0,1]
+Output: 8
+Explanation: n = 9 since there are 9 numbers, so all numbers are in the range [0,9]. 8 is the missing number in the range since it does not appear in nums.
+ 
+
+Constraints:
+
+n == nums.length
+1 <= n <= 104
+0 <= nums[i] <= n
+All the numbers of nums are unique.
+ 
+
+Follow up: Could you implement a solution using only O(1) extra space complexity and O(n) runtime complexity?
+
+
+
+
+    public int missingNumber(int[] nums) 
+    {
+
+	}
+
+
+
+-----> Understanding:
+
+[1,4]: 1,2,3,4: Closed Interval
+(1,4): 2,3 : Open Interval 
+
+[1,4]: 4
+[5,12]: 8
+[a,b]: b-a+1
+
+[a,b]: Inclusive: Closed Interval
+(a,b): Exclusive: Open Interval
+
+Range: [0,N]
+Total Expected Values: N+1 [0,1,2.....N]
+Given Values: N
+
+1 Missing Number ------> Find That
+
+
+Solution:
+
+
+
+(1) XOR
+
+[3,0,1] Missing: 2
+
+Expected: [0......N] = [0,1,2,3,.........N]: N+1 Values
+Current Array: 1 Value Missing
+
+
+Do XOR of values of arr[i] with [0.......N]
+
+
+(3^0^1) ^ (0^1^2^3) = 2
+
+(Arr Values) ^ [0......N] = Missing Number
+
+
+
+
+CODE:
+
+
+
+    public int missingNumber(int[] nums) 
+    {
+        int ans = 0, i = 0;
+
+        for (i=0; i<nums.length; i++) // i = 0 to N-1
+            ans = ans^i^nums[i]; // (Arr Values) ^ [0......N]
+        
+        return ans^i; // i = N
+    }
+
+
+TC: O(N)
+SC: O(1)
+
+
+
+
+
+
+(2) Brute Force: 
+
+Two Nested Loops
+
+Expected: [0......N] = [0,1,2,3,.........N]
+Current: 1 Value Missing
+
+Outer Loop: 0 to N
+Inner Loop: All Array
+
+Check if i == arr[j]
+
+TC: O(N^2)
+SC: O(1)
+
+
+
+
+(3) Sorting and Check (Linear Search)
+
+- Sort the Array
+- Check for nums[i] == i
+
+TC: O(NlogN) + O(N)
+SC: O(1)
+
+
+
+(4) Sorting and Check (Binary Search)
+
+- Sort the Array
+- Check for nums[i] == i
+
+TC: O(NlogN) + O(log N)
+SC: O(1)
+
+
+(5) Sum and Formula:
+
+Sum of [0......N] = Sum of [1......N] = N*(N+1)/2
+
+
+
+Missing Number = Total Sum - Array Sum
+			   = Expected Sum - Current Sum
+
+
+
+CODE:
+
+
+
+    // T: O(N)
+    // S: O(1)
+    
+    public int missingNumber(int[] nums) 
+    {
+        int i = 0, n = nums.length;
+        int expected_sum = n * (n+1) / 2;
+        int curr_sum = 0;
+        
+        // 1 <= n <= 104
+        // 0 <= nums[i] <= n (10^4) - Will Pass
+        // Range of int: -2*10^9 to 2*10^9
+        
+        // 0 <= nums[i] <= n (10^7) - WA
+ 
+        
+        for (i=0; i<nums.length; i++)
+            curr_sum += nums[i];
+        
+        return expected_sum - curr_sum;
+    }
+
+
+TC: O(N)
+SC: O(1)
+
+
+
+
+Optimised:
+
+
+
+    // T: O(N)
+    // S: O(1)
+    
+    public int missingNumber(int[] nums) 
+    {
+        int i = 0, n = nums.length;
+        int sum = n;
+
+        // 1 <= n <= 104
+        // 0 <= nums[i] <= n (10^4) - Will Pass
+        // Range of int: -2*10^9 to 2*10^9
+        
+        // 0 <= nums[i] <= n (10^7) - WA
+ 
+        
+        for (i=0; i<nums.length; i++)
+        	sum += i - nums[i]; // Will Not Overflow
+        // sum += 0-nums[0] = 3+0-3 = 3-3 = 0
+        // sum += 1-nums[1] = 0+1-0 = 1
+        // sum += 2-nums[2] = 1+2-1 = 2 - ANS
+        
+        return sum;
+    }
+    
+
+TC: O(N)
+SC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-12: [LC-1720] Decode XORed Array
+https://leetcode.com/problems/decode-xored-array/
+
+There is a hidden integer array arr that consists of n non-negative integers.
+
+It was encoded into another integer array encoded of length n - 1, such that encoded[i] = arr[i] XOR arr[i + 1]. For example, if arr = [1,0,2,1], then encoded = [1,2,3].
+
+You are given the encoded array. You are also given an integer first, that is the first element of arr, i.e. arr[0].
+
+Return the original array arr. It can be proved that the answer exists and is unique.
+
+ 
+
+Example 1:
+
+Input: encoded = [1,2,3], first = 1
+Output: [1,0,2,1]
+Explanation: If arr = [1,0,2,1], then first = 1 and encoded = [1 XOR 0, 0 XOR 2, 2 XOR 1] = [1,2,3]
+
+Example 2:
+
+Input: encoded = [6,2,7,3], first = 4
+Output: [4,2,0,7,4]
+ 
+
+Constraints:
+
+2 <= n <= 104
+encoded.length == n - 1
+0 <= encoded[i] <= 105
+0 <= first <= 105
+
+
+
+    public int[] decode(int[] encoded, int first) 
+    {
+
+
+    }
+
+
+
+
+-----> Understanding:
+
+Understanding:
+
+Orig: [1 2 3 4]
+Encoded Array of XOR of Adjacent Values 
+= [1^2, 2^3, 3^4] = [val1, val2, val3]
+
+
+Orig Array: N
+Encoded Array with XOR of Adjacent Values
+Encoded Array Size: N-1
+
+
+encoded[i] = arr[i] ^ arr[i+1]
+
+Given: Encoded Array: encoded[]
+Find: Original Array: arr[]
+
+
+
+
+Solution:
+
+encoded[i] = arr[i] ^ arr[i+1]
+
+arr[i] = encoded[i] (Inverse of XOR) arr[i+1]
+
+
+a = b * c
+b = a / c (Div is Inverse of Multiplication)
+
+a = b + c 
+b = a - c (Subtraction is Inverse of Addition)
+
+
+
+According to XOR Property:
+The Inverse of XOR is also a XOR
+
+
+If you have:
+
+c = a ^ b
+
+You have c and b
+Need to find a:
+
+a = c^b = b^c
+
+
+You have c and a
+Need to find b:
+
+b = c^a = a^c
+
+
+
+public class Main 
+{
+    public static void main(String[] args) 
+    {
+        int a = 10, b = 15, c;
+        c = a^b;
+        int ans = c^b; // a = c^b
+        System.out.println(ans == a);
+        
+        ans = c^a; // b = c^a
+        System.out.println(ans == b);
+    }
+}
+
+
+OP:
+
+true
+true
+
+
+
+
+
+encoded[i] = arr[i] ^ arr[i+1]
+
+c = a ^ b
+a = c ^ b = b ^ c
+
+
+
+arr[0] = first
+arr[i+1] = encoded[i] ^ arr[i] = arr[i] ^ encoded[i]
+
+
+
+
+
+
+CODE:
+
+
+  
+    public int[] decode(int[] encoded, int first) 
+    {
+        int n = encoded.length;
+        int[] orig = new int[n+1];
+        
+        orig[0] = first;
+        
+        int i = 0;
+        for (i=0; i<n; i++)
+            orig[i+1] = orig[i] ^ encoded[i];
+            //arr[i+1] = arr[i] ^ encoded[i] 
+                  
+        return orig;
+    }
+
+
+TC: O(N)
+SC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-13: [LC-238] Product of Array Except Self
+https://leetcode.com/problems/product-of-array-except-self/
+
+
+Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
+
+The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+
+You must write an algorithm that runs in O(n) time and without using the division operation.
+
+Example 1:
+
+Input: nums = [1,2,3,4]
+Output: [24,12,8,6]
+
+Example 2:
+
+Input: nums = [-1,1,0,-3,3]
+Output: [0,0,9,0,0]
+ 
+
+Constraints:
+
+2 <= nums.length <= 105
+-30 <= nums[i] <= 30
+The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+ 
+
+Follow up: Can you solve the problem in O(1) extra space complexity? (The output array does not count as extra space for space complexity analysis.)
+
+
+
+
+
+
+
+
+
+
+arr = [1 2 3 4]
+
+prod[i] = arr[0] * .........arr[n-1] / arr[i]
+
+prod[0] = 1 * 2 * 3 * 4 / arr[0] = 24/1 = 24
+prod[1] = 1 * 2 * 3 * 4 / arr[1] = 24/2 = 12
+prod[2] = 1 * 2 * 3 * 4 / arr[2] = 24/3 = 8
+prod[3] = 1 * 2 * 3 * 4 / arr[3] = 24/4 = 6
+
+OP: [24, 12, 8, 6]
+
+
+
+
+Input: nums = [-1,1,0,-3,3]
+Output: [0,0,9,0,0]
+
+
+FOr 0: OP: Product of All Values Except 0
+
+
+
+
+
+
+
+
+Solution:
+
+
+
+(1) With Using / Operator
+
+prod[n];
+
+int mul = 1;
+for (i=0; i<n; i++)
+	mul *= arr[i];
+
+
+for (i=0; i<n; i++)
+{
+	if (arr[i] != 0)
+		prod[i] = mul/arr[i];
+	else
+		prod[i] = mul;
+}
+
+TC: O(N)
+SC: O(N)
+
+
+
+
+
+(2) Without Using / Operator
+
+
+arr: [0.......i.............n-1]
+
+prod[i] = Product of all values except arr[i]
+
+Prefix Product = arr[0....i-1]
+Suffix Product = arr[i+1....n-1]
+
+
+
+prod[i] = Product of all values except arr[i] = Prefix Prod * Suffix Prod
+
+
+
+
+Approach:
+
+- Create Product of left half: Prefix Product
+- Create Product of Right half: Suffix Product
+- ans[i] = prefix[i] * suffix[i]
+
+
+Two Solutions:
+
+
+(1) Create left[] and right[]
+TC: O(N), SC: O(N)
+
+(2) Use Variables prefix and suffix
+TC: O(N), SC: O(1)
+
+
+
+
+CODE:
+
+
+
+class Solution 
+{
+    public int[] productExceptSelf(int[] nums) 
+    {
+        int n = nums.length;
+        int[] res = new int[n];
+        int i = 0;
+        
+        // Prefix Product
+        int prefixProd = 1;
+        for (i=0; i<n; i++)
+        {
+            if (i>0)
+                prefixProd *= nums[i-1]; 
+            
+            res[i] = prefixProd; 
+        }
+
+        
+        // Suffix Product
+        int suffixProd = 1;
+        for (i= n-1; i>=0; i--) 
+        {
+            if (i < n-1)
+                suffixProd *= nums[i+1]; 
+            
+            // res[i] = prefix[i] * suffix[i]
+            res[i] *= suffixProd; 
+        }
+        
+        return res; 
+    }
+}
+
+TC: O(N)
+SC: O(1)
+
+
+
+
+
+
+
+(3) Smart Approach:
+
+Not Allowed: / Operator
+
+Division = Multiplication with Inverse
+
+5/2 = 5 * (1/2) = 5 * (Inverse of 2) = 5 * pow(2,-1)
+
+/ = pow(arr[i]*, -1)
+
+pow: O(1)
+
+TC: O(N)
+SC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

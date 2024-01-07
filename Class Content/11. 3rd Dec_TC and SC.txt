@@ -1,0 +1,615 @@
+Date : 3rd Dec 2023
+Mentor: DEVANG SHARMA
+Batch: Oct Batch (DSA) - Tutort Academy
+
+Topics:
+- Arrays: DONE
+- Binary Search and Time Complexity: DONE
+- Prefix Sum Array- DONE
+- Questions - DONE
+- Two Pointer- DONE
+- Question- DONE
+- Compilation: DONE
+- Execution: DONE
+- Compiled Languages and Interpreted Languages: DONE
+- What is TC and SC- DONE
+- Why O Notation is Required- DONE 
+- Order of O Complexity - DONE
+- Compare different algos- faster and slowest - DONE
+- Total Complexity in multiple functions with different complexities- DONE
+- How to Find Complexity from Code? - DONE
+- Time and Space Complexity - Real Life Meaning - DONE
+- Space Complexity - Auxliary and In memory - DONE
+- CP Trick to Pass all Test Cases-EXTRA: DONE
+- Recursion: DONE
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+--------> How to Find Complexity from Code:
+
+
+Theoretical Way:
+Master Theorem - Recurrence Relation
+
+
+
+Practical Way:
+
+"Always Find Complexity Based Upon Approach"
+
+TRICK:
+Number of Traversals/Iterations/Computations -------> O() ----> Time Complexity
+
+
+
+
+Practical Example:
+
+Task:
+4 Students in a Class
+Pen is Lost
+
+Task: Search for Pen
+
+
+
+(1) Make Everyone Stand in a Line and search one by one
+
+S1 S2 S3 S4
+= 4 Traversals/Iterations
+
+N People: N Traversals
+
+
+O(N): Linear Time Complexity: Traverse ALL Elements One by One
+
+CODE:
+
+for (i=0; i<n; i++) - O(N)
+
+
+
+
+
+(2) Ask Each Person to Search for All Other
+
+
+S1: S1 S2 S3 S4
+S2: S1 S2 S3 S4
+S3: S1 S2 S3 S4
+S4: S1 S2 S3 S4
+
+
+
+Total Traversals = 4*4 = 4^2 = 16
+
+4 -----> N: Traversals = O(N*N) = O(N^2)
+
+
+
+CODE:
+
+for (i=0; i<n; i++)      // O(N)
+{
+	for (j=0; j<m; j++)  // O(M)
+	{
+		//
+	}
+}
+
+
+TC: O(N*M)
+
+
+
+
+(3) Pen Found in Your Pocket
+
+O(1) : Constant Time
+
+
+CODE:
+
+int a = 10;
+print(arr[0])
+
+
+for (i=0; i<10; i++)
+TC: O(1)
+
+
+for (i=0; i<N; i++)
+TC: O(N)
+
+
+
+
+
+(4) Logarithmic Time
+
+Approach:
+
+Make All Stand in 1 Line, Search Half of them at each step
+
+
+
+						S1 S2 S3 S4
+					[S1 S2]     [S3 S4]
+					[S1] [S2]    [S3] [S4]	
+
+At Every Iteration -----> Divide into half
+
+TC: O(log N) ------> Binary Search
+
+
+
+------> NOTE:
+
+Time Complexity in Case of Recursion:
+
+= O(branches ^ depth)
+
+
+						1
+					2         3	
+				4     5     6   7	
+
+
+Eg:
+
+fib(n) = fib(n-1) + fib(n-2)
+
+Branches = 2
+Depth = N
+
+TC: O(2^N)
+
+
+fib(5) = 
+
+
+TREE DIAGRAM:
+
+
+							5
+					4              3	
+				3      2        2     1		
+			 2    1  1   0     1  0   	
+
+
+
+
+
+
+Questions:
+
+
+
+(1) for (i=0; i<n; i++)
+TC: O(N)
+
+(2) for (i=0; i<n/2; i++)
+TC: O(N/2)
+
+(3) for (i=0; i<n; i+=2)
+TC: O(N/2)
+
+(4) for (i=0; i<n; i+=3)
+TC: O(N/3)
+
+(5) for (i=0; i<n; i+=K)
+TC: O(N/K)
+
+(6) for (i=0; i<n/2; i+=K)
+TC: O(N/2*K)
+
+
+
+
+
+
+Diff Between O(N/2) and O(log N)
+
+64 ------> 32 : O(N/2)
+
+64 --> 32 --> 16 --> 8 --> 4 --> 2 --> 1 : O(log N)
+
+
+
+
+
+
+
+
+------> Space Complexity
+
+
+TRICK:
+
+
+- Arrays
+- Stack
+- Queue
+- Map
+- Set
+
+O(N) Space in In-Memory : STACK: Static Memory
+
+
+Stack: Compile Time Memory - Static memory - In Memory
+
+
+Heap: Run Time Memory - Dynamic Memory - Auxiliary Memory
+
+
+Recursion
+
+
+int fact(int n)
+{
+	if (n == 0 || n == 1)
+		return n;
+
+	return n * fact(n-1);
+}
+
+
+IP:
+fact(5)
+
+OP:
+120
+
+
+Sequence:
+fact(5) -> fact(4) -> fact(3) -> fact(2) -> fact(1)
+
+
+
+Stored Sequential Calls:
+
+fact(1)
+fact(2)
+fact(3)
+fact(4)
+fact(5)
+
+- Stack Order: Recursion Stack - Created in HEAP Memory
+
+SC: O(N) : Auxliary Memory / Heap Memory
+SC: O(1) : In Memory
+
+
+
+
+
+
+
+
+
+Program:
+
+Constraints:
+
+Space Limit: 128 MB per TC
+
+
+
+Stack: 64 MB
+Heap: 64 MB
+
+
+Stack:             Heap:
+	
+|					Up
+|					|
+|					|
+|					|
+Down			    |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> CP Trick to Pass all Test Cases - EXTRA
+
+
+CP: Competitive Programming
+
+Constraints:
+The Upper Limit/Threshold which will be used to test your code
+
+
+(1) Range of Values -------> data type
+
+int: -2 Bn to +2 Bn : <= 10^9
+long: -40 Tn to +40 Tn > 10 ^ 9
+
+
+Note: > 10^21: Big Integer
+
+
+<= 10^9: int
+10^9 <= val <= 10^15 : long
+10^15 <= val <= 10^21 : long long
+> 10^21: Strings or Big Integer (JAVA)
+
+
+
+
+Eg-1:
+
+1 <= arr[i] <= 10^6 
+1 <= n <= 10^3
+
+
+int[] arr = new int[n];
+int sum = 0;
+
+Max Sum possible: 10^6 * 10^3 = 10^9 : Within Range of int
+
+
+
+
+Eg-2:
+
+1 <= arr[i] <= 10^9 
+1 <= n <= 10^4
+
+
+int[] arr = new int[n];
+long sum = 0;
+
+Max Sum possible: 10^9 * 10^4 = 10^13: Beyond Range of int ------> long
+
+
+
+
+
+
+
+
+
+Constraints:
+
+1 <= arr[i] <= 10^9 / 1e9
+1 <= n <= 10^5
+
+
+Time Limit: 1 sec per TC
+Memory Limit: 128 MB per TC
+
+
+
+
+
+
+
+
+(2) Time and Space Complexity Required to Pass ALL Test Cases
+
+
+
+Time Limit: 1 sec per TC
+Memory Limit: 128 MB per TC
+
+
+1 sec = 10^8 Computations = 100 Mn Computations
+CONSTANT: (Platform Independent)
+
+
+
+1 <= N <= 10^4          O(N^2)= 10^4 * 10^4 = 10^8 Computations: All TC Passed 
+
+1 <= N <= 10^5          O(N^2)= 10^5 * 10^5 = 10^10 Computations: Not All TC Passed
+														Eg: 7 TC Passsed, 3 TLE
+
+
+1 <= N <= 10^5          O(N)= 10^5 Computations: All TC Passed
+												
+
+
+
+
+
+TRICK:
+
+(1) Check the Upper Limit of Constraints
+(2) Compare with 10^8
+(3) Figure what the compexity required to pass all tc
+(4) Reverse Engineer to Find Which Algo to Use
+
+
+
+Algo: Complexity
+
+Binary Search: O(log N)
+Two Pointer: O(N)
+Sorting: O(NlogN)
+Linear Search: O(N)
+Nested Loops: O(N^2)
+
+
+
+
+
+
+
+
+
+TLE: Time Limit Exceed
+MLE: Memory Limit Exceed
+
+
+
+
+MLE Case:
+
+
+Constraints:
+
+1 <= arr[i] <= 10^9 / 1e9
+1 <= n <= 10^5
+
+
+Time Limit: 1 sec per TC
+Memory Limit: 128 MB per TC
+
+
+
+1 <= n <= 10000
+Max Arr Size: 10^4
+int arr[10^4] = 4 * 10^4 Bytes = 40 KB < 128 MB - No MLE
+
+
+
+1 <= n <= 10^9
+Max Arr Size: 10^9
+int arr[10^9] = 4 * 10^9 Bytes = 4 GB > 128 MB - MLE
+
+
+
+
+
+Recursion Without a Base Case:
+
+
+int fact(int n)
+{
+	return n * fact(n-1);
+}
+
+OP:
+Stack Overflow: MLE
+
+
+Memory Changes Involved
+
+.......
+fact(4)
+fact(5)
+
+
+
+
+
+for (i=1; ; i++)
+{
+	cout<<i<<endl;
+}
+
+OP: TLE
+
+No Memory Changes Involved
+
+
+
+
+
+
+
+1 <= tc <= 100
+1 <= arr[i] <= 10^9
+1 <= n <= 1000
+
+
+
+
+Non Optimised Way:
+
+Scanner s = new Scanner();
+
+int tc = s.nextInt();
+while (tc-- > 0)
+{
+	int n = s.nextInt();
+	int[] arr = new int[n];
+	// Input N Values
+}
+
+
+
+SC: O(N * TC)
+
+
+
+
+
+
+Optimised Way:
+
+Scanner s = new Scanner();
+int n;
+
+int[] arr = new int[1001];
+
+int tc = s.nextInt();
+while (tc-- > 0)
+{
+	n = s.nextInt();
+	// Input N Values	
+}
+
+SC: O(TC)
+
+
+
+
+
+
+
+
+
+Next Class:
+- LC Pattern
+- Linked List
+- Wiggle Sort - 2
+
+Approach:
+- Keep Median and Counter
+
+TC: O(N)
+SC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

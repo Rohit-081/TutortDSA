@@ -1,0 +1,728 @@
+Date : 28th Oct 2023
+Mentor: DEVANG SHARMA
+Batch: OCT Batch (DSA) - Tutort Academy
+
+Agenda:
+- Introduction: DONE
+- Basics of DSA: DONE
+- Data Types : DONE
+- Operators: DONE
+- Loops: DONE
+- Pattern Printing Questions (Language Agnostic): DONE
+
+
+- Arrays
+- Important Resources
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+------  Increasing Pattern:
+
+Cols are Increasing as Rows are Increasing
+
+
+N = 5
+
+OP:
+
+*
+**
+***
+****
+*****
+
+
+
+N = 6
+
+OP:
+
+*
+**
+***
+****
+*****
+******
+
+Template/Problem Solving:
+
+Row 1, Col 1, row == col
+Row 2, Col 2
+Row 3, Col 3
+Row 4, Col 4
+Row 5, Col 5
+
+
+i == j: ANS
+
+
+
+Approach:
+
+First Loop - Outer Loop: for (i=0; i<N; i++)
+
+Second Loop - Inner Loop: for (j=0; j<=i; j++)
+
+
+
+
+
+CODE:
+
+#include<bits/stdc++.h>
+using namespace std;
+
+void pattern(int N)
+{
+    int i =0, j = 0;
+    for (i=0; i<N; i++)
+    {
+        for (j=0; j<=i; j++)
+        {
+            cout<<"*";
+        }
+        
+        cout<<endl;
+    }        
+}
+
+int main()
+{
+    //pattern(5);
+   pattern(6);
+}
+
+
+
+
+
+
+
+
+
+Q-3: Pattern Printing:
+
+
+Test Case-1:
+
+N = 5
+
+1
+2 3
+4 5 6
+7 8 9 10
+11 12 13 14 15
+
+
+Increasing Pattern:
+
+*
+** 
+***
+****
+*****
+
+
+* -> Number Increasing 
+
+
+void pattern(int N)
+{
+
+}
+
+
+
+
+
+Solution:
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+void pattern(int N)
+{
+    int i =0, j = 0;
+    int cnt = 1;
+    
+    for (i=0; i<N; i++)
+    {
+        for (j=0; j<=i; j++)
+        {
+            cout<<cnt<<" ";
+            ++cnt;
+        }
+        
+        cout<<endl;
+    }        
+}
+
+int main()
+{
+    pattern(5);
+   //pattern(6);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+------> ARRAYS:
+
+
+Master Any DS/Algo:
+
+(1) What (Use Case/Problem)
+(2) Why (Need/Applications)
+(3) How (Coding/Implementation)
+
+
+Ctrl + Z: Undo
+Ctrl + Y: Redo
+
+
+DS - Stack
+
+
+
+University/Campus:
+Multiple Buildings
+
+
+Task:
+Rope of Infinite Length such that,
+you cover all the Buildings using Minimum Length of Rope.
+
+DS - MST (Minimum Spanning Tree)
+
+
+
+
+
+
+
+
+ARRAYS:
+
+
+Use Case:
+
+10 Integers
+
+int a,b,c,......j
+
+
+1000 Integers
+
+int a,b......, a1, a2.......
+
+
+
+
+int arr[1000];
+
+
+
+Definition:
+
+
+Collection of "Similar Type of Data Types" Stored in a "Contiguous Locations"
+
+[1 2 3 4 5] - Yes, Array of Integers
+
+['a', 'b', 'c', 'd'] - Yes, Array of Characters
+
+[10 20 30 40 p 50 q] - Not an Array
+
+["devang", "sharma", "tutort", "academy"] - Array of Strings
+
+Class Obj[10]; - Array of Objects
+
+
+
+
+
+Syntax:
+
+1st Way:
+int a[5]; // Declaration
+a = {1,2,3,4,5}; // Definition
+
+
+
+2nd Way:
+
+int[] arr = {1,2,3,4,5}; // Declaration + Definition
+
+
+int a[5];
+a = {1,2,3,4,5,6};
+
+OP: Error, Index Out of Bound
+
+
+
+
+
+
+
+Declaration: Creation
+
+Definition: Assigning Value
+
+
+int a; ---- Creation -> Declaration
+a = 10; ---- Assigning Value -> Definition
+
+
+
+int a = 10; Declaration + Definition
+
+
+
+
+
+
+
+
+
+arr = [1 2 3 4 5]
+Size = 5
+
+Indexing: 0 to size-1 = 0 to 4
+
+arr[0] = 1
+arr[1] = 2
+arr[3] = 4
+
+
+
+arr[5] = CT Error - Index Out of Bound
+arr[-1] = CT Error - Index Out of Bound
+
+
+Purpose of Indexing:
+
+Books: Collection of Pages = Array of Pages
+
+Page Numbering: Uniquely Identify the Page in the Book
+
+Indexing: Uniquely Identify the Element in the Array
+
+
+arr = [1 2 3 4 2]
+
+arr[1] = 2
+arr[4] = 2
+
+
+
+Static:
+- Arrays
+
+
+Dynamic:
+- Vector: C++, Java
+- ArrayList: Java
+
+
+
+
+
+
+
+-----> Contiguous/Continuous Location
+
+
+int arr[] = {1,2,3,4,5};
+IndeX: 0 to 4
+
+
+int: 4 Bytes
+Total Memory: 20 Bytes in Memory: Primary Memory: RAM (Registers)
+
+Address of arr[0] = 1 = Base Address = 1000 (ASSUME)
+
+Address of arr[1] = 2 = 1000 + 1*4 = 1004
+
+Address of arr[2] = 3 = 1000 + 2*4 = 1008
+
+..........................................
+
+
+Address of arr[k] = Base Address + k*4 (data type size)
+
+
+
+
+Memory Diagram:
+
+----- 1 ----------  -------- 2--------  ---- 3 ---
+
+1000 1001 1002 1003 1004 1005 1006 1007 1008 1009
+
+
+
+
+
+JAVA:
+
+Array: Static
+ArrayList: Dynamic
+Vector: Dynamic
+
+
+C++:
+
+Array: Static
+Vector: Dynamic
+
+Python:
+List: Dynamic
+
+
+Go:
+arr[] : Dynamic
+
+
+
+
+Memory Diagram:
+
+
+int arr[10^9];
+Memory Required: 4 * 10^9 = 4 GB 
+
+Compiler: 
+Need 4 GB of Contiguous Space
+
+RAM:
+No Contiguous Space of 4 GB Available, 
+Chunks of 1 GB is Available
+
+
+
+OP: 
+MLE
+
+
+8 GB RAM:
+
+.: Free Memory
+X: Occupied
+
+
+1 GB         1 GB        1 GB        1 GB
+
+......XXXXXX......XXXXXX......XXXXXX.......XXXXXX
+      Chrome      Spotify     VS Code       VLC 
+
+
+
+
+
+
+
+
+
+
+
+Ques, IP, OP, Function, Company Name
+
+30 sec- Code (Any Language), TC, SC
+
+
+
+
+
+Q-1: Print All Values/Traversal in an Array
+
+arr = {1,2,3,4,5}
+OP: [1 2 3 4 5]
+
+
+void printArray(int[] arr, int n)
+{
+
+}
+
+Expectations: 2 Ways
+
+
+
+
+Solution:
+
+public class Main 
+{
+    // 1st Method - Iterate Over Index
+    static void printArray(int[] arr, int n)
+    {
+        int i = 0;
+        for (i=0; i<n; i++)
+            System.out.print(arr[i] + " ");
+    }
+    
+    //2nd Way - Iterate Over Values
+    static void printArray2(int[] arr, int n)
+    {
+        for (int val: arr)
+            System.out.print(val + " ");
+    }
+    
+    
+    public static void main(String[] args) 
+    {
+        int[] arr = {1,2,3,4,5};
+        int n = arr.length;
+        printArray(arr, n);
+        System.out.println();
+        printArray2(arr, n);
+    }
+}
+
+
+
+TC: O(N)
+SC: O(1)
+
+
+
+
+
+
+int arr[100]; Declaration
+
+arr = {1,2,3,4,5..........}
+
+Size = 100
+
+RAM: 4*100 = 400 Bytes ----> arr
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-2: Sum of All Elements in an Array
+
+
+arr = {1,2,3,4,5}
+OP: 15
+
+
+long sumofArray(int[] arr, int n)
+{
+
+}
+
+
+Solution:
+
+
+long sumofArray(int[] arr, int n)
+{
+	long sum = 0;
+	for(i=0; i<n; i++)
+	{
+		sum += arr[i];
+	}
+
+	return sum;
+}
+
+
+TC: O(N)
+SC: O(1)
+
+
+
+
+
+Note: 
+Whenever Taking Sum or Product, Always Think About Overflow
+
+
+2 Ways to Remove Overflow:
+
+(1) Use long or long long
+(2) Use Modulo Arithmetic
+
+
+int: -2 Bn to +2 Bn
+
+int a = 1.5 Bn;
+int b = 1.5 Bn;
+
+int c = a + b; // Overflow
+- Silent Killer
+
+
+c = Garbage Value
+
+
+Expected OP != Garbage Value ------> WA (Wrong Answer)
+
+
+10 TC, 8 Passed, 2 WA: Integer Overflow 
+
+10 TC, 0 Passed: 10 WA: Logic Incorrect
+
+
+
+
+
+
+
+
+
+
+	for(i=0; i<n; i++)
+	{
+		sum = sum + arr[i];
+		sum += arr[i]; ---- EFFICIENT
+	}
+
+
+------> CP Trick
+
+
+for (i=0; i<n; i++)
+{
+	sum = sum + arr[i]; // 1 + 2 + 3 + 4 + 5
+}
+
+
+- Creating a Copy of Sum, then Adding arr[i], Then Assigning to Sum
+- O(N)
+
+
+for (i=0; i<n; i++)
+{
+	sum += arr[i]; // 1 + 2 + 3 + 4 + 5
+}
+
+- Adding arr[i] and then Assigning to Sum
+- O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> How to Setup Leetcode and Submit a Question
+
+Important Resources:
+
+(1) Discuss Section - Company, Compensation 
+
+(2) Top Interview Questions - IMP
+https://leetcode.com/explore/interview/card/top-interview-questions-easy/
+
+(3) Top 150 Questions - IMP
+https://leetcode.com/studyplan/top-interview-150/
+
+(4) Lintcode: Free Questions, Filter By Company
+
+
+
+
+Strategy:
+
+(1) Top 150 Questions
+(2) Top Interview Questions
+(3) Blind 75
+(4) Company Specific Questions: Last 2-3 Weeks before Interview, Sort By latest
+
+
+
+
+
+System Design:
+
+(1) Designing Data Intensive Applications - Books
+(2) System Design Interview - Vol 2 - Alex Xu (YT: ByteByteGo)
+(3) Grokking the System Design Interview: Educative.io
+(4) Grokking the Object Design Interview: Educative.io
+(5) Exponent: System Design Interviews
+(6) High Scalability: TL, Architect
+(7) Donne Martin: Github - Good
+
+
+LLD:
+- SOLID, DRY, KISS
+- Design Patterns: Gang of 4
+- Robustness, Clean and Modular
+- https://refactoring.guru/design-patterns
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

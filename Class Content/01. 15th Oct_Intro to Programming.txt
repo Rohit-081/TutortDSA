@@ -1,0 +1,662 @@
+Date : 15th Oct 2023
+Mentor: DEVANG SHARMA
+Batch: OCT Batch (DSA) - Tutort Academy
+
+Agenda:
+- Introduction: DONE
+- Basics of DSA: DONE
+- Data Types : DONE
+- Operators: WIP
+
+- Loops: 
+- Pattern Printing Questions (Language Agnostic): 
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+Introduction:
+
+- Batch: 2004 - 2022
+- Branch/Role: Diverse
+
+
+
+
+Self- Introduction:
+
+"DEVANG SHARMA"
+
+Tech Lead @BMO - Hedge Funds, Commercial Banking
+- Current: Toronto, NYC
+- Facebook: Senior Dev, Whatsapp Team, - Canada, London
+- Google: London, GCP Team (Anthos), GPay
+- Cisco: India, SGP, Vancouver
+
+NASA: SRF, Helios Mission
+
+
+
+CP/Sports Programming:
+- TopCoder Open: 2021, 2022: World Finalist
+- Google Code Jam, FB Hacker Cup: World Semi-Finals - 2019, 2020, 2021
+
+
+Open Source:
+- Fedora
+- React and React Native
+- Mozilla
+
+Research:
+- 505 Citations: Research Gate
+
+Google: DEVANG SHARMA
+
+
+
+
+
+
+
+Language Agnostic:
+C++, JAVA (Major), Go, Scala, JS
+
+
+
+
+
+
+
+
+
+
+-------> DSA: Data Structures and Algorithms
+
+
+Practical Example:
+
+Task: 20 Litres of Water
+Resources: 5 Buckets, Capacity: 10 L Each
+
+Task: What are the Ways to Store Water in Buckets?
+
+
+Ways:
+
+1st Way: Efficient Use of Resources
+
+B1 - 10 L
+B2 - 10 L
+Rest Empty
+
+
+2nd Way: Wastage of Resources
+
+B1 - 4 L
+B2 - 4 L
+B3 - 4 L
+B4 - 4 L
+B5 - 4 L
+
+
+......Many Other Ways
+
+
+
+
+Bucket: Storing Water
+Ways: Ways to Solve Task
+
+
+Water: DATA
+Bucket: Data Structure (Container)
+Ways: Algorithms
+
+
+
+
+
+
+
+
+
+
+
+
+
+Data Structures:
+- Containers Used to Store Data to perform operations on it.
+
+
+Eg:
+Arrays, Stacks, Queues, Linked Lists, Trees, Graphs, RBT, Tries, Maps etc
+
+
+
+Algorithms:
+- Step by Step Process to Solve Task Using Appropriate Data Structure
+
+
+Eg: 
+Dynamic Programming (DP), Recursion, Divide and Conquer, Backtracking,
+Searching, Sorting, Greedy, Hashing etc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> Variables and Constants
+
+
+Variable = Vary + able
+		 = Change Values/Forms
+
+
+Eg:
+
+int a = 10;
+a = 20; ------ NO ERROR
+
+
+
+Constant:  Cannot Change the Value
+
+const int b = 20; C++, Perl, Go
+final int b = 20;
+
+b = 40; ------ ERROR
+
+
+CODE:
+
+
+public class Main {
+    public static void main(String[] args) 
+    {
+        int a = 10;
+        System.out.println(a);
+        
+        a = 20;
+        System.out.println(a);
+        
+        final int b = 20;
+        System.out.println(b);
+        
+        b = 40; // ----- ERROR
+        System.out.println(b);
+    }
+}
+
+
+
+OP:
+
+10
+20
+20
+
+
+C#: const
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> One Interesting Ques:
+
+
+int a = 10;
+
+Reserve 4 Bytes in Memory (RAM) : Name "a"
+
+Assignment,
+a = 10 ------> RHS is Asigned to LHS
+
+"10 is assigned to a"
+
+a = b: b is assigned to a
+
+
+
+
+CODE:
+
+
+public class Main {
+    public static void main(String[] args) 
+    {
+        int a = "devang";
+        System.out.println(a);
+    }
+}
+
+// L to R: int cannot be converted to string
+// R to L: string cannot be converted to int: RIGHT
+
+
+
+Line 4: error: incompatible types: String cannot be converted to int [in Main.java]
+        int a = "devang";
+                ^
+
+
+
+------- RHS to LHS Assignment
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> Data Types:
+
+
+Data Type is IDENTITY of Any Variable or Constant
+
+
+int a;
+----> a will take only Integer Values
+
+string b;
+----> b will only take string values
+
+
+
+
+
+
+
+Programming Languages:
+
+- Compiled Time Languages
+- Interpreted Languages
+
+
+
+
+(1) Compiled Time Languages:
+Strictly Typed Languages
+
+
+int a = 10;
+Data Type of a : int
+Value in a : 10
+
+a will ONLY Take integers till the end of program execution.
+
+a = "abc" ------ ERROR
+
+Eg:
+C, C++, Java, Go, C# etc
+
+
+
+
+(2) Interpreted Languages:
+Loosely Typed Languages
+
+
+a = "abc"
+a = 10 ----- No Error
+
+There is No Strict data type associated with variables, everything is a object
+
+
+Eg:
+Javascript, Python
+
+
+
+
+CODE:
+
+a = 10;
+typeof(a);
+a = "devang";
+typeof(a);
+
+
+OP:
+'number'
+'string'
+
+
+
+
+
+
+
+
+
+
+------> Types of Data Types:
+
+
+(1) Primitive/Pre-Defined 
+
+- Number (4 - byte, short, int, long)
+- Character (1 - char)
+- Boolean (1 - boolean)
+- Decimals (2 - float, double)
+
+
+
+1 Bit: 0/1 (true-1, false-0)
+1 Byte: 8
+
+
+(1) char:
+'a'-'z', 'A'-'Z', '0'-'9', symbol - '&', '*' etc
+
+
+CODE:
+char c = 'a';
+
+Size: 1 Byte (All Other Languages)
+	  2 Bytes (Java)
+
+
+
+(2)	boolean: true/false - 1/0 - 1 Bit
+
+(3) byte: 1 Byte (-2^7 to 2^7-1)
+
+(4) short: 2 Bytes (-2^15 to 2^15-1)
+
+(5) int: 4 Bytes (-2^31 to 2^31-1)
+
+(6) long: 8 Bytes (-2^63 to 2^63-1)
+
+(7) float: 4 Bytes (4 Digits Decimal Places)
+
+(8) double: 8 Bytes (8 Digits Decimal Places)
+
+
+
+
+Decimal:
+
+float: 223.251234 = 223.2512 (4 Digits Precision)
+
+double: 223.251234 = 223.25123400 (8 Digits Precision)
+
+
+
+
+
+
+
+------> Formula to Calculate RANGE of Data Types:
+
+1 Byte: 8 Bits
+
+
+
+_ _ _ _ _ _ _ _
+
+Every Place: 0 or 1
+
+
+
+Ways to Fill 1 Place: 2 (0 or 1)
+
+Total Number of Ways to Fill Complete 8 Places
+= 2 * 2 * 2 * 2......8 Times
+= 2^8
+= 256 Ways
+
+
+
+unsigned: 0 to 255: RANGE (Only Positive)
+signed: -128 to 127: RANGE (Positive and Negative)
+
+
+1 Bit Difference: +ve and -ve
+
+
+5: 0101
+-5: 0001 (2s Complement)
+
+
+1 Bit Reserved for Sign
+Left Number of Ways = 2^(8-1) = 2^7 
+
+
+Formula:
+
+(1) Calculate Bits from Bytes: N
+(2) 1 Bit Reserved for +/- Numbers
+(3) Range: -2^(N-1) to 2^(N-1)-1: Signed
+(4) Range: 0 to 2^(N)-1: Unsigned
+
+
+
+
+Eg:
+
+For Byte:
+1 Byte = 8 Bits
+N = 8
+Range: -2^7 to 2^7-1
+
+
+
+For int:
+4 Bytes = 32 Bits
+N = 32
+Range: -2^31 to 2^31-1
+
+
+
+
+
+Use Cases:
+
+Case-1:
+
+Constraints:
+0 <= n <= 5*10^4
+
+
+byte: -128 to 127
+byte n: NO
+
+short: -32568 to +32567
+short n: NO
+
+
+int: -2Bn to +2Bn
+int n: YES
+
+
+
+
+
+
+
+Case-2:
+
+Constraints:
+0 <= n <= 50
+
+byte: -128 to 127
+byte n: YES - BEST: Only 1 Byte
+
+short: -32568 to +32567
+short n: YES: 2 Bytes
+
+int: -2Bn to +2Bn
+int n: YES, 4 Bytes
+
+
+
+
+
+
+
+
+
+TRICK:
+
+Constraints:
+0 <= n <= 65
+
+
+byte n: CORRECT - BEST CHOICE
+short n: CORRECT
+int n: CORRECT
+long n: CORRECT
+
+
+
+Constraints:
+0 <= n <= 893489394894894839489849384
+
+Best Choice: long n
+
+
+<= 10^9: int
+<= 10^15: long
+<= 10^21: long long
+<= 10^30: BigInteger (JAVA)
+> 10^30: STRING
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(2) Non Primitive/ User-Defined Data Types
+
+- Strings
+- Arrays
+- Interfaces
+- Classes
+
+
+
+
+
+
+
+
+
+
+
+
+--------> Operators: 
+
+
+
+(1) Mathematical Operators
+
++: Addition
+-: Subtraction
+*: Multiplication
+/: Division
+%: Modulus (Remainder)
+
+
+10 % 7 = 3
+10 / 7 = 1
+
+10 = 7*1 + 3
+D =  d*q + r
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+HW:
+
+(1) What is size of character?
+- Other Languages: 1 Byte
+- Java: 2 Bytes
+
+
+(2) Range of byte: -128 to 127
+
+byte a = 150; 
+
+Error or not?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
