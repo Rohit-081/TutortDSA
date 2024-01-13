@@ -1,0 +1,1108 @@
+Date : 13th Jan 2024
+Mentor: DEVANG SHARMA
+Batch: Oct Batch (DSA) - Tutort Academy
+
+Agenda:
+
+
+Stacks 
+- Use Case- DONE
+- Applications- DONE
+- Code- DONE
+
+Queues
+- Applications- DONE
+- Use Case- DONE
+- Code- DONE
+
+Questions
+- Reverse Array/String- DONEs
+- Balanced Parentheses - Google/Flipkart- DONE
+- Leetcode 921- DONE
+- Next Greater Element- DONE
+
+- Linked Lists
+- Hashing, Sets and Maps
+
+
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+Q-6: [LC-496] Next Greater Element - I - IMP
+https://leetcode.com/problems/next-greater-element-i/
+
+
+The next greater element of some element x in an array is the first greater element that is to the right of x in the same array.
+
+You are given two distinct 0-indexed integer arrays nums1 and nums2, where nums1 is a subset of nums2.
+
+For each 0 <= i < nums1.length, find the index j such that nums1[i] == nums2[j] and determine the next greater element of nums2[j] in nums2. If there is no next greater element, then the answer for this query is -1.
+
+Return an array ans of length nums1.length such that ans[i] is the next greater element as described above.
+
+ 
+
+Example 1:
+
+Input: nums1 = [4,1,2], nums2 = [1,3,4,2]
+Output: [-1,3,-1]
+Explanation: The next greater element for each value of nums1 is as follows:
+- 4 is underlined in nums2 = [1,3,4,2]. There is no next greater element, so the answer is -1.
+- 1 is underlined in nums2 = [1,3,4,2]. The next greater element is 3.
+- 2 is underlined in nums2 = [1,3,4,2]. There is no next greater element, so the answer is -1.
+
+
+Example 2:
+
+Input: nums1 = [2,4], nums2 = [1,2,3,4]
+Output: [3,-1]
+Explanation: The next greater element for each value of nums1 is as follows:
+- 2 is underlined in nums2 = [1,2,3,4]. The next greater element is 3.
+- 4 is underlined in nums2 = [1,2,3,4]. There is no next greater element, so the answer is -1.
+ 
+
+Constraints:
+
+1 <= nums1.length <= nums2.length <= 1000
+0 <= nums1[i], nums2[i] <= 104
+All integers in nums1 and nums2 are unique.
+All the integers of nums1 also appear in nums2.
+ 
+
+Follow up: Could you find an O(nums1.length + nums2.length) solution?
+
+
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        
+    }
+
+
+
+
+Solution:
+
+
+
+
+Understanding:
+
+
+nums1 = [4,1,2] - SUBSET
+nums2 = [1,3,4,2] - SUPERSET
+
+4 -> Index of 4 in nums2 = j = 2,
+NGE of 4 in nums2 = -1
+
+1 -> Index of 1 in nums2 = j = 0,
+NGE of 1 in nums2 = 3
+
+2 -> Index of 2 in nums2 = j = 3,
+NGE of 2 in nums2 = -1
+
+Final OP: [-1, 3, -1]
+
+
+
+
+
+
+
+
+Solution:
+
+
+2 Steps:
+
+(1) Find all values in subset in the Superset array
+(2) Find NGE for those values in Superset
+
+
+
+
+(1) Brute Force Solution:
+Without Stack, Using 2 Nested Loops
+
+nums1[i] --------> Find in nums2[j]
+
+Nested Loops in nums2[j] -----> NGE
+
+
+
+
+CODE:
+
+
+
+
+class Solution {
+
+    // TC - O(nums1 * (nums2 + nums2)) = O(m*n)
+    // SC - O(1)
+    public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) 
+    {
+        vector<int> result;
+        int max;
+        int i = 0, j = 0;
+        int m = nums1.size(); // unsigned int
+        int n = nums2.size(); // unsigned int
+        
+        /*
+        Steps:
+        - Find where nums2[j] is present for nums1[i]
+        - Find NGE for nums2[j] in nums2
+        */
+      
+            
+        for (i=0; i<m; i++) // O(nums1)
+        {
+            // Linear Search to find nums1[i] == nums2[j]
+            // Same as indexOf() in JAVA
+           // Find where nums2[j] is present for nums1[i]
+        auto res = find(nums2.begin(), nums2.end(), nums1[i]); // O(nums2)
+        max = INT_MIN;
+            
+            // Find NGE for nums2[j] in nums2
+            // for (j= i+1; j<n; j++)
+            for (j= (res-nums2.begin())+1; j<n; j++) // O(nums2)
+                 {
+                    cout<<"j: "<<j<<" ";
+                     if (nums2[j] > nums1[i])
+                     {
+                         cout<<"NGE is: "<<nums2[j]<<" ";
+                         max = nums2[j];
+                         break; // Immediate NGE
+                     }                     
+                 }
+            // j = 4 for 2 in [4,1,2] -> index would be 3 in [1,3,4,2] and j would be index+1 = 3+1 = 4
+             cout<<"j: "<<j<<" ";
+
+            cout<<endl;
+            
+                 if (max!=INT_MIN)
+                    result.push_back(max);
+                 
+                 else
+                    result.push_back(-1);
+        }
+        
+        return result;
+    }
+};
+
+
+
+TC: O(M*N)
+SC: O(1)
+
+
+
+
+
+
+(2) Optimised Solution:
+
+- With Stack
+
+
+
+(A) nums1.size()  <=   nums2.size()
+    Subset              Superset
+
+
+(B) NGE for ALL Elements in nums2
+- Using Stack: T: O(nums2), S: O(nums2)
+
+
+(C) OP Array: nums1.size()
+
+100% Sure: All Values in nums1 will be there in nums2
+- Keep a Map and Get the Answer: O(1)
+
+
+Final Complexity: O(M) + O(N)
+
+
+Map:
+
+Key: nums2[j] -----> Which Exist in nums1
+Value: NGE of nums2[j]
+
+
+
+
+
+CODE:
+
+
+Input: nums1 = [2,4], nums2 = [1,2,3,4]
+Output: [3,-1]
+
+Subset: nums1 = [2,4], m = 2
+Superset: nums2 = [1,2,3,4], n = 4
+
+result = [-1,-1]
+
+
+NGE in nums2:
+
+1 -> 2
+2 -> 3
+3 -> 4
+4 -> -1
+
+
+Map:
+
+{
+1: 2, 
+2: 3, 
+3: 4
+4: -1
+}
+
+
+Iterate Over nums1:
+
+nums1 = [2,4]
+
+mp[2] = 3
+mp[4] = -1
+
+result = [3,-1]
+
+
+
+class Solution {
+
+    // TC - O(nums1  + nums2)
+    // SC - O(nums2) - Stack + O(nums2) - Map
+    public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) 
+    {
+        int m = nums1.size(); // unsigned int
+        int n = nums2.size(); // unsigned int , n >= m
+        vector<int> result(m,-1);
+        stack<int> stack;
+        unordered_map<int,int> mp;
+        // Key: nums2[i]   Value: NGE for nums2[i] in nums2[]
+        
+        int i = 0, j = 0;
+        
+        
+    // Traverse over nums2 and Store NGE for All Values in nums2
+        // Key: nums2[i]   Value: NGE for nums2[i] in nums2
+        for (i=0; i<n; i++)  // O(nums2)
+        {
+            int val = nums2[i];
+            while (!stack.empty() && stack.top() < val)
+            {
+                mp[stack.top()] = val;
+                stack.pop();
+            }
+        
+        stack.push(val);
+        }
+        
+        cout<<"Printing Map: "<<endl;
+        for (auto it: mp)
+            cout<<it.first<<"--> "<<it.second<<endl;
+        
+        
+        
+        // Traverse over nums1 and find NGE from Map and put in res array
+        // Subset Contains All Values in Superset
+        for (i=0; i<m; i++) // O(nums1)
+        {
+            int val = nums1[i];
+            if (mp.find(val)!=mp.end()) // O(1)
+            {
+                int nge = mp[val]; 
+                result[i] = nge;
+            }
+        }
+        
+        return result;
+    }  
+};
+
+
+
+
+
+
+
+
+
+
+
+------> JAVA Code:
+
+
+
+
+(1) Brute Force:
+Without Stack, Using 2 Nested Loops:
+
+nums1[i] ------> Find in nums2[j]
+Nested Loops in nums2[j] -----> NGE
+
+
+
+// Brute Force:
+
+class Solution {
+    
+    
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) 
+    {
+        int[] ans = new int[nums1.length];
+        int i=0;
+        
+        for (i=0; i<nums1.length; i++) // O(nums1.length)
+        {
+            int greaterIdx = -1;
+            int j = nums2.length-1;
+            
+            while (j>=0 && nums2[j]!=nums1[i]) // O(nums2.length)
+            {
+                if (nums2[j] > nums1[i])
+                {
+                    greaterIdx = nums2[j];
+                }
+                j--;
+            }
+            // End of While - j=0: Complete Second Array Tarversed AND nums2[j]==nums1[i]
+            
+            ans[i] = greaterIdx;
+        }
+    
+        return ans;
+    }
+    
+  }
+
+
+TC: O(nums1.length * nums2.length)
+SC: O(1)
+    
+    
+(2) Optimised Solution:
+
+
+(A) nums1.size() <= nums2.size()
+(nums1 is subset of nums2)
+
+(B) NGE for All Elements in nums2
+- Using Stack: T: O(nums2), S - O(nums2)
+
+(C) OP Array: nums1.size()
+100% Sure : All Values in nums1 will be there in nums2
+(nums1 is subset of nums2)
+
+- Keep a Map and Get Answer: O(1)
+
+
+Final Complexity: O(nums1) + O(nums2)
+
+Map:
+
+Key: nums2[i] ------> Which exist in nums1 also
+Value: NGE of nums2[i]
+
+
+
+
+Input: nums1 = [4,1,2], nums2 = [1,3,4,2]
+Output: [-1,3,-1]
+
+
+Superset: nums2
+
+Map:
+Key: nums2[i]
+Value: NGE of nums2[i]
+
+1: 3
+3: 4
+4: -1
+2: -1
+
+
+Map: {1:3, 3:4, 4:-1, 2:-1}
+
+Subset for nums1 = [-1, 3, -1]
+    
+    
+    
+    // Optimised Solution:
+    
+        public int[] nextGreaterElement(int[] nums1, int[] nums2)
+        {
+   //Key: nums2[i], Value: NGE of nums2[i] in nums2
+    Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+    Stack<Integer> st = new Stack<Integer>();
+    int res[] = new int[nums1.length];            
+    int i=0;        
+        
+            // Finding NGE for All Values in nums2 and putting in  map
+            for (int num: nums2)
+            {
+                while(!st.isEmpty() && st.peek() < num)
+                    map.put(st.pop(), num);
+                
+                st.push(num);
+            }
+            
+ // Travel over nums1 and find NGE for nums1[i] in nums2[j] for nums2   
+            for (i=0; i<nums1.length; i++)
+                res[i] = map.getOrDefault(nums1[i],-1);
+            
+            return res;
+        }
+    
+
+
+TC: O(nums1 + nums2)
+SC: O(nums2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-7: [LC-503] Next Greater Element II
+https://leetcode.com/problems/next-greater-element-ii/description/
+
+
+Given a circular integer array nums (i.e., the next element of nums[nums.length - 1] is nums[0]), return the next greater number for every element in nums.
+
+The next greater number of a number x is the first greater number to its traversing-order next in the array, which means you could search circularly to find its next greater number. 
+If it doesnt exist, return -1 for this number.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,1]
+Output: [2,-1,2]
+Explanation: The first 1s next greater number is 2; 
+The number 2 can't find next greater number. 
+The second 1's next greater number needs to search circularly, which is also 2.
+
+
+Example 2:
+
+Input: nums = [1,2,3,4,3]
+Output: [2,3,4,-1,4]
+ 
+
+Constraints:
+
+1 <= nums.length <= 104
+-109 <= nums[i] <= 109
+
+
+
+
+
+
+Understanding:
+
+
+
+Circular Array:
+arr[n-1] ----> arr[0]
+
+
+Input: nums = [1,2,1]
+Output: [2,-1,2]
+
+
+
+Element ----> NGE
+
+NGE for 1: Iterate Once: Ans: 2
+
+
+NGE for 2: Iterate Twice: Ans: -1
+
+
+NGE for 1: Normal Array - Last Element: Ans: -1
+		 : Circular Array - Iterate Twice: Ans: 2
+
+OP: [2, -1, 2]
+
+
+
+
+
+    public int[] nextGreaterElements(int[] nums) 
+    {
+
+
+	}
+
+
+
+
+
+
+
+
+
+
+Solution:
+
+
+Max Number of Times in a Circular Array: Infinite
+Min Number of Times in a Circular Array: Twice
+
+
+NGE in Circular Array
+= NGE in Normal Array: Min Iterating Twice
+
+
+
+
+
+
+
+
+[1,1,2,1]
+
+1 -> 2 (Once)
+1 -> 2 (Once)
+2 -> -1 (Twice)
+1 -> 2 (Twice)
+
+
+[13 12 11 10 9]
+
+13 -> -1 (Twice)
+12 -> 13 (Twice)
+11 -> 13 (Twice)
+10 -> 13 (Twice)
+9 -> 13 (Twice)
+
+
+
+
+
+
+
+Input: nums = [1,2,1]
+Output: [2,-1,2]
+
+
+Iterate Twice:
+
+2 Ways:
+
+(1) Create Extra Array and then traverse
+
+arr2 = new int[arr1.length *2]
+
+[1 2 1] -----> [1 2 1 1 2 1]
+
+Normal NGE for arr2
+
+1 -> 2
+2 -> -1
+1 -> 2
+
+
+TC: O(2*N)
+SC: O(2*N)
+
+
+
+(2) Without Creating Extra Array Using % Operator
+
+[1 2 1]
+n = 3
+
+for (i=0; i<2*n; i++)
+	val = arr[i%n];
+
+
+i = 0 to i = 5
+
+i = 0, val = arr[0%3] = arr[0] = 1 
+i = 1, val = arr[1%3] = arr[1] = 2 
+i = 2, val = arr[2%3] = arr[2] = 1 
+
+i = 3, val = arr[3%3] = arr[0] = 1 
+i = 4, val = arr[4%3] = arr[1] = 2 
+i = 5, val = arr[5%3] = arr[2] = 1 
+
+
+TC: O(2*N)
+SC: O(1)
+
+
+
+
+
+CODE:
+
+
+class Solution 
+{
+    public int[] nextGreaterElements(int[] nums) 
+    {
+        int n = nums.length;
+        int[] res = new int[n];
+        int i = 0;
+
+        for (i=0; i<n; i++)
+            res[i] = -1;
+
+        Stack<Integer> stack = new Stack<Integer>();
+
+    // NGE in Circular Array = NGE in Normal Array: Twice Iteration
+        for (i=0; i<2*n; i++)
+        {
+            // Avoid Index Out of Bound
+            int val = nums[i%n];
+
+            while(!stack.isEmpty() && nums[stack.peek()] < val)
+            {
+                res[stack.peek()] = val;
+                stack.pop();
+            }
+
+            if (i<n)
+                stack.push(i);
+        }
+        
+        return res;
+    }
+}
+
+
+TC: O(N)
+SC: O(N)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+HW:
+
+(1) NGE-3
+(2) NGE-4 : HARD
+
+
+
+
+
+
+
+
+
+
+
+
+
+Syllabus:
+
+DONE:
+- Arrays
+- Matrices
+- Strings
+- Recursion
+- XOR and Bit Manipulation
+- Linear Search, Binary Search
+- Prefix Sum
+- Two Pointers
+- Sliding Window
+- Stacks
+- Queues
+- Time Complexity and Space Complexity
+
+
+
+TODO:
+- Linked Lists
+- Sorting - Theory + Questions
+- Recursion - Questions
+- Hashing - Sets and Maps
+- Queue - Questions
+- Priority Queue, Heap
+- DP: 3 Sessions
+- Backtracking
+- Greedy
+- Trees: BT and BST
+- Graphs: Introduction, BFS, DFS
+- Graphs: MST - Prim and Kruskal
+- Graphs: Shortest Distance - Dijkstra, Bellman Ford, Floyd Warshall
+- CP: Topological Sort, Tries, AP (Articulation Points), Bridges
+
+
+
+
+
+
+
+
+
+SDE-1: DSA - Coding (1-3 YOE)
+SDE-2: DSA + System Design (3 Coding + 1 HLD) (2-5 YOE)
+SDE-3: DSA + System Design (2 Coding + 1 HLD + 1 LLD) (6-10 YOE)
+SDE-4/TL/Architect/Staff: DSA + System Design + Team Leading (1/2 Coding + 1/2 HLD + 1/2 LLD + 1 Peer Review) (10-15 YOE)
+
+
+Principal: E8: 15-20 YOE
+Distinguished: E9 : 20+ YOE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Most Important + Easy:
+- Linked Lists (Interviews)
+- DP
+- BST (Binary Search Tree)
+
+
+
+
+
+
+-------> LINKED LISTS:
+
+
+Master any DS/Algo:
+
+(1) What (NEED/Use Case): DONE
+(2) Why (Applications)
+(3) How (Coding/Implementation)
+
+
+
+
+Guy: BHOLU
+- Intern
+
+
+Manager:
+Write an API to input 3 Numbers and print their sum
+
+
+
+
+Sol:
+
+
+int b[1000000000];
+cin>>b[0]>>b[1]>>b[2];
+int sum = b[0] + b[1] + b[2];
+cout<<sum;
+
+
+
+
+Bugs:
+
+(1) Memory Wastage:
+int b[1000000000];
+
+
+(2) Integer Overflow:
+long sum = b[0] + b[1] + b[2];
+
+
+
+int b[1000000000];
+OP: Stack Overflow/ MLE
+
+Memory: 
+4 * 10^9 Bytes = 4 GB Contiguous Space: RAM
+
+
+RAM: 8 GB/16 GB
+
+
+Memory Diagram:
+
+.: FREE
+X: Occupied
+
+
+
+8 GB RAM:
+
+      
+ 1 Gb             1 Gb         1 Gb         1 Gb
+.........XXXXXXX.......XXXXXX.......XXXXXX.........XXXXXX
+         Chrome        Spotify       VLC           Background Tasks
+
+
+Linked List: YES
+
+
+Nodes Connected with Each Other:
+
+
+A -----> B -----> C -----> D
+1 Gb.    1 Gb.   1 Gb.    1 Gb
+
+A -> next = B
+B -> next = C
+C -> next = D
+
+
+
+
+In Real Life:
+
+Linked List ------> Rise to Distributed Memory
+
+Distributed memory -----> Distributed Systems -----> Monolith to Microservice Architecture
+
+Product: AWS (Webapp, Android, iOS), Netapp, Linkedin, Instagram
+
+
+
+
+
+
+-------> Linked List vs Arrays
+
+(1) Size of Array:
+
+CORRECT
+int arr[10]; // Reserve 40 Bytes in Memory
+
+CORRECT
+int n;
+cin>>n;
+int arr[n];  // Reserve 4*n Bytes in Memory
+
+INCORRECT
+int arr[]; // How much memory to reserve?
+
+
+
+
+int arr[10];
+
+Can I make at 11: No
+Can I make it 9: No
+
+
+(1) I need to know SIZE BEFORE Execution of My Program
+(2) During Program Execution - CANNOT Change Size
+
+
+
+
+Production Example:
+
+Amazon/Flipkart/Walmart: E-Commerce
+
+
+26th Jan: Sale
+Expect: 100 Million
+
+
+int arr[100 Mn];
+
+
+Surprise: 200 Mn
+- After 100 Mn, Not able to access website
+
+Surprise: 50 Mn
+- Resources would be wasted
+
+
+Banquet/Marriage Hall:
+- Plate System
+
+
+100 Plates, 200 Guests
+
+
+FCFS: First 100 People ---> Eat,	
+	  Rest 100 People ---> Cant Eat
+
+
+100 Plates, 50 Guests
+
+Everyone will eat, 50 Plates would be wated
+
+
+
+
+
+Once Array is Created, 
+Its Size CANNOT be INCREASED or DECREASED in Execution
+
+
+I need something which can be adjusted during Execution (Real Time)
+If Request Increased ------> Size Increased (Auto-Scaling)
+If Request Decreased ------> Size Decreased 
+
+
+Array: Static
+Linked List: Dynamic Allocation
+
+
+
+
+
+
+(2) Rogue Memory:
+
+Bholu:
+
+
+int b[1000];
+cin>>b[0]>>b[1]>>b[2];
+long sum = b[0] + b[1] + b[2];
+cout<<sum;
+
+1000-3 = 997 * 4 Bytes: WASTED
+
+
+int arr[1000];
+
+There is NO Guarantee that ALL Elements of Array will be used in Program
+
+
+Linked List: No Rogue Memory
+			 (Dynamic Allocation)
+
+
+
+
+
+
+
+
+(3) Complexity for Insertion:
+
+Arrays:
+
+
+IP: [7 2 3 4 5 6 _]
+Insert 8 before 2
+
+OP: [7 8 2 3 4 5 6]
+
+
+TC?
+
+Steps:
+
+(1) [7 _ 2 3 4 5 6]
+Create Space by right shifting all values after 7
+
+O(N-x): s: Position of Insertion
+
+(2) arr[1] = 8 // O(1)
+
+TC: O(N-x)
+
+
+Best Case: O(1) - Insert at End
+Worst Case: O(N) - Insert at Beginning
+
+
+
+
+Linked Lists:
+
+
+head: A -> B -> C -> D -> null
+
+Given C, Insert E after C
+
+OP:
+
+head: A -> B -> C -> E -> D -> null
+
+
+Steps:
+
+(1) E.next = D // O(1)
+(2) C.next = E // O(1)
+
+
+TC: O(1)
+
+
+
+
+HW:
+
+(1) NGE-3
+(2) NGE-4 : HARD
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
