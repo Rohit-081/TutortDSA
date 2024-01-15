@@ -91,7 +91,7 @@ class LinkedList {
     return false;
   }
 
-  kthNodeFromEnd(k) {
+  kthNodeFromEndOptimise(k) {
     if (k <= 0) {
       return false;
     }
@@ -116,6 +116,35 @@ class LinkedList {
 
     // The slow pointer is now at the k-th node from the end
     return slow.value;
+  }
+
+  insert(element, k) {
+    const newNode = new Node(element);
+    if (k === 0) {
+      newNode.next = this.head;
+      this.head = newNode;
+      return;
+    }
+
+    let prev = this.head;
+    for (let i = 0; i < k - 1; i++) {
+      prev = prev.next;
+    }
+
+    newNode.next = prev.next;
+    prev.next = newNode;
+  }
+
+  delete(k) {
+    if (k == 0) {
+      this.head = this.head.next;
+      return;
+    }
+    let prev = this.head;
+    for (let i = 0; i < k - 1; i++) {
+      prev = prev.next;
+    }
+    prev.next = prev.next.next;
   }
 }
 
@@ -143,3 +172,12 @@ console.log("Value of the 2nd node:", kthNodeValue);
 // Find the value of the 2nd node from the end
 const kthNodeFromEndValue = myList.kthNodeFromEnd(2);
 console.log("Value of the 2nd node from the end:", kthNodeFromEndValue);
+
+const kthNodeFromEndValueOptimise = myList.kthNodeFromEndOptimise(2);
+console.log("Value of the 2nd node from the end:", kthNodeFromEndValueOptimise);
+
+myList.insert(30, 2);
+myList.traverse();
+
+myList.delete(3);
+myList.traverse();
