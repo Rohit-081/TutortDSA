@@ -46,14 +46,18 @@ function duplicateElements(nums) {
 
 console.log(duplicateElements(arr));
 
-async function n(){
-    await return p;
+async function n() {
+  await p;
 }
 function x() {
-    console.log("1")
-    setTimeout(() => { console.log("2") }, 1000)
-    Promise.resolve("3").then(res=>console.log(res))
-    setImmediate(() => { console.log("4") })
-    console.log("5")
+  console.log("1");
+  setTimeout(() => {
+    console.log("2");
+  }, 1000);
+  Promise.resolve("3").then((res) => console.log(res));
+  setImmediate(() => {
+    console.log("4");
+  });
+  console.log("5");
 }
 x(); // 1 5 3 4 2
