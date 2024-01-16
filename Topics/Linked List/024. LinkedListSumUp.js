@@ -146,13 +146,57 @@ class LinkedList {
     }
     prev.next = prev.next.next;
   }
+
+  reverse() {
+    let current = this.head;
+    let previous = null;
+    while (current !== null) {
+      let temp = current.next;
+      current.next = previous;
+      previous = current;
+      current = temp;
+    }
+    return previous;
+  }
+
+  middle() {
+    let slow = this.head;
+    let fast = this.head;
+
+    while (fast !== null && fast.next !== null) {
+      slow = slow.next;
+      fast = fast.next.next;
+    }
+    return slow;
+  }
+
+  isPalindrome() {
+    if (this.head === null) {
+      return true;
+    }
+    let mid = this.middle(this.head);
+    let last = this.reverse(mid.next);
+    let current = this.head;
+    while (last !== null) {
+      if (last.value != current.value) {
+        return false;
+      }
+      last = last.next;
+      current = current.next;
+    }
+    return true;
+  }
 }
 
 // Example usage:
 const myList = new LinkedList();
-myList.append(1);
-myList.append(2);
-myList.append(3);
+myList.append("R");
+myList.append("A");
+myList.append("C");
+myList.append("E");
+myList.append("C");
+myList.append("A");
+myList.append("R");
 
 // Traverse and print the linked list
 myList.traverse();
@@ -176,8 +220,18 @@ console.log("Value of the 2nd node from the end:", kthNodeFromEndValue);
 const kthNodeFromEndValueOptimise = myList.kthNodeFromEndOptimise(2);
 console.log("Value of the 2nd node from the end:", kthNodeFromEndValueOptimise);
 
-myList.insert(30, 2);
-myList.traverse();
+// myList.insert(50, 2);
+// myList.traverse();
 
-myList.delete(3);
-myList.traverse();
+// myList.delete(3);
+// myList.traverse();
+
+// Reverse the linked list and store the reversed list
+const reversedList = new LinkedList();
+console.log(reversedList);
+reversedList.head = myList.reverse();
+
+// Traverse and print the reversed list
+reversedList.traverse();
+
+myList.isPalindrome();
