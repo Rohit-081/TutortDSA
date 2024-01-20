@@ -20,12 +20,26 @@ function PalinArray(arr, n) {
     let x = arr[i].toString();
     for (let j = 0; j < x.length; j++) {
       if (x[j] != x[x.length - j - 1] && j < x.length - j - 1) {
-        return console.log(0);
+        return 0;
         break;
       }
     }
   }
-  return console.log(1);
+  return 1;
 }
 
-PalinArray([121, 131, 20], 3);
+console.log(PalinArray([121, 131, 20], 3));
+
+function isPalindrome(num) {
+  const strNum = num.toString();
+  return (strNum = strNum.split("").reverse.join(""));
+}
+
+function PalinArray(arr, n) {
+  for (let i = 0; i < n; i++) {
+    if (!isPalindrome(arr[i])) {
+      return 0;
+    }
+  }
+  return 1;
+}

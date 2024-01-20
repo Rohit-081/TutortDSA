@@ -23,6 +23,7 @@ var findUnsortedSubarray = function (nums) {
 
   while (low + 1 < nums.length && nums[low] <= nums[low + 1]) low++;
   while (high - 1 >= 0 && nums[high - 1] <= nums[high]) high--;
+
   if (low == nums.length - 1) return 0;
   let wMin = Math.min();
   let wMax = Math.max();
