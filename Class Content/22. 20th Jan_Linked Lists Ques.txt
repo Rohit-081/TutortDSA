@@ -1,0 +1,697 @@
+Date : 20th Jan 2024
+Mentor: DEVANG SHARMA
+Batch: Oct Batch (DSA) - Tutort Academy
+
+Agenda:
+
+(1) Introduction to Linked List- DONE
+(2) Linked List vs Array - DONE
+(3) Linked List Insertion - DONE
+
+(4) TRAVERSAL: Printing Linked List - DONE
+(5) Calculate Length -- Iterative - DONE
+(6) Calculate Length -- Recursive - HW() - DONE
+(7) Search in a Linked List -- Iterative, Recursive --DONE
+(8) Delete a Linked List - DONE
+(9) Nth Node in a Linked List -- DONE
+
+VVI(10) Nth Node from End in Linked List -- Two Approaches (Two Traversals and Single Traversal) - 
+VVI(11) Middle of Linked List -- Two Approaches (Two Traversals and Single Traversals)
+VI(12) Find Loop in a Linked List: Two Approaches - With and Without Hashing
+(13) Merge Two Sorted Linked Lists: 
+
+(14) Merge K Sorted Linked Lists
+(15) Merge K Sorted Arrays
+(16) Rotate List in K Size (K>N --- Convert into Cicular)
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+
+
+
+Q: [LC-2454] Next Greater Element IV - [Hard]
+https://leetcode.com/problems/next-greater-element-iv/description/
+
+
+You are given a 0-indexed array of non-negative integers nums. For each integer in nums, you must find its respective second greater integer.
+
+The second greater integer of nums[i] is nums[j] such that:
+
+j > i
+nums[j] > nums[i]
+There exists exactly one index k such that nums[k] > nums[i] and i < k < j.
+If there is no such nums[j], the second greater integer is considered to be -1.
+
+For example, in the array [1, 2, 4, 3], the second greater integer of 1 is 4, 2 is 3, and that of 3 and 4 is -1.
+Return an integer array answer, where answer[i] is the second greater integer of nums[i].
+
+ 
+
+Example 1:
+
+Input: nums = [2,4,0,9,6]
+Output: [9,6,6,-1,-1]
+
+Explanation:
+0th index: 4 is the first integer greater than 2, and 9 is the second integer greater than 2, to the right of 2.
+1st index: 9 is the first, and 6 is the second integer greater than 4, to the right of 4.
+2nd index: 9 is the first, and 6 is the second integer greater than 0, to the right of 0.
+3rd index: There is no integer greater than 9 to its right, so the second greater integer is considered to be -1.
+4th index: There is no integer greater than 6 to its right, so the second greater integer is considered to be -1.
+Thus, we return [9,6,6,-1,-1].
+
+
+Example 2:
+
+Input: nums = [3,3]
+Output: [-1,-1]
+
+Explanation:
+We return [-1,-1] since neither integer has any integer greater than it.
+ 
+
+Constraints:
+
+1 <= nums.length <= 105
+0 <= nums[i] <= 109
+
+
+
+
+    public int[] secondGreaterElement(int[] nums) 
+    {
+
+	}
+
+
+
+
+--------> Understanding
+
+
+
+[1 2 4 3]
+
+1: FGE: 2, SGE: 4
+2: FGE: 4, SGE: 3
+4: FGE: -1, SGE: -1
+3: FGE: -1, SGE: -1
+
+OP: [4 3 -1 -1]
+
+
+
+
+Input: nums = [2,4,0,9,6]
+
+2: FGE: 4, SGE: 9
+4: FGE: 9, SGE: 6
+0: FGE: 9, SGE: 6
+9: FGE: -1, SGE: -1
+6: FGE: -1, SGE: -1
+
+OP: [9 6 6 -1 -1]
+
+
+
+
+
+Solution:
+
+
+
+
+
+
+Approach:
+
+
+Use Two Stacks
+- S1 and S2
+
+
+S1: Store the Index of Elements that have not found their FGE
+
+S2: Store the Index of Elements that have found their FGE, 
+	but not found their SGE
+
+
+
+For each val in Array, 
+We first compare with tail elements in S2
+Pop All the Elements smaller than val
+Because val is their SGE
+
+
+For each val in Array, 
+We compare with tail elements in S1
+Pop All the Elements smaller than val
+Because val is their FGE
+
+
+We do that repeatedly for all values and return the results.
+
+
+
+
+CODE:
+
+/*
+
+Approach:
+
+Use Two Stacks
+- S1 and S2
+
+S1: Store the Index of Elements that have not found their FGE
+
+S2: Store the Index of Elements that have found their FGE, 
+	but not found their SGE
+
+
+
+For each val in Array, 
+We first compare with tail elements in S2
+Pop All the Elements smaller than val
+Because val is their SGE
+
+
+For each val in Array, 
+We compare with tail elements in S1
+Pop All the Elements smaller than val
+Because val is their FGE
+
+
+We do that repeatedly for all values and return the results.
+
+Note: Third Stack required to maintain order between two stacks - S1 and S2
+
+*/
+
+// TC: O(N) - Single Traversal
+// SC: O(3*N) - O(N) - Multiple Stacks
+
+
+
+[1 2 4 3]
+
+1: FGE: 2, SGE: 4
+2: FGE: 4, SGE: 3
+4: FGE: -1, SGE: -1
+3: FGE: -1, SGE: -1
+
+OP: [4 3 -1 -1]
+
+
+class Solution {
+    public int[] secondGreaterElement(int[] nums) 
+    {
+        int n = nums.length;
+        int res[] = new int[n];
+
+        Arrays.fill(res,-1);
+        Stack<Integer> stack1 = new Stack();
+        Stack<Integer> stack2 = new Stack();
+        Stack<Integer> temp = new Stack();
+
+        // arr = [1 2 4 3], res = [-1 -1 -1 -1], S1 = Empty, S2 = Empty, temp = Empty
+        // i = 0, arr[i] = 1
+        // i = 1, arr[i] = 2, S1 = [TOP: 0], S2 = Empty, temp = Empty, res = [-1 -1 -1 -1]
+        // nums[0] < nums[1] = 1 < 2 : TRUE
+        // i = 2, arr[i] = 3, S1 = [TOP: 1], S2 = [TOP: 0], temp = Empty, res = [-1 -1 -1 -1]
+        // nums[0] < nums[2]: 1 < 4: TRUE
+        // nums[1] < nums[2]: 2 < 4: TRUE
+        // i = 3, arr[i] = 4, S1 = [TOP: 2], S2 = [TOP: 1], temp = Empty, res = [4 -1 -1 -1]
+       	// nums[1] < nums[3]: 2 < 3: TRUE
+       	// nums[2] < nums[3]: 4 < 3: FALSE
+
+        for (int i = 0; i< n; i++) // Single Traversal
+        {
+        // First Find SGE, Then Find FGE
+        // For SGE 
+        while(!stack2.empty() && nums[stack2.peek()] < nums[i])
+            res[stack2.pop()] = nums[i]; // i = 2, res = [4 -1 -1 -1], S2 = Empty
+        								// i = 3, res = [4 3 -1 -1], S2 = Empty
+
+        // For FGE
+        while(!stack1.empty() && nums[stack1.peek()] < nums[i])
+            temp.push(stack1.pop()); // i = 1, temp = [TOP: 0], S1 = Empty
+        							 // i = 2, temp = [TOP: 1], S1 = Empty
+        
+        // Third Stack required to maintain order between two stacks - S1 and S2
+        while(!temp.empty())
+            stack2.push(temp.pop()); // i = 1, S2 = [TOP: 0], S1 = Empty, temp = Empty
+        							// i = 2, S2 = [TOP: 1], S1 = Empty, temp = Empty
+
+        stack1.push(i); // S1 = [TOP: 3]
+        }
+
+        return res; // res = [4 3 -1 -1]    
+    }
+}
+
+
+
+TC: O(N)
+SC: O(3*N)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q: [LC-556] Next Greater Element III
+https://leetcode.com/problems/next-greater-element-iii/description/
+
+Given a positive integer n, find the smallest integer which has exactly the same digits existing in the integer n and is greater in value than n. If no such positive integer exists, return -1.
+
+Note that the returned integer should fit in 32-bit integer, if there is a valid answer but it does not fit in 32-bit integer, return -1.
+
+ 
+
+Example 1:
+
+Input: n = 12
+Output: 21
+
+
+Example 2:
+
+Input: n = 21
+Output: -1
+ 
+
+Constraints:
+
+1 <= n <= 231 - 1
+
+
+
+
+
+
+    public int nextGreaterElement(int n) {
+        
+    }
+
+
+
+------> Understanding:
+
+
+12
+-> 12: Smaller
+-> 21: Larger
+
+OP: 21
+
+21
+OP: -1
+
+123
+-> 123, 132, 213, 231, 312, 321
+
+IP: 123
+Highest: 321
+Second Greater: 132 - OP
+
+IP: 231
+Highest: 321
+Second Greater: 312 - OP
+
+
+
+
+Solution:
+
+
+Approach:
+
+
+
+Eg:
+
+IP: 6 5 3 7 4 2 1
+OP: 6 5 4 1 2 3 7
+
+
+
+(1) First, we convert all digits to char array
+(2) Then we check from right to left
+
+Case-1: 
+If Numbers are in increasing order from right side
+
+Eg: 4 3 2 1
+
+-> No Greater Number can be formed, because its already the highest, return -1
+
+Case-2:
+If there exist a number such that it is less than right value, then we need to swap the values
+Continue this to get the Answer
+
+
+IP: 6 5 3 7 4 2 1
+
+3 is the point of inflection : 3 is the first number which is less than right values, hence swap
+
+Swap: 3 <-> 4
+
+
+6 5 4 7 3 2 1 - This is still not the Immediate Next Greater Element
+
+7 3 2 1 -> 1 2 3 7 ---> Smallest
+
+OP:
+
+6 5 4 1 2 3 7 - OP
+
+
+
+
+
+
+
+
+CODE:
+
+
+class Solution 
+{
+    public int nextGreaterElement(int n) 
+    {
+        char arr[] = (Integer.toString(n).toCharArray());
+        int i = arr.length-2; // Right to Left
+        StringBuilder ans = new StringBuilder();
+        while (i>=0 && arr[i] >= arr[i+1])
+            i--;
+        
+        if (i==-1) // if i = -1, means there is No NGE
+            return -1;
+        
+        int k = arr.length-1;
+        while(arr[k] <= arr[i])
+            k--; // k is point of inflection
+        
+        swap(arr, i, k); // Swap 3 with 4
+
+        for (int j=0; j<=i; j++)
+            ans.append(arr[j]) ; // 6 5 4
+        
+        for (int j = arr.length-1; j>i; j--)
+            ans.append(arr[j]); // 1 2 3 7
+        
+        long ans1 = Long.parseLong(ans.toString());
+        return (ans1 > Integer.MAX_VALUE? -1 : (int) ans1);
+    }
+
+    void swap(char[] arr, int i, int j)
+    {
+        char temp = arr[j];
+        arr[j] = arr[i];
+        arr[i] = temp;
+    }
+}
+
+
+
+
+TC: O(2*N)
+SC: O(N) - StringBuilder
+
+
+
+Test Case:
+IP: 6573421
+OP: 6574123
+
+Right to Left -> Point of inflection: 3
+Swap 3<-->4
+
+6574321 -> Not immediate NGE
+
+321 -> 123: Smallest Permutation
+
+OP:
+6574123
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+VVVVI
+Q-6: Middle of Linked List: SPECIAL
+[Adobe, Paypal]
+
+
+head: 10 -> 20 -> 30 -> 40 -> 50 -> null
+Middle: 30
+
+head: 10 -> 20 -> 30 -> 40 -> 50 -> 60 -> null
+Middle: 30 and 40
+
+As per question, 
+you can return 1st middle or 2nd middle
+
+1st middle: 30
+2nd middle: 40
+
+
+
+
+
+
+[LC-876] Middle of the Linked List
+https://leetcode.com/problems/middle-of-the-linked-list/description/
+
+
+Given the head of a singly linked list, return the middle node of the linked list.
+
+If there are two middle nodes, return the second middle node.
+
+ 
+
+Example 1:
+
+
+Input: head = [1,2,3,4,5]
+Output: [3,4,5]
+Explanation: The middle node of the list is node 3.
+
+
+
+Example 2:
+
+
+Input: head = [1,2,3,4,5,6]
+Output: [4,5,6]
+Explanation: Since the list has two middle nodes with values 3 and 4, we return the second one.
+ 
+
+Constraints:
+
+The number of nodes in the list is in the range [1, 100].
+1 <= Node.val <= 100
+
+
+
+
+
+    public ListNode middleNode(ListNode head) 
+    {
+
+    }
+
+
+
+Solution:
+
+Good Developer vs Very Good Developer Approach
+
+
+Two Approaches:
+
+(1) Good Developer Approach
+
+Calculate length and then Go to length/2 
+
+len: Length of Linked List
+
+Go to N/2 (Even) or (N+1)/2 (Odd), Print that Node
+
+
+TC: O(N) + O(N/2) = O(1.5*N)
+
+
+
+(2) Great Developer Approach
+
+Single Traversal: O(N)
+
+Two Pointer/ Hare and Tortoise/ Fast and Slow Approach
+
+
+Approach:
+
+Initial: 
+
+slow: head
+fast: head
+
+
+During Traversal:
+
+slow = slow.next
+fast = fast.next.next
+
+
+
+When the fast reached End,
+(fast.next == None || fast.next.next == None)
+Slow -> Middle of Linked List
+
+
+
+
+
+
+DRY RUN:
+
+head: 10 -> 20 -> 30 -> 40 -> 50 -> null
+
+len = 5
+Middle: OP: 30
+
+
+Initial:
+
+slow = 10
+fast = 10
+
+Start Traversal:
+
+slow = 10 -> 20
+fast = 10 -> 20 -> 30
+
+
+slow = 20 -> 30: Middle of Linked List
+fast = 30 -> 40 -> 50: STOP
+
+
+OP: 30
+
+
+
+
+Real-Life Example:
+
+100 Metres Race
+
+
+Intial:
+
+A: 0 M
+B: 0 M
+
+
+Speed:
+
+A: x
+B: 2*x
+
+
+After time 't'
+B covered distance of d
+
+A covered distance of  = d/2
+
+B: Reach to End
+A: Middle of Race
+
+
+
+CODE:
+
+
+class Solution 
+{
+    public ListNode middleNode(ListNode head) 
+    {
+        ListNode slow = head;
+        ListNode fast = head;
+
+        // Contains 0 or 1 Number of Nodes
+        if (head == null || head.next == null)
+            return head;
+
+        // First Middle Node
+        // while(fast.next!=null && fast.next.next!=null)
+        // Second Middle Node
+        while(fast!=null && fast.next!=null)
+        {
+            slow = slow.next; //x , TC: O(1)
+            fast = fast.next.next; // 2x, TC: O(1)
+        }
+
+        return slow;
+    }
+}
+
+
+
+TC: O(N/2)
+SC: O(1)
+
+
+
+
+
+
+HW:
+[LC:-141]: Linked List Cycle
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
