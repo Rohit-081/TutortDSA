@@ -1,0 +1,1 @@
+/* Browser APIs are APIs that are built into the browser and provide native features that can also be used in a web app. These can also be called web APIs. DOM APIs are part of Browser APIs. */

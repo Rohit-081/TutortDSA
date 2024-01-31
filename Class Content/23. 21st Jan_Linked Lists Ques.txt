@@ -1,0 +1,938 @@
+Date : 21st Jan 2024
+Mentor: DEVANG SHARMA
+Batch: Oct Batch (DSA) - Tutort Academy
+
+Agenda:
+
+(1) Introduction to Linked List- DONE
+(2) Linked List vs Array - DONE
+(3) Linked List Insertion - DONE
+
+(4) TRAVERSAL: Printing Linked List - DONE
+(5) Calculate Length -- Iterative - DONE
+(6) Calculate Length -- Recursive - HW() - DONE
+(7) Search in a Linked List -- Iterative, Recursive --DONE
+(8) Delete a Linked List - DONE
+(9) Nth Node in a Linked List -- DONE
+
+VVI(10) Nth Node from End in Linked List -- Two Approaches (Two Traversals and Single Traversal) - 
+VVI(11) Middle of Linked List -- Two Approaches (Two Traversals and Single Traversals)
+VI(12) Find Loop in a Linked List: Two Approaches - With and Without Hashing
+(13) Merge Two Sorted Linked Lists: 
+
+(14) Merge K Sorted Linked Lists
+(15) Merge K Sorted Arrays
+(16) Rotate List in K Size (K>N --- Convert into Cicular)
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+
+
+
+Q-7: [LC-141] Linked List Cycle
+https://leetcode.com/problems/linked-list-cycle/description/
+
+Given head, the head of a linked list, determine if the linked list has a cycle in it.
+
+There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tails next pointer is connected to. Note that pos is not passed as a parameter.
+
+Return true if there is a cycle in the linked list. Otherwise, return false.
+
+ 
+Example 1:
+
+
+Input: head = [3,2,0,-4], pos = 1
+Output: true
+Explanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).
+
+Example 2:
+
+
+Input: head = [1,2], pos = 0
+Output: true
+Explanation: There is a cycle in the linked list, where the tail connects to the 0th node.
+
+Example 3:
+
+
+Input: head = [1], pos = -1
+Output: false
+Explanation: There is no cycle in the linked list.
+ 
+
+Constraints:
+
+The number of the nodes in the list is in the range [0, 10^4].
+-105 <= Node.val <= 105
+pos is -1 or a valid index in the linked-list.
+ 
+
+Follow up: Can you solve it using O(1) (i.e. constant) memory?
+
+
+    public boolean hasCycle(ListNode head) 
+    {
+
+    }
+
+
+
+
+
+-----> Understanding:
+
+
+Cycle/Loop in a Linked List:
+
+If a "Node" is Traversed MORE THAN ONCE During Traversal,
+Then Its a Loop/Cycle in a Linked List
+
+
+
+
+Case-1:
+
+	  head
+		1 -----> 2 ----> 3 ----->  4
+				/|\				   |
+				 |				   |
+				 |_________________|
+
+
+Traversal OP:
+
+1 2 3 4 2 3 4 2 3 4 2 3 4............Infinite
+
+
+CYCLE: YES
+
+Cycle at Middle
+
+
+
+
+
+
+
+
+Case-2:
+
+	  head
+		1 -----> 2 ----> 3 ----->  4
+	   /|\						   |
+		|						   |
+		|__________________________|
+
+
+Traversal OP:
+
+1 2 3 4 1 2 3 4 1 2 3 4 1 2 3 4 .........Infinite
+
+CYCLE: YES
+
+Cycle at Beginning
+
+
+
+
+
+
+Case-3:						  ______
+							 |      |
+							\|/     |
+		head: 1 -> 2 -> 3 -> 4 -----
+
+
+Traversal OP:
+
+1 2 3 4 4 4 4 4 4 4 ......Infinite
+
+Cycle: YES
+
+Cycle at a Vertex (End Node)
+
+
+
+
+Case-4: 
+
+	head: 1 -> 2 -> 3 -> 4 -> null
+
+Traversal OP:
+1 2 3 4
+
+Cycle: NO
+
+
+
+
+Case-5: 
+
+	head: 2 -> 2 -> 2 -> 2 -> null
+
+Traversal OP: 
+2 2 2 2
+
+Cycle: No Cycle/Loop
+
+
+Note: For Cycle, "Nodes" should be repeated, Not the Values
+
+
+
+
+
+
+
+
+
+
+Solution:
+
+
+(1) With Hashing:
+
+Intuition:
+Same Node is Traversed More than Once in a LL - CYCLE
+Else, No Cycle
+
+Set:
+Check if Node is Already Traversed
+
+
+Approach:
+Put Nodes in a Set and Check
+DO NOT PUT NODE.DATA IN SET
+
+(Multiple Nodes can contain the same value)
+
+
+
+CODE:
+
+
+// Approach-1: With Hashing
+// TC: O(N)
+// SC: O(N) - HashSet
+
+public class Solution {
+    public boolean hasCycle(ListNode head) 
+    {
+        // Constraints:
+        //The number of the nodes in the list is in the range [0, 104].
+        if (head == null)
+            return false;
+
+// Check for Duplication of NODE, NOT for Duplication of Data in Node
+        HashSet<ListNode> set = new HashSet<ListNode>();
+        ListNode temp = head;
+
+        while (temp!=null)
+        {
+        // Node Already Contained -----> Cycle
+            if (set.contains(temp))
+                return true;
+
+            set.add(temp);
+            temp = temp.next;
+        }
+
+        return false; // No Cycle
+    }
+}
+
+
+
+
+
+
+
+
+(2) Without Hashing:
+
+
+
+Intuition:
+
+Track: 400 M - Circular
+
+A: 10 Km/h, B: 20 Km/h
+
+If in time 't',
+A covers 1 lap, How many Laps B will cover?
+
+Ans: 2 Laps
+
+
+Circular Track:
+A will meet B when B has ALREADY Covered 1 lap
+
+
+Parallel Track:
+A and B will never meet
+
+
+
+Approach:
+- Floyd Cycle Detection Algorithm
+
+(1) slow: head, fast: head
+(2) slow: Speed -> x, fast: Speed -> 2x
+(3) if slow == fast: CYCLE
+(4) Else, No Cycle
+
+
+TC: O(N/2)
+SC: O(1)
+
+
+
+
+
+CODE:
+
+
+// Approach-2: Without Hashing
+// TC: O(N/2)
+// SC: O(1)
+
+
+public class Solution {
+    public boolean hasCycle(ListNode head) 
+    {
+        // Constraints:
+        //The number of the nodes in the list is in the range [0, 104].
+        if (head == null)
+            return false;
+
+        ListNode slow = head;
+        ListNode fast = head;
+
+        // slow: x, fast: 2x
+        while(fast.next!=null && fast.next.next!=null)
+        {
+            slow = slow.next; // speed: x
+            fast = fast.next.next; // speed: 2x
+            
+            if (slow == fast)
+                return true;
+        }
+
+        return false;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+Linked List:
+
+
+206 - Reverse LL
+92 - Reverse LL-2 (In Range L to R)
+23 - Reverse in Size K
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-8: [LC-206] Reverse Linked List
+https://leetcode.com/problems/reverse-linked-list/description/
+
+Given the head of a singly linked list, reverse the list, and return the reversed list.
+
+Example 1:
+
+
+Input: head = [1,2,3,4,5]
+Output: [5,4,3,2,1]
+
+Example 2:
+
+
+Input: head = [1,2]
+Output: [2,1]
+
+Example 3:
+
+Input: head = []
+Output: []
+ 
+
+Constraints:
+
+The number of nodes in the list is the range [0, 5000].
+-5000 <= Node.val <= 5000
+ 
+
+Follow up: A linked list can be reversed either iteratively or recursively. Could you implement both?
+
+
+
+
+IP: head: 10 -> 20 -> 30 -> 40 -> 50 -> null
+
+OP: head: 50 -> 40 -> 30 -> 20 -> 10 -> null
+
+
+    public ListNode reverseList(ListNode head)
+    {
+
+    }
+
+
+Solution:
+
+
+(1) Stack Based Solution
+(2) Using Three Pointers - Iterative
+(3) Using Three Pointers - Recursive
+
+
+
+(1) Stack Based Solution:
+
+- Reverse Nodes + Adjust Pointers
+
+Approach:
+- Put List Nodes into stack
+
+(Why Nodes Not Data -> Node = data + next (Adjust Pointer))
+
+1 2 3 4 5 -> 5 4 3 2 1
+
+- head: Intitial temp
+- Start Popping from Stack: tail.next = stack.pop()
+- Last Node (Initial head).next -> null
+
+
+IP: head: 10 -> 20 -> 30 -> 40 -> 50 -> null
+
+OP: head: 50 -> 40 -> 30 -> 20 -> 10 -> null
+
+
+
+
+Stack: (NODE)
+
+50
+40
+30
+20
+10
+
+Popping from Stack: tail.next = stack.pop()
+
+head: 50 -> 40 -> 30 -> 20 -> 10
+
+
+Stack -> Empty
+
+- Last Node (Initial head).next -> null
+
+head: 50 -> 40 -> 30 -> 20 -> 10 -> null : ANS
+
+
+
+CODE:
+
+
+
+
+
+
+// TC: O(N)
+// SC: O(N)
+
+class Solution {
+    public ListNode reverseList(ListNode head)
+    {
+        ListNode curr = head;
+        Stack<ListNode> stack = new Stack<ListNode>();
+
+        // Travel to Last Node of Linked List
+        // After that, head -> Last Node
+        while (curr!=null)
+        {
+            stack.push(curr);
+            curr = curr.next;
+        }
+
+        ListNode res = new ListNode(-1);
+        curr = res; // curr: last node: -1
+        // Reverse: -1 -> null
+
+        while(!stack.isEmpty())
+        {
+            curr.next = stack.pop();
+            curr = curr.next;
+        }
+        // Reverse: -1 -> 5 -> 4 -> 3 -> 2 -> 1
+
+        curr.next = null; // Last Node.next ----> null
+        // Reverse: -1 -> 5 -> 4 -> 3 -> 2 -> 1 -> null
+
+        return res.next; // Reversed Linked List
+        // Reverse.next:  5 -> 4 -> 3 -> 2 -> 1 -> null
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(2) Using 3 Pointers, O(1) Space
+
+Approach:
+
+prev = null
+curr = head
+next = null
+
+
+Iterate through LL:
+
+// Store the Next Node before Changing current
+next = curr.next;
+
+// Actual Reversal
+curr.next = prev;
+
+// Move prev and curr by 1 step
+prev = curr
+curr = next
+
+
+
+
+DRY RUN:
+
+
+Orig LL: 1 -> 2 -> 3 -> null
+Rev LL:  3 -> 2 -> 1 -> null
+
+
+
+
+class Solution {
+    public ListNode reverseList(ListNode head)
+    {
+        ListNode prev = null; // prev = null
+        ListNode curr = head; // curr = 1
+        ListNode next = null; // next = null
+
+        while(curr!=null)
+        {
+            next = curr.next; // next = 2, next = 3, next = null
+            // Actual Reversal
+            curr.next = prev; // 1.next = null, 2.next = 1, 3.next = 2
+            prev = curr; // prev = 1, prev = 2, prev = 3
+            curr = next; // curr = 2, curr = 3, curr = null
+        }
+
+// After 1st Iteration: curr = 2, next = 2, prev = 1, 1.next = null        
+// After 2nd Iteration: curr = 3, next = 3, prev = 2, 2.next = 1        
+// After 3rd Iteration: curr = null, next = null, prev = 3, 3.next = 2        
+
+
+        head = prev; // head: 3 -> 2 -> 1 -> null
+        return head; // 3 -> 2 -> 1 -> null
+    }
+}
+
+
+
+TC: O(N)
+SC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-9: [LC-92] Reverse Linked List II
+https://leetcode.com/problems/reverse-linked-list-ii/description/
+
+
+Given the head of a singly linked list and two integers left and right where left <= right, 
+reverse the nodes of the list from position left to position right, and return the reversed list.
+
+ 
+Example 1:
+
+
+Input: head = [1,2,3,4,5], left = 2, right = 4
+Output: [1,4,3,2,5]
+
+Example 2:
+
+Input: head = [5], left = 1, right = 1
+Output: [5]
+ 
+
+Constraints:
+
+The number of nodes in the list is n.
+1 <= n <= 500
+-500 <= Node.val <= 500
+1 <= left <= right <= n
+ 
+
+Follow up: Could you do it in one pass?
+
+
+
+
+public ListNode reverseBetween(ListNode head, int left, int right) 
+    {
+    
+    }
+
+
+
+
+
+Solution:
+
+
+(1) Changes (Reversal): [left, right]
+(2) No Change in [head, left-1] and [right+1, tail]
+
+
+
+Approach:
+
+(1) Reach to left node
+(2) Apply the Reversal Logic from left to right
+
+
+
+
+
+
+
+CODE:
+
+
+// DRY RUN:
+
+// Input: head = [1,2,3,4,5], left = 2, right = 4
+// Output: [1,4,3,2,5]
+
+// head = 1, res = -1, prev = -1, curr = 1
+
+
+// TC: O(left) + O(right-left)
+// SC: O(1)
+
+class Solution {
+    public ListNode reverseBetween(ListNode head, int left, int right) 
+    {
+            if (left==right)
+                return head;
+
+        ListNode res = new ListNode(-1); // res = -1 -> null
+        ListNode prev = res; // prev = -1 -> null
+        ListNode curr = head; // curr = 1 -> 2 -> 3 -> 4 -> 5 -> null
+
+        res.next = head; // res = -1 -> 1 -> 2 -> 3 -> 4 -> 5 -> null
+        // prev = res = -1 -> 1 -> 2 -> 3 -> 4 -> 5 -> null
+        int i = 0;
+
+        // Moved to Left
+        for (i=0; i<left-1; i++) // i =0, i < 1
+        {
+            prev = prev.next; // prev = 1 - > 2 -> 3 -> 4 -> 5 -> null
+            curr = curr.next; // curr = 2
+        }
+
+        // prev = 1 -> 2 -> 3 -> 4 -> 5 -> null
+		// curr = 2 -> 3 -> 4 -> 5 -> null
+        
+        // Reverse from [left, right]
+        for (i=0; i<right-left; i++) // i = 0, i < 2
+        {
+            ListNode dummy = prev.next;
+            // dummy = 2, dummy = 3
+            prev.next = curr.next; 
+            // prev.next = 3, prev.next = 4
+            curr.next = curr.next.next;
+            // curr.next = 4, curr.next = 5
+            prev.next.next = dummy;
+            // prev.next.next = 2, prev.next.next = 3
+        }
+
+ // After 1st Iteration:
+// prev : 1 -> 3 -> 2 -> 4 -> 5
+// dummy: 3 -> 2 -> 4 -> 5
+// curr: 2 -> 4 -> 5 -> null
+
+
+ // After 2nd Iteration:
+// prev : 1 -> 4 -> 3 -> 2 -> 5
+// dummy: 4 -> 3 -> 2 -> 5
+// curr: 2 -> 5 -> 4 -> null
+
+
+        return res.next; // -1 -> 1 -> 4 -> 3 -> 2 -> 5: prev = res
+        // 1 -> 4 -> 3 -> 2 -> 5
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+VVVVVVI
+Q-10: [LC-25] Reverse Nodes in K-Group
+https://leetcode.com/problems/reverse-nodes-in-k-group/description/
+
+Given the head of a linked list, reverse the nodes of the list k at a time, and return the modified list.
+
+k is a positive integer and is less than or equal to the length of the linked list. If the number of nodes is not a multiple of k then left-out nodes, in the end, should remain as it is.
+
+You may not alter the values in the lists nodes, only nodes themselves may be changed.
+
+ 
+
+Example 1:
+
+
+Input: head = [1,2,3,4,5], k = 2
+Output: [2,1,4,3,5]
+
+Example 2:
+
+
+Input: head = [1,2,3,4,5], k = 3
+Output: [3,2,1,4,5]
+ 
+
+Constraints:
+
+The number of nodes in the list is n.
+1 <= k <= n <= 5000
+0 <= Node.val <= 1000
+ 
+
+Follow-up: Can you solve the problem in O(1) extra memory space?
+
+
+
+
+
+Input: head = [1,2,3,4,5], k = 2
+Output: [2,1,4,3,5]
+
+
+Window
+Size = K = 2
+
+
+[1 2] -> [2 1]
+[3 4] -> [4 3]
+
+Output: [2 1 4 3 5]
+
+
+
+
+Input: head = [1,2,3,4,5], k = 3
+Output: [3,2,1,4,5]
+
+Window 
+Size = K = 3
+
+[1 2 3] -> [3 2 1]
+
+
+Output: [3 2 1 4 5]
+
+
+
+
+    public ListNode reverseKGroup(ListNode head, int K) 
+    {
+
+    }
+
+
+
+Solution:
+
+
+(1) Reverse a Complete Linked List
+
+
+        while(curr!=null)
+        {
+            next = curr.next; 
+            // Actual Reversal
+            curr.next = prev; 
+            prev = curr; 
+            curr = next; 
+        }
+
+
+(2) Reverse a Linked List in Size of K
+
+        while(curr!=null && count < K)
+        {
+            next = curr.next; 
+            // Actual Reversal
+            curr.next = prev; 
+            prev = curr; 
+            curr = next; 
+        }
+
+
+
+
+Approach:
+
+Reverse First K Nodes,
+-----> N-K < K: Nothing left to reverse
+-----> Else, Reverse for Pending Nodes is Size of K (Recur on same function)
+
+
+
+
+
+
+CODE:
+
+
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int K) 
+    {
+        if(head == null)
+            return head;
+        
+        ListNode curr = head;
+        int count = 0;
+
+        // Reverse first K Nodes of Linked List
+        while (curr!=null && count<K) // O(K)
+        {
+            curr = curr.next;
+            count++;
+        }
+
+    /*
+        After this while loop, curr.next ---> (K+1)th Node
+        2 Cases:
+        (1) K = N: Nothing left to reverse
+        (2) K!= N: Reverse for Pending Node in LL
+    */
+
+        if (count == K)
+        {
+            // Recur starting from (K+1)th Node
+            curr = reverseKGroup(curr, K); // O(N-K)
+
+            // head ---> pointer to direct part
+            // curr ---> pointer to revrese part
+            // count = k: Reversing K Times
+
+            while (count-- > 0) // count = K, initially
+            {
+                ListNode temp = head.next;
+                head.next = curr;
+                curr = head;
+                head = temp;
+            }
+
+            head = curr; // Reverse
+        }
+
+    // No Else Case ----> Directly return head ----> Return as it as when window_Size < k -> No reversals
+        return head;
+    }
+}
+
+
+
+
+TC: O(N)
+SC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+HW:
+
+(3) Using Three Pointers - Recursive
