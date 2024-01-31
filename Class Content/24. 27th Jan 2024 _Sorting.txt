@@ -1,0 +1,1223 @@
+Date : 27th Jan 2024
+Mentor: DEVANG SHARMA
+Batch: Oct Batch (DSA) - Tutort Academy
+
+Agenda:
+
+(1) Introduction to Linked List- DONE
+(2) Linked List vs Array - DONE
+(3) Linked List Insertion - DONE
+
+(4) TRAVERSAL: Printing Linked List - DONE
+(5) Calculate Length -- Iterative - DONE
+(6) Calculate Length -- Recursive - HW() - DONE
+(7) Search in a Linked List -- Iterative, Recursive --DONE
+(8) Delete a Linked List - DONE
+(9) Nth Node in a Linked List -- DONE
+
+VVI(10) Nth Node from End in Linked List -- Two Approaches (Two Traversals and Single Traversal) - 
+VVI(11) Middle of Linked List -- Two Approaches (Two Traversals and Single Traversals)
+VI(12) Find Loop in a Linked List: Two Approaches - With and Without Hashing
+(13) Merge Two Sorted Linked Lists: 
+
+(14) Merge K Sorted Linked Lists
+(15) Merge K Sorted Arrays
+(16) Rotate List in K Size (K>N --- Convert into Cicular)
+
+- Sorting - Theory + Questions
+- Recursion - Questions
+- Hashing- Sets and Maps: Questions
+- Queue: LC Questions- Sorting Questions
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+Websites:
+
+(1) Leetcode Discuss -> Compensation: Filter by Company
+(2) Levels.fyi (Indian Data)
+(3) Blind
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-11: [LC-61] Rotate List
+https://leetcode.com/problems/rotate-list/description/
+
+Given the head of a linked list, rotate the list to the right by k places.
+
+Example 1:
+
+
+Input: head = [1,2,3,4,5], k = 2
+Output: [4,5,1,2,3]
+
+
+Example 2:
+
+
+Input: head = [0,1,2], k = 4
+Output: [2,0,1]
+ 
+
+Constraints:
+
+The number of nodes in the list is in the range [0, 500].
+-100 <= Node.val <= 100
+0 <= k <= 2 * 109
+----> K > N
+
+
+
+
+    public ListNode rotateRight(ListNode head, int K) 
+    {
+
+
+	}
+
+
+
+
+
+Solution:
+
+
+K > N, K % = N - Effective Number of Rotations
+
+
+Right Shifting an Array:
+
+Optimised Approach: 3 Reversals
+- reverse(arr: begin, end)
+- reverse(0:k)
+- reverse(k:n)
+
+
+
+Left Shifting an Array:
+- reverse(arr: begin, end)
+- reverse(k:n)
+- reverse(0:k)
+
+
+
+Right Shifting a Linked List:
+
+- Make LL Cicular: tail.next = head
+- Move to (N-K)th Node
+- Link to NULL, make (N-K-1).next = NULL
+- (N-K)th Node -> head
+
+
+
+Left Shifting a Linked List:
+
+- Make LL Cicular: tail.next = head
+- Move to Kth Node
+- Link to NULL, make (K-1).next = NULL
+- Kth Node -> head
+
+
+
+
+
+
+
+Input: head = [1,2,3,4,5], k = 2
+Output: [4,5,1,2,3]
+
+
+Right Shifting a Linked List:
+
+- Make LL Cicular: tail.next = head
+- Move to (N-K)th Node
+- Link to NULL, make (N-K-1).next = NULL
+- (N-K)th Node -> head
+
+
+
+1 -> 2 -> 3 -> 4 -> 5 -> NULL
+K = 2
+N = 5
+
+N-K = 5-2 = 3rd Node
+
+
+1 -> 2 -> 3 -> NULL
+
+HEAD -> 4 -> 5
+
+
+4 -> 5 -> 1 -> 2 -> 3 -> NULL
+
+
+
+
+
+
+
+
+
+
+CODE:
+
+
+class Solution {
+    public ListNode rotateRight(ListNode head, int K) 
+    {
+        // Check constraints, can be null 
+        if (head == null)
+            return head;
+
+        int len = 1;
+        ListNode tail = head;
+
+        // Find tail(last node) and calculate length
+        while(tail.next!=null)
+        {
+            len++;
+            tail = tail.next;
+        }
+
+        // tail -> 5
+        // LL: [1 2 3 4 5], K = 2, len = 5
+
+        // Make LL Circular
+        tail.next = head; // [1 2 3 4 5->1]
+        K = K % len; // k can be greater than n // K = 2 % 5 = 2
+
+        // tail: 5
+        // Move to (N-K)th Node
+        // len - K = 5-2 = 3
+        for (int i=0; i<len - K; i++) // i=0,1,2
+        {
+            tail = tail.next;
+            // i = 0, tail : 5 -> 1
+            // i = 1, tail : 1 -> 2
+            // i = 2, tail : 2 -> 3
+        }
+        // tail: 3, tail.next = 4
+
+        head = tail.next; // head: 4
+        tail.next = null; // Circular LL -> Single LL -> 3 -> null
+
+        return head; // 4 -> 5 -> 1 -> 2 -> 3 -> NULL
+    }
+}
+
+
+
+TC: O(N)
+SC: O(1)
+
+
+
+
+Revise:
+
+(1) Fast and Slow Pointer: 
+- diff k
+- Speed difference
+
+(2) Reversal
+- Complete
+- Group of K
+- [left,right]
+
+(3) Rotate List
+
+
+
+
+
+
+
+
+
+-----> SORTING:
+
+
+Algorithm used to convert Unsorted list of values -----> Sorted list of values
+
+
+[3 1 6 8 9 2] ----> [1 2 3 6 8 9]
+
+
+IMP:
+
+- Bubble Sort
+- Insertion Sort
+- Selection Sort
+- Merge Sort: IMP
+- Quick Sort: IMP
+
+Other Algos:
+
+- Heap Sort
+- Radix Sort
+- Count Sort
+- Bucket Sort
+
+
+
+
+
+
+
+Inbuilt Sort:
+
+JAVA:
+
+Arrays.sort(arr); // In Place Sorting
+
+TC: O(NlogN)
+SC: O(1)
+
+
+C++:
+
+sort(arr, arr+n); // In Place Sorting
+
+TC: O(NlogN)
+SC: O(1)
+
+
+
+Py:
+
+sorted(list) // In Place Sorting
+
+
+TC: O(NlogN)
+SC: O(1)
+
+
+
+
+void func()
+{
+	Arrays.sort(arr);
+}
+
+
+1000 Test Cases
+
+TC: O(NlogN)
+SC: O(1)
+
+
+
+
+STL/Collection Framework/Modules:
+
+Sorting -------> ALWAYS is O(N*logN)
+
+(Irrespective of Best Case, Worst Case, Average Case)
+
+
+
+Quick Sort:
+
+Best Case: O(NlogN)
+Avg Case: O(NlogN)
+Worst Case: O(N^2)
+
+
+SC: O(1)
+
+
+
+Merge Sort
+
+Best Case: O(NlogN)
+Avg Case: O(NlogN)
+Worst Case: O(NlogN)
+
+
+SC: O(N)
+
+
+
+
+
+
+Worst Case of Quick Sort is NOT been used in STL/Collection Framework: Srting
+
+
+STL:
+
+TC: O(NlogN)
+SC: O(1)
+
+
+Quick Sort:
+
+Worst Case: O(N^2)
+SC: O(1)
+
+
+For at least 1 TC, Quick Sort MUST HAVE Worst Case - O(N^2)
+- Cannot be PURE Quick Sort
+
+
+
+STL/Collection Framework:
+
+TC: O(NlogN)
+SC: O(1)
+
+Merge Sort:
+
+TC: O(NlogN)
+SC: O(N)
+
+
+This Implies, 
+In-Built Sort: DOES NOT ONLY USES Quick Sort or Merge Sort
+
+
+There is and MUST be Sme Other Srting Algo, 
+TC: O(NlogN)
+SC: O(1)
+
+- For Every Case
+
+
+
+
+
+- Hybrid Sort:
+Combination of Multiple Sorting Algorithms Together
+
+
+
+Tim Sort: Merge Sort + Insertion Sort
+- Java and Py
+
+
+C++:
+sort(arr, arr+n);
+- Quick Sort + Merge Sort + Insertion Sort
+
+
+
+
+
+
+- Bubble Sort: DONE
+- Insertion Sort
+- Selection Sort
+- Merge Sort: IMP
+- Quick Sort: IMP
+
+
+
+
+
+
+Bubble Sort:
+Simplest Sorting Algorithm
+
+
+
+
+Approach:
+- Swap Adjacent Elements if they are NOT in Ascending Order
+
+
+DRY RUN:
+
+arr = [5 1 4 2 8]
+OP: [1 2 4 5 8]
+
+
+
+
+First Iteration/ Pass:
+
+5 1 4 2 8 ------> 1 5 4 2 8: 5 > 1 : SWAP
+i j
+
+
+1 5 4 2 8 ------> 1 4 5 2 8: 5 > 4 : SWAP
+  i j
+
+
+1 4 5 2 8 ------> 1 4 2 5 8: 5 > 2 : SWAP
+    i j
+
+
+1 4 2 5 8 ------> 1 4 2 5 8: 5 < 8 : NO SWAP
+      i j
+
+
+
+
+
+
+
+
+
+
+
+Second Iteration/ Pass:
+
+
+1 4 2 5 8 ------> 1 4 2 5 8: 1 < 4 : NO SWAP
+i j
+
+
+1 4 2 5 8 ------> 1 2 4 5 8: 4 > 2 : SWAP
+  i j
+
+
+1 2 4 5 8 ------> 1 2 4 5 8: 4 < 5 : NO SWAP
+    i j
+
+
+1 2 4 5 8 ------> 1 2 4 5 8: 5 < 8 : NO SWAP
+      i j
+
+
+
+
+
+
+Third Iteration/ Pass:
+
+1 2 4 5 8 ------> 1 2 4 5 8: 1 < 2 : NO SWAP
+i j
+
+
+1 2 4 5 8 ------> 1 2 4 5 8: 2 < 4 : NO SWAP
+  i j
+
+
+1 2 4 5 8 ------> 1 2 4 5 8: 4 < 5 : NO SWAP
+    i j
+
+
+1 2 4 5 8 ------> 1 2 4 5 8: 5 < 8 : NO SWAP
+      i j
+
+
+- STOP, Array/List is Sorted
+
+
+
+
+
+
+Why Name is Bubble Sort?
+- Greater Values are Bubbled Towrads the End of Array
+
+
+
+CODE:
+
+
+
+
+
+void bubbleSort(int[] arr, int n)
+{
+	for (int i=0; i<n; i++)
+	{
+		for (int j=i+1; j<n; j++)
+		{
+			if (arr[i] > arr[j]) // Not in Ascending Order
+				swap(arr[i], arr[j]);
+		}
+	}
+}
+
+
+TC: O(N^2)
+SC: O(1)
+
+
+
+Best Case:
+Min Swaps - Already Sorted 
+
+
+Worst Case:
+Max Swaps - Descending Order
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SELECTION SORT:
+
+
+
+Approach:
+
+- Select the Smallest Element in Array
+- Place it at the Beginning of Array
+- Repeat the Process for arr[0....n], arr[1...n] till arr[n-1....n]
+
+
+
+
+
+DRY RUN:
+
+
+arr = [64 25 12 22 11]
+OP:   [11 12 22 25 64]
+
+
+Indexing: 0 to 4
+
+
+(A) arr[0....4]: [64 25 12 22 11]
+
+Smallest Element = 11
+Place it to the Beginning
+
+[64 25 12 22 11] -----> [11 64 25 12 22]
+
+
+(B) arr[1....4]: [64 25 12 22]
+
+Smallest Element = 12
+Place it to the Beginning
+
+[11 64 25 12 22] -----> [11 12 64 25 22]
+
+
+(C) arr[2....4]: [64 25 22]
+
+Smallest Element = 22
+Place it to the Beginning
+
+
+[11 64 25 12 22] -----> [11 12 22 64 25]
+
+
+
+(D) arr[3....4]: [64 25]
+
+Smallest Element = 25
+Place it to the Beginning
+
+
+
+[11 12 22 64 25] -----> [11 12 22 25 64]
+
+
+arr[0....n], arr[1....n] ............arr[n-1...n]
+
+
+
+Selection Sort -> Opposite of Bubble Sort: Approach Wise
+
+
+
+TC: O(N^2)
+SC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+VVVVVI
+Q-1: [LC-215] Kth Largest Element in an Array
+https://leetcode.com/problems/kth-largest-element-in-an-array/description/
+
+
+Given an integer array nums and an integer k, return the kth largest element in the array.
+
+Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+Can you solve it without sorting?
+
+ 
+
+Example 1:
+
+Input: nums = [3,2,1,5,6,4], k = 2
+Output: 5
+
+Example 2:
+
+Input: nums = [3,2,3,1,2,4,5,5,6], k = 4
+Output: 4
+ 
+
+Constraints:
+
+1 <= k <= nums.length <= 105
+-104 <= nums[i] <= 104
+
+
+    public int findKthLargest(int[] nums, int k) 
+    {
+
+	}
+
+
+
+
+
+Understanding:
+
+
+Input: nums = [3,2,1,5,6,4], k = 2
+Output: 5
+
+
+1st Largest Element: 6
+2nd Largest Element: 5 - OP
+
+
+Input: nums = [3,2,3,1,2,4,5,5,6], k = 4
+Output: 4
+
+
+1st Largest Element: 6
+2nd Largest Element: 5 
+3rd Largest Element: 5
+4th Largest Element: 4 - OP
+
+
+
+
+
+Solution:
+
+
+(1) Ascending Sorting:
+
+Input: nums = [3,2,1,5,6,4], k = 2
+Output: 5
+
+After Sorting:
+[1 2 3 4 5 6]
+
+N = 6
+K = 2
+
+Index = N-K = 6-2 = 4
+
+
+CODE:
+
+
+Arrays.sort(arr);
+return arr[n-k+1]
+
+
+TC: O(NlogN)
+SC: O(1)
+
+
+(2) Descending Sorting:
+
+
+Input: nums = [3,2,1,5,6,4], k = 2
+Output: 5
+
+After Sorting:
+[6 5 4 3 2 1]
+
+Index = K-1
+
+CODE:
+
+Arrays.sort(arr).Reverse(0,n);
+return arr[k-1]
+
+
+
+TC: O(NlogN)
+SC: O(1)
+
+
+C++: sort(arr.begin(), arr.end(), greater<int>);
+Java: Arrays.sort(arr).Reverse(s_idx,e_idx);
+
+
+
+
+
+
+(3) Heap:
+- Max Heap:
+- Min Heap:
+
+
+
+Q = [1 5 2]
+
+Max-Heap: [root: 5 2 1]
+Min-Heap: [root: 1 2 5]
+
+
+
+Implementation of Heap:
+
+C++: Priority Queue, MultiSet
+Java: Priority Queue
+Py: Priority Queue
+
+
+By Default:
+
+
+C++: PQ -> Max Heap
+Java: PQ -> Min Heap
+Py: PQ -> Min Heap
+
+
+
+
+(3) Max Heap
+
+
+Max-Heap: Largest Element at Root
+
+
+Pop for (K-1) Times
+Root: Kth Largest Element
+
+
+
+
+
+CODE:
+
+// TC: O(NlogK) + O(K-1)
+// SC: O(N)
+
+class Solution 
+{
+public:
+    int findKthLargest(vector<int>& nums, int k) 
+    {
+    // PriorityQueue<Integer> pq = new PriorityQueue<Integer>(); - JAVA
+        // pq.add(), pq.peek(), pq.poll()
+        
+        priority_queue<int> pq (nums.begin(), nums.end()); // Max-Heap
+        int i = 0;
+        
+        // Dont Pop for K Times, Just Pop for K-1 Times, So That your Answer -> Kth Largest Element is on Top
+        for (i=0; i<k-1; i++)
+            pq.pop(); // Deleted (K-1) Times
+            
+        return pq.top(); // Kth Largest Element   
+    }
+};
+
+
+
+
+
+
+
+(4) Min Heap:
+
+
+Min-Heap: Smallest Element at Root
+
+
+Pop (N-K) Times
+
+
+CODE:
+
+
+// TC: O(NlogK)
+// SC: O(K)
+
+class Solution 
+{
+public:
+    int findKthLargest(vector<int>& nums, int k) 
+    {
+       // priority_queue<int> pq (nums.begin(), nums.end()); // max- heap
+         priority_queue<int, vector<int>, greater<int>> pq; // min-heap 
+
+         for (int val: nums) // O(N)
+         {
+             pq.push(val);
+             
+             if (pq.size() > k) 
+                 pq.pop(); // log K - Heapify
+         }
+        
+        return pq.top();        
+    }  
+};
+
+
+
+
+
+
+
+
+JAVA:
+
+
+// TC: O(N * log K)
+// SC: O(K)
+
+class Solution {
+    public int findKthLargest(int[] nums, int k) 
+    {
+        PriorityQueue<Integer> pq = new PriorityQueue<>(); // Min-Heap
+
+        for (int i=0; i<nums.length; i++) // O(N)
+        {
+            pq.add(nums[i]);
+
+            if (pq.size() > k) // O(log K) - Heapify
+                pq.poll();
+        }
+
+        return pq.peek();  // Kth Largest Element will be at Top   - O(1)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+IMP:
+------------> MERGE SORT:
+
+Underlying Algo:
+Divide and Conquer (Same for Quick Sort)
+
+
+
+							Merge Sort        Quick Sort
+
+Best                         O(NlogN)          O(NlogN)
+Average                      O(NlogN)          O(NlogN)
+Worst                        O(NlogN)          O(N^2)
+
+Space                        O(N)              O(1)
+
+
+
+
+
+
+
+Steps:
+
+
+
+(1) Divide
+
+- Divides the Array into two halves
+- Recursively calls the function for the two halves
+- Until it becomes a single unit/element
+
+
+
+
+(2) Conquer
+
+- Sort the Two Halves Individually
+- Merge the Two Sorted Halves back together in an Array
+
+
+
+
+
+Example:
+
+arr = [38 27 43 3 9 82 10]
+
+N = 7
+Index: 0 to 6
+
+Mid = (0+6)/2 = 3
+
+
+First Half: 
+arr[0] to arr[3]
+= [38 27 43 3]
+
+
+Second Half:
+arr[4] to arr[6]
+= [9 82 10]
+
+
+
+DIVIDE:
+
+
+					[38 27 43 3 9 82 10]
+
+			 [38 27 43 3]           [9 82 10]
+
+			[38 27] [43 3]         [9] [82 10]
+
+			[38] [27] [43] [3]      [9] [82] [10]
+
+
+STOP: Cannot further Divide: Single Unit/ Element
+
+
+
+
+CONQUER:
+
+			[27 38]  [3 43]         [9] [10 82]
+
+			[3 27 38 43]           [9 10 82]
+
+					[3 9 10 27 38 43 82] : OP
+
+
+
+
+
+
+How Conquer Works?
+
+
+[38] [27] ------> [27 38]
+
+
+Create Array of Size: 1 + 1 = 2
+Compare 27 and 38
+27 < 38: Push 27 first
+
+Ans = [27 38]
+
+
+
+[27 38] [3 43] -----> [3 27 38 43]
+
+left[m], right[n] ------> Ans[m+n]
+
+
+Create Array of Size: m + n
+
+
+Compare each values of the array and select the smallest
+Follow Recursively
+
+
+
+
+
+
+
+
+
+
+
+
+
+Pseudo Code:
+
+
+
+left = 0, right = n-1
+
+void mergeSort(int[] arr, int left, int right)
+{
+	if (left<=right)
+	{
+		mid = left + (right-left)/2;
+
+		// Left Part
+		mergeSort(arr, left, mid);
+
+		// Right Part
+		mergeSort(arr, mid+1, right);
+
+		// Merge
+		merge(arr, left, mid, right); // Merge the Two Parts Together
+	}
+}
+
+
+TC: O(NlogN) - All Cases
+SC: O(N) - Extra Space
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+IMP
+Q-2: [LC-75] Sort Colors
+https://leetcode.com/problems/sort-colors/description/
+
+Given an array nums with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
+
+We will use the integers 0, 1, and 2 to represent the color red, white, and blue, respectively.
+
+You must solve this problem without using the librarys sort function.
+
+Example 1:
+
+Input: nums = [2,0,2,1,1,0]
+Output: [0,0,1,1,2,2]
+
+
+Example 2:
+
+Input: nums = [2,0,1]
+Output: [0,1,2]
+ 
+
+Constraints:
+
+n == nums.length
+1 <= n <= 300
+nums[i] is either 0, 1, or 2.
+ 
+
+Follow up: Could you come up with a one-pass algorithm using only constant extra space?
+
+
+    public void sortColors(int[] nums) 
+    {
+
+
+	}	
+
+
+Solution:
+
+
+
+(1) In-Built Sort: Not Allowed, But One of the Solutions
+
+
+Arrays.sort(arr);
+sort(arr, arr+n);
+sorted(arr)
+
+TC: O(NlogN)
+SC: O(1)
+
+
+(2) Two Pass
+
+
+
+(3) One Pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+HW:
+Which is the Best Sorting Algorithm in the World?
+
+
+
+
+
+
+
+
+
