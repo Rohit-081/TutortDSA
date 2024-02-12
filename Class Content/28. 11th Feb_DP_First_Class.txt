@@ -1,0 +1,1185 @@
+Date : 11th February 2024
+Mentor: DEVANG SHARMA
+Batch: Oct Batch (DSA) - Tutort Academy
+
+Agenda:
+
+- Modulo Arithmetic: 
+
+- Dynamic Programming: 
+- Introduction to DP- DONE
+- DP vs Backtracking vs Greedy - DONE
+- DP vs Recursion- Real Life Example - DONE
+
+- 4 Steps to Solve Any DP Question in World - MOST IMPORTANT
+
+Questions
+- Max Steps - Amazon: DONE
+- Removing Chocolates- Paypal: DONE
+- [Adobe] Q: Variation of Sum of Numbers- 1,3,5: 
+- Uncertain Steps- Google: 
+
+2D DP:
+- Goldmine- Microsoft
+- Maximum size square sub-matrix with all 1s- Paypal
+
+- Recursion and Queue Questions
+https://leetcode.com/problems/count-good-numbers/
+https://leetcode.com/problems/permutation-sequence/
+https://leetcode.com/problems/swap-nodes-in-pairs/
+https://leetcode.com/problems/regular-expression-matching/
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+--------> Dynamic Programming (DP)
+
+
+1-10
+Avg: 1-2
+
+
+Recursion: (1-10)
+Avg: 5-6
+
+
+Target: DP: 8-9
+
+
+
+
+
+
+
+------> DP vs Backtracking vs Greedy
+
+
+
+DP:
+- Optimisation Over Recursion
+- Storing the results of previous states to avoid recalculating again and again
+
+Eg: 0-1 Knapsack, LCS, LIS etc
+
+
+Backtracking:
+- Optimisation Over Recursion Without Storing the state Results
+- Exhaust All Possible States
+
+Eg: Rat in a Maze, N Queens
+
+
+Greedy:
+- Find me the BEST Solution NOW
+- DONT THINK ABOUT FUTURE
+
+(Local Maxima/Minima == Global Maxima/Minima)
+
+Eg: Coin Change Problem
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> DP vs Greedy: Practical Example
+
+Eg: GoldMine Question
+
+
+Given a Matrix,
+Each Cell Contains Gold Coins
+Calculate Max Gold Coins in the Matrix
+
+Constraints:
+- Right or Down
+- S and D Given
+
+
+
+[
+S: 1    10     20
+   100  1000    25
+   70    80     90: D
+]
+
+S-D Path?
+
+Ans: 1 100 1000 80 90
+
+
+
+
+
+
+-----> DP Way:
+
+
+Find All S-D Valid Paths and then Check for Maximum
+
+1 10 1000 25 90: VALID
+1 10 1000 80 90: VALID
+1 100 1000 25 90: VALID
+1 100 1000 80 90: VALID - ANS
+.....................
+
+
+
+------> Greedy Way:
+
+You are at 1: 10 or 100
+
+According to Greedy,
+"ALWAYS" Go to 100 because MAX(10,100) = 100
+
+AT Every Step, Choose the BEST SOLUTION There,
+DONT THINK ABOUT FUTURE
+
+
+Note:
+Greedy will NOT Always Give you correct Answers
+
+
+
+Test case-1:
+
+[
+S: 1    10     20
+   100  1000    25
+   70    80     90: D
+]
+
+
+Expected OP: 1 100 1000 80 90
+
+Greedy OP: 1 -> 100 (10/100) -> 1000 (70/1000) -> 80 (25/80) -> 90
+		 : 1 100 1000 80 90 : CORRECT
+
+
+
+
+
+
+
+Test case-2:
+
+[
+S: 1    10      2000
+   100  1000    25
+   70    80     90: D
+]
+
+
+Expected OP: 1 10 2000 25 90
+
+Greedy OP: 1 -> 100 (10/100) -> 1000 (70/1000) -> 80 (25/80) -> 90
+		 : 1 100 1000 80 90 : INCORRECT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+For Any DS/Algo:
+
+- What (Use Case/Problem) : DONE
+- Why (Applications): DONE
+- How (Coding/Implementation): DONE
+
+
+
+What?
+- "Optimisation Over Recursion" by "Storing the State Results" 
+
+
+Why?
+Exponential Time Complexity ------> Polynomial Time
+
+
+O(2^N)         ------>            O(N)
+Fibonacci                       Fibonacci 
+Recursion						   DP
+
+
+
+
+State Variables:
+Determines the Order of DP
+
+
+1-D DP: State Depends upon 1 Variable Only
+Eg: Fibonacci Sequence (Only n determining the State)
+
+
+2-D DP: State Depends upon 2 Variables
+Eg: 0-1 Knapsack (value and weight BOTH determining the state)
+
+3-D DP: State Depends upon 3 Variables
+
+Eg:
+House of Robbers-3: LC Premium
+Round H - GKS 2019
+
+
+
+
+
+Fibonacci Sequence:
+
+0 1 1 2 3 5 8 13 21......
+
+fib(n) = fib(n-1) + fib(n-2): Recurrence Relation
+
+
+
+fib(0) = 0 - Base Case: Leaf Node
+fib(1) = 1 - Base Case: Leaf Node
+
+
+IP: N = 5
+OP: 3
+
+
+
+
+Take N = 5
+
+fib(5) = fib(4) + fib(3)
+fib(4) = fib(3) + fib(2)
+fib(3) = fib(2) + fib(1)
+........................
+
+
+
+
+TREE DIAGRAM:
+
+										5 - YOU - (2*x + y)
+									4 (x+y)       3	(x)	
+								3(x)   2(y)    2    1	
+							2     1  1   0    1  0 
+GROUND			  		  1  0		
+
+
+
+
+Real Life Example:
+
+Two Brothers:
+
+(1) Recursion: Elder brother: Hardworking
+(2) DP: Younger Brother: Smart but Lazy
+
+
+Task:
+Valentine: Collect Gifts from All Neighbours in Society
+
+
+
+
+Recursion: Hard Worker
+
+Start from Ground Floor: ALWAYS
+
+1st: 0-1
+2nd: 0-1-2
+3rd: 0-1-2-3
+4th: 0-1-2-3-4
+
+
+
+
+DP: Smart Worker
+
+Use a Lift
+
+1st: 0-1
+2nd: 1-2
+3rd: 2-3
+4th: 3-4
+
+
+
+
+
+
+
+Nth Fibonacci Number:
+
+fib(n) = fib(n-1) + fib(n-2)
+
+0 1 1 2 3 5 8 13 21......
+
+
+IP:
+N = 5
+OP: 3
+
+
+
+
+
+
+-------> Recursive Solution:
+
+int fibRec(int n)
+{
+	if (n==0 || n==1)
+		return n;
+
+	return fibRec(n-1) + fibRec(n-2);
+}
+
+
+
+Complexity of Recursion:
+= O(Branches ^ Depth)
+
+
+TC: O(2^N)
+SC: O(1) - In Memory
+	O(N) - Auxiliary Memory
+
+
+
+
+Recursion Stack:
+
+fibRec(1)
+fibRec(2)
+fibRec(3)
+fibRec(4)
+fibRec(5)
+
+Stack Fashion
+
+
+
+
+
+
+
+
+
+
+
+
+------> DP Solution:
+
+int fibDP(int n)
+{
+	int[] res = new int[n+1]; // Storing Results for Nth Fibonacci Also
+
+	res[0] = 0;
+	res[1] = 1;
+
+	for (i=2; i<=n; i++)
+		res[i] = res[i-1] + res[i-2];
+
+	return res[n]; // Nth Fibonacci Number
+}
+
+
+TC: O(N)
+SC: O(N)
+
+
+
+
+
+Take N = 100
+1 Iteration = 1 second
+
+
+O(2^N) = 2^100 Iterations = 2^100 seconds = Trillions of Years
+O(N) = 100 Iterations = 100 second = 1 Min 40 seconds
+
+
+
+DP:
+
+Stores the Results of previous Subproblems so that it can be used again.
+No NEED to RE-CALCULATE Again and Again.
+
+
+
+
+
+
+
+
+
+
+IMP: CRUX
+
+
+
+How to Solve ANY DP Question in World ----- MOST IMPORTANT
+
+
+4 Steps:
+
+(1) Identify:
+
+TRICK:
+
+Maximum, Minimum, Largest, Smallest, Longest, Shortest, 
+Count, Number of Ways, Permutations etc etc  ------ Mathematical Operations
+
+Eg:
+
+"Longest" Common Subsequence (LCS) between two Strings
+- DP
+
+
+Reasoning:
+
+DP Way:
+Find All Valid Solutions and then Select the Best Choice.
+
+
+ar = [1 4 2 3]
+
+Max = 4: Check for All Values, then max: 4
+
+
+Leetcode Theory: https://leetcode.com/explore/learn/card/dynamic-programming/630/an-introduction-to-dynamic-programming/4094/
+
+
+
+
+(2) Decide a State Expression
+
+state(k) = ?
+
+TRICK:
+
+Note = state(N) = ALWAYS MENTIONED IN THE QUESTION
+state(K) = Replace N with K
+
+
+(3) Formulate a State Relation - IMP
+
+- How Does the Current State Result Relates to Previous State Results
+
+state(k) ----> k-1, k-2 etc
+
+
+(4) Optimisation - Tabulation/Memoisation
+Higher Order DP: 2D and Above
+
+
+
+
+
+
+
+
+
+Questions
+- Max Steps - Amazon: 
+- Removing Chocolates- Paypal: 
+- [Adobe] Q: Variation of Sum of Numbers- 1,3,5: 
+- Uncertain Steps- Google: 
+
+2D DP:
+- Goldmine- Microsoft
+- Maximum size square sub-matrix with all 1s- Paypal
+
+
+
+
+
+
+Q-1: [Amazon] Max Steps to reach nth stair
+
+
+There are N stairs, a person standing at the bottom wants to reach the top. 
+The person can climb either 1 stair or 2 stairs at a time. 
+Count the number of ways, the person can reach the top (order does matter).
+
+Example Input:
+4
+
+Output:
+5
+
+Note: Please output your answer as modulo of 1000000007
+
+
+
+Understanding:
+
+Order Does Matter:
+[1,2] and [2,1] -------> Different Solutions: Count = 2
+
+Order Does Not Matter:
+[1,2] and [2,1] -------> Same Solutions: Count = 1
+
+
+
+int max_steps(int n)
+{
+
+}
+
+
+
+
+
+Solution:
+
+
+
+(1) Identify: DONE
+"Count the number of ways"
+
+
+(2) Decide a State Expression: DONE
+
+state(N) = Number of Ways to Reach Nth Stair Using 1 or 2 Steps
+state(K) = Number of Ways to Reach Kth Stair Using 1 or 2 Steps
+
+
+TRICK:
+
+Note = state(N) = ALWAYS MENTIONED IN THE QUESTION
+state(K) = Replace N with K
+
+
+(3) Formulate a State Relation - IMP
+
+- How Does the Current State Result Relates to Previous State Results
+
+state(k) ----> k-1, k-2 etc
+
+ANS: state(k) = state(k-1) + state(k-2)
+
+
+
+
+
+
+Reach: 5th Stair
+
+
+4th Stair: 1 Step
+3rd Stair: 2 Steps
+
+
+				5
+			 4    3	
+
+
+Number of Ways to Reach 5th Stair
+= 
+Number of Ways to Reach 4th Stair
+		+ (OR)
+Number of Ways to Reach 3rd Stair
+
+
++: OR
+*: AND
+
+
+
+state(5) = state(4) + state(3)
+		 = state(5-1) + state(5-2)
+
+
+state(k) = state(k-1) + state(k-2)
+
+
+
+------> Fibonacci Sequence
+
+IP: 4
+OP: 5
+
+
+IP: 5
+OP: 8
+
+
+IP: 6
+OP: 13
+
+
+
+Rec: O(2^N) - TLE
+DP: O(N) - Pass All TC
+
+Note: Please output your answer as modulo of 1000000007
+
+1000000007 = 1e9+7
+
+Since the Answer can be Very Large, 
+Hence use Modulo 1000000007
+
+
+
+
+int: -2Bn to +2Bn
+
+int a = 1.5 Bn;
+int b = 1.5 Bn;
+
+
+int c = a + b; // 3 Bn ----> OVERFLOW:
+
+cout<<c; ------ NO ERROR
+
+a + b -------> Negative Value : Cyclic Dependency
+
+
+-2 Bn ------> + 2 Bn ------> -2 Bn -------> + 2 Bn
+
+
+OP: WA (Wrong Answer)
+Expected OP != Generated OP
+
+
+- Silent Killer
+
+
+10 TC, 8 TC Passed, 2 WA
+Logic: Correct Edge Cases (Very Large Cases)
+
+
+10 TC, 0 Passes, 10 WA
+Logic: Incorrect
+
+
+int a = 1.5 Bn;
+int b = 1.5 Bn;
+
+
+int c = a + b; // 3 Bn ----> OVERFLOW:
+int m = 1000000007;
+
+
+Property:
+(a + b) % m = ((a % m) + (b % m)) % m
+
+
+int c = (a + b) % m; ---- OVERFLOW
+
+int c = ((a % m) + (b % m)) % m ------ NO OVERFLOW
+
+
+
+
+(a + b) % m = ((a % m) + (b % m)) % m
+
+Eg:
+
+a = 3
+b = 5
+m = 13
+
+
+LHS 
+= (3 + 5) % 13 
+= 8 % 13
+= 8
+
+
+RHS 
+= ((3 % 13) + (5 % 13)) % 13
+= (3 + 5) % 13
+= 8 % 13
+= 8
+
+LHS = RHS
+
+
+
+
+
+
+CODE:
+
+
+Stair: 1 or 2 Steps
+
+
+Reach 1st Stair: 1 Way - [1]
+dp[1] = 1
+
+Reach 2nd Stair: 2 Ways - [1,1], [2]
+dp[2] = 2
+
+Reach 3rd Stair: 3 Ways -  [1,1,1], [1,2], [2,1]
+dp[3] = 3
+
+
+dp[3] = dp[2] + dp[1]
+
+
+
+
+CODE:
+
+
+// -2 Bn to + 2Bn
+// int c = 1.5 Bn + 1.5 Bn
+// cout<<c : c-> GARBAGE VALUE
+
+struct Solution {
+    // TC: O(N)
+    // SC: O(N)
+    
+  int max_steps(int n) 
+  {
+      int dp[n+1]; // SC: O(N) - Nth Stair result also included -> N+1
+      // dp[0] = 0;
+      dp[1]= 1; // [1]
+      dp[2] = 2;//[1,1],[2]
+      // dp[3] = 3   [1,1,1], [1,2],[2,1] = dp[2] + dp[1]
+      int i=0;
+      int mod = 1000000007;
+      
+      for (i=3; i<=n; i++)  // TC: O(N)
+      {
+          // int c = a + b; -- OVERFLOW
+		// int c = ((a%mod) + (b%mod))% mod -- No OVERFLOW
+          // (a + b) % m = ((a % m) + (b % m)) % m
+
+          dp[i] = ((dp[i-1]%mod) + (dp[i-2]%mod)) % mod; // Avoid Overflow
+      }
+      
+      return dp[n]; // Nth Stair to reach using 1 or 2 steps
+  }
+};
+
+
+
+TC: O(N)
+SC: O(N)
+
+
+
+
+Smae Question:
+Leetcode: [LC-70] Climbing Stairs
+
+
+
+
+Follow Up:
+
+- Fibonacci
+- Max Steps (0 to N)
+- Max Steps (N to 0)
+
+
+
+
+
+
+
+
+Number of Permutations/Ways
+Total: N Values
+Repeated: r values
+
+Ways = N!/ r!
+
+
+Q-2: [Adobe] Find Number of Ways to make N as sum of {1,2}
+
+Note: Repetitions and Combinations are Allowed
+
+
+Eg: N = 5
+
+Ways:
+
+[1 1 1 1 1] = 1 Permutation
+[1 2 2] = 3!/2! = 3 Permutations
+[2 1 2]
+[2 2 1]
+[2 1 1 1] = 4!/3! = 4 Permutations
+[1 2 1 1]
+[1 1 2 1]
+[1 1 1 2]
+
+
+OP:
+8
+
+
+
+int numberOfWays(int n)
+{
+
+}
+
+
+
+Solution:
+
+(1) Identify: DONE
+"Number of Ways"
+
+
+(2) Decide a State Expression: DONE
+
+state(N) = Number of Ways to make N as sum of {1,2}
+state(K) = Number of Ways to make K as sum of {1,2}
+
+TRICK:
+
+Note = state(N) = ALWAYS MENTIONED IN THE QUESTION
+state(K) = Replace N with K
+
+
+(3) Formulate a State Relation - IMP
+
+- How Does the Current State Result Relates to Previous State Results
+
+state(k) ----> k-1, k-2 etc
+
+ANS: state(k) = state(k-1) + state(k-2)
+
+
+
+
+Only Allowed to Add 1 or 2:
+
+Make 7:
+= 6 + 1
+   OR
+  5 + 2
+
+
+
+Number of Ways to make 7
+=
+Number of Ways to make 6
+ 	+ (OR)
+Number of Ways to make 5
+
+
+
+state(7) = state(6) + state(5)
+		 = state(7-1) + state(7-2)
+
+state(k) = state(k-1) + state(k-2)
+- Fibonacci Sequence
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-3: [Microsoft] Find Number of Ways to Make N to 0 by Removing {1,2}
+
+Note: Repetitions and Combinations are Allowed
+
+
+Eg: N = 5
+OP: 8
+
+
+
+0 to N by Adding {1,2}
+N to 0 by Removing {1,2}
+
+
+
+Same Questions:
+
+- Fibonacci
+- Max Steps: Bottom to Top (0 to N)
+- Max Steps: Top to Bottom (N to 0)
+- 0 to N as sum of {1,2}
+- N to 0 By Removing {1,2}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-4: [Paypal] Removing chocolates
+
+A box contains a number of chocolates that can only be removed 1 at a time or 3 at a a time. 
+How many ways can the box be emptied?
+
+The answer can be very large so return it modulo of 10^9+7
+
+For example, there are n = 7 chocolates initially. They can be removed nine ways as follows:
+
+(1,1,1,1,1,1,1)
+(1,1,1,1,3)
+(1,1,1,3,1)
+(1,1,3,1,1)
+(1,3,1,1,1)
+(3,1,1,1,1)
+(1,3,3)
+(3,1,3)
+(3,3,1)
+
+Input format: Single line represents the no of chocolates in the box.
+
+Output format: The number of ways of removing the chocolates modulo 10^9 + 7
+
+Constraints:
+1 <= n <= 10^9
+
+Sample Input 1 :
+1
+
+Sample Output 1 :
+1
+
+Explanation:: There is only one way to remove a chocolate, so
+
+ans = 1 % 1000000007 = 1
+
+
+Sample Input 2 :
+3
+
+Sample Output 2 :
+2
+
+Explanation: There are two ways to remove all the chocolates.
+
+remove all 3 at once,
+remove one after the other, so
+ans = 2 % 1000000007 = 2.
+
+
+
+
+int removeChocolates(int n)
+{
+
+}
+
+
+
+
+Solution:
+
+N -----> 0 by Removing {1,3}
+
+OR
+
+0 -----> N by Adding {1,3}
+
+
+
+
+(1) Identify: DONE
+"How many ways"
+
+
+(2) Decide a State Expression: DONE
+
+state(N) = Number of Ways to remove N Chocolates by removing {1,3}
+state(K) = Number of Ways to remove K Chocolates by removing {1,3}
+
+TRICK:
+
+Note = state(N) = ALWAYS MENTIONED IN THE QUESTION
+state(K) = Replace N with K
+
+
+(3) Formulate a State Relation - IMP
+
+- How Does the Current State Result Relates to Previous State Results
+
+state(k) ----> k-1, k-2 etc
+
+ANS: state(k) = state(k-1) + state(k-2)
+
+
+
+
+
+
+
+
+
+
+Remove 7 Chocolates:
+
+- Remove 1 Chocolates --> 6
+- Remove 3 Chocolates --> 4
+
+
+
+						7
+					6      4	
+				  5  3    3  1	
+
+
+
+Bottom Up Approach:
+0 -----> N by Adding {1,3}
+
+
+Top Down Approach
+N -----> 0 by Removing {1,3}
+
+
+state(7) = state(6) + state(4)	
+		 = state(7-1) + state(7-3)
+
+
+state(k) = state(k-1) + state(k-3)
+
+
+
+
+
+NOTE:
+
+state(k) = state(k-1) + state(k-p)
+Maximum Value: p
+- Initialise first p values for DP Ans
+
+
+
+state(k) = state(k-1) + state(k-2)
+- Initialise first 2 values for DP Ans
+
+
+
+state(k) = state(k-1) + state(k-3)
+- Initialise first 3 values for DP Ans
+
+
+
+{1,3}
+
+dp[1] = 1 // [1]
+dp[2] = 1 // [1,1]
+dp[3] = 2 // [1,1,1],[3]
+
+
+
+CODE:
+
+
+
+
+// TC: O(N)
+// SC: O(N)
+
+import java.io.*;
+import java.util.*;
+
+class Main
+{        
+     static int mod = 1000000007;
+
+    static int removingChocolates(int n)
+    {
+        int[] ans = new int[n+1];
+        int i=0;
+        ans[0] = 1;
+        ans[1] = 1;
+        ans[2] = 2;
+        
+        // 1 = [1] - 1 Way
+   		// 2 = [1 1] - 1 Way
+    	// 3 = [1 1 1], [3]  - 2 Ways
+        
+        for (i=3; i<=n; i++)
+        {
+            ans[i] = ((ans[i-1] % mod) + (ans[i-3] % mod)) % mod;
+        }
+        
+        // (a+b) % m = ((a%m) + (b%m)) % m
+        
+        return ans[n-1]; // N
+        
+    }
+    
+    public static void main(String[] args)
+    {
+    Scanner s = new Scanner(System.in);
+    int n = s.nextInt();
+    System.out.println(removingChocolates(n));
+    }
+    
+}
+
+
+TC: O(N)
+SC: O(N)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

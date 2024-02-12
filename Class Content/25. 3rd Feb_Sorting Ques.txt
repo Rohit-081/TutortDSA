@@ -1,0 +1,1025 @@
+Date : 3rd February 2024
+Mentor: DEVANG SHARMA
+Batch: Oct Batch (DSA) - Tutort Academy
+
+Agenda:
+
+- Sorting - Theory + Questions: DONE
+- Sorting LC Questions: DONE
+
+https://leetcode.com/problems/kth-largest-element-in-an-array/: DONE
+https://leetcode.com/problems/sort-colors/: 
+https://leetcode.com/problems/largest-number/: 
+https://leetcode.com/problems/sort-the-matrix-diagonally
+
+https://leetcode.com/problems/majority-element-ii/
+https://leetcode.com/problems/sort-list/
+https://leetcode.com/problems/contains-duplicate/: Easy
+https://leetcode.com/problems/contains-duplicate-iii/: Good
+
+
+- Recursion - Questions
+- Hashing- Sets and Maps: Questions
+- Queue: LC Questions- Sorting Questions
+
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+IMP
+Q-2: [LC-75] Sort Colors
+https://leetcode.com/problems/sort-colors/description/
+
+Given an array nums with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
+
+We will use the integers 0, 1, and 2 to represent the color red, white, and blue, respectively.
+
+You must solve this problem without using the librarys sort function.
+
+Example 1:
+
+Input: nums = [2,0,2,1,1,0]
+Output: [0,0,1,1,2,2]
+
+
+Example 2:
+
+Input: nums = [2,0,1]
+Output: [0,1,2]
+ 
+
+Constraints:
+
+n == nums.length
+1 <= n <= 300
+nums[i] is either 0, 1, or 2.
+ 
+
+Follow up: Could you come up with a one-pass algorithm using only constant extra space?
+
+
+    public void sortColors(int[] nums) 
+    {
+
+
+	}	
+
+
+Solution:
+
+
+
+(1) In-Built Sort: Not Allowed, But One of the Solutions
+
+
+Arrays.sort(arr);
+sort(arr, arr+n);
+sorted(arr)
+
+TC: O(NlogN)
+SC: O(1)
+
+
+
+
+
+(2) Two Pass (Travel Array Twice)
+
+Approach:
+
+- Count the frequency of 0,1,2
+- Store in Variables: O(1)
+- Put 0,1,2, in that Order of Count
+
+Input: nums = [2,0,2,1,1,0]
+Output: [0,0,1,1,2,2]
+
+
+
+Value        Count
+
+0             2
+1			  2
+2             2
+
+
+Put 0 Two Times, Put 1 Two Times, Put 2 Two Times
+OP: [0 0 1 1 2 2]
+
+
+CODE:
+
+// TC: O(N) + O(N)
+// SC: O(1)
+
+class Solution {
+    public void sortColors(int[] nums) 
+    {
+        int countZero = 0, countOne = 0, countTwo = 0;
+        int i = 0;
+        int n = nums.length;
+
+        for (i=0; i<n; i++)
+        {
+            if (nums[i] == 0)
+                ++countZero;
+
+            else if (nums[i] == 1)
+                ++countOne;
+            
+            else
+                ++countTwo;
+        }
+
+        // countZero + countOne + counTwo = N
+
+        // Putting 0
+        for (i=0; i<countZero; i++)
+            nums[i] = 0;
+
+        // Putting 1
+        for (i=0; i<countOne; i++)
+            nums[countZero + i] = 1;
+
+        // Putting 2
+        for (i=0; i<countTwo; i++)
+            nums[countZero + countOne + i] = 2;
+    }
+}
+
+
+
+
+
+
+
+
+(3) One Pass (Travel Array Once)
+
+
+
+Approach:
+
+0, 1, 2
+
+If I Find 2 -----> Move to Right
+
+If I Find 0 -----> Move to Left
+
+
+
+....0      ....1....       ......2
+
+
+
+Move All 0 to left
+Move All 2 to right
+All 1 will be in Middle by Itself
+
+
+
+
+CODE:
+
+
+// TC: O(N)
+// SC: O(1)
+
+class Solution {
+    public void sortColors(int[] nums) 
+    {
+        int i = 0;
+        int n = nums.length;
+        int start = 0, end = n-1;
+
+        while (i<=end)
+        {
+            if (nums[i] == 0)
+            {
+                swap(nums, i, start);
+                start++;
+                i++;
+            }
+
+            else if (nums[i] == 1)
+                i++;
+
+            else if(nums[i] == 2)
+            {
+                swap(nums, i, end);
+                end--;
+            }
+        }
+    }
+
+    public void swap(int[] nums, int a, int b)
+    {
+        int temp = nums[a];
+        nums[a] = nums[b];
+        nums[b] = temp;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+VVVVVV IMP:
+Q-3: [LC-179] Largest Number [Microsoft]
+https://leetcode.com/problems/largest-number/description/
+
+
+Given a list of non-negative integers nums, arrange them such that they form the largest number and return it.
+
+Since the result may be very large, so you need to return a string instead of an integer.
+
+
+Example 1:
+
+Input: nums = [10,2]
+Output: "210"
+
+
+Example 2:
+
+Input: nums = [3,30,34,5,9]
+Output: "9534330"
+ 
+
+Constraints:
+
+1 <= nums.length <= 100
+0 <= nums[i] <= 109
+
+
+
+
+
+    public String largestNumber(int[] nums) 
+    {
+
+
+	}
+
+
+
+
+NOTE:
+
+Different Numbers: Shuffling Allowed
+Within Same Number: Shuffling Digits NOT Allowed
+
+
+Edge Case:
+
+Input: nums = [0,0,0,0]
+OP: "0"
+
+
+Input: nums = [0,0,0,1]
+OP: "1000"
+
+
+
+
+Solution:
+
+
+
+Comparator Based Sorting:
+
+String s1 = "3"
+String s2 = "30"
+
+String case1 = s2 + s1; ------ "303"
+
+String case2 = s1 + s2; ------ "330" : ANSWER
+
+case2 > case1
+
+
+
+
+
+Approach:
+
+(1) Convert All Numbers/Integers to String
+(2) Sort in Descending Order as per the Criteria: Comparator Based Sorting
+(3) Append in Solution
+
+
+
+Edge Case:
+Having All Values as 0 in the Array
+
+
+Input: nums = [9,0,6,5]
+OP: "9650": Already Handled in Decreasing Order
+
+
+
+Input: nums = [0,0,0,1]
+OP: "1000": Already Handled in Decreasing Order
+
+
+(4) Special Handling: Array with All 0
+- Delete All 0 Except 1 Zero
+
+Input: nums = [0,0,0,0]
+OP: "0"
+
+
+If Not Handled,
+OP: "0000" : Incorrect
+
+
+Note:
+If After Comparator Based Sorting, First Character is '0', Then All Values are 0 in the Array
+
+
+0001
+"1000"
+
+
+012020101
+"2....."
+
+
+
+
+
+CODE:
+
+
+
+
+
+
+// k: Average length of string in s_num[]
+// TC: O(NlogN * k) + O(N) = O(k * NlogN)
+// SC: O(N)
+
+class Solution {
+    public String largestNumber(int[] nums) 
+    {
+        if (nums == null || nums.length == 0)
+            return "";
+        
+        int i = 0;
+        int n = nums.length;
+        String[] s_num = new String[n];
+
+        for (i=0; i<n; i++)
+        {
+            s_num[i] = String.valueOf(nums[i]);
+            // toString() in C++
+        }
+
+        Comparator<String> comp = new Comparator<String>()
+        {
+            @Override
+            public int compare(String s1, String s2)
+            {
+                String str1 = s1 + s2;
+                String str2 = s2 + s1;
+
+                //System.out.println(str2.compareTo(str1));
+                //System.out.println(str1.compareTo(str2));
+                return str2.compareTo(str1); // REVERSE
+
+                // s1 > s2: s1.compareTo(s2): 1
+                // s1 < s2: s1.compareTo(s2): -1
+
+/*
+            s1 = 1, s2 = 2
+            2.compareTo(1) = -1  ----> "21"
+
+            s1 = 2, s2 = 3
+            3.compareTo(2) = 1 -----: "32"
+*/
+            }
+        };
+
+        Arrays.sort(s_num, comp); // O(NlogN)
+
+        // if AFTER Comparator Based Sorting, First Character is '0', The All Values are 0 in the Array
+        if (s_num[0].charAt(0) == '0')
+            return "0";
+        
+        StringBuilder ans = new StringBuilder();
+        for (String s: s_num)
+            ans.append(s);
+
+        return ans.toString();       
+    }
+}
+
+
+
+
+
+
+
+-----> C++:
+
+
+// TC: O(N*logN)
+// Sc: O(N) - String Array
+
+class Solution {
+public:
+    string largestNumber(vector<int>& nums) 
+    {
+        vector<string> arr;
+        string res = "";
+        
+        // Convert All values to string and add in array
+        for (auto i: nums)
+            arr.push_back(to_string(i));
+        
+// Sorting in Decreasing Order
+ // a + b > b+a: Decreasing Order
+ // a +b < b+a: Increasing Order
+        
+sort(begin(arr), end(arr), [](string &a, string &b){ return a +b > b+a; });
+        
+    for (auto val: arr)
+        res += val;
+        
+        // Edge Case:  nums = [0,0,0,0]
+        if (res[0] == '0')
+            res = "0";
+       
+        return res;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-4: [LC-217] Contains Duplicate - [Adobe]
+https://leetcode.com/problems/contains-duplicate/description/
+
+
+Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,1]
+Output: true
+
+
+Example 2:
+
+Input: nums = [1,2,3,4]
+Output: false
+
+
+Example 3:
+
+Input: nums = [1,1,1,3,3,4,3,2,4,2]
+Output: true
+ 
+
+Constraints:
+
+1 <= nums.length <= 105
+-109 <= nums[i] <= 109
+
+
+
+
+    public boolean containsDuplicate(int[] nums) {
+        
+    }
+
+
+
+
+
+
+Solution:
+
+(1) Brute Force:
+Two Nested Loops: Check if arr[i] == arr[j], return true
+
+TC: O(N^2), SC: O(1)
+
+
+(2) Brute Force Using XOR
+Two Nested Loops,
+Check if arr[i] ^ arr[j] == 0
+
+TC: O(N^2). SC: O(1)
+
+
+(3) Sorting:
+
+Check if arr[i] == arr[i+1]
+
+TC: O(NlogN), SC: (1)
+
+
+(4) Set: Check Present or Not
+
+set.find(): C++
+set.contains(): Java
+if i in set: Py
+
+
+TC: O(N), SC: O(N)
+
+(5) Set: Check if set.size() == arr.size()
+
+set.size() <= arr.size()
+
+
+TC: O(N), SC: O(N)
+
+(6) Map: Check if Present
+
+
+map.find(): C++
+map.contains(): Java
+if i in dict: Py
+
+
+TC: O(N), SC: O(N)
+
+
+2 Pass Solution:
+
+int n = arr.size();
+
+for (i=0; i<n; i++)
+{
+	map[arr[i]]++;
+}
+
+for (auto it:map)
+{
+	if (it.second > 1)
+		return true;
+}
+
+
+
+
+1 Pass Solution:
+
+int n = arr.size();
+
+for (i=0; i<n; i++)
+{
+	if (++map[arr[i]] > 1)
+		return true;
+}
+
+
+1 Pass Solution:
+
+
+int n = arr.size();
+
+for (i=0; i<n; i++)
+{
+	map[arr[i]]++;
+
+	if (map[arr[i]] > 1)
+		return true;
+}
+
+
+
+
+
+
+
+(7) Map: Frequency
+
+if (freq >= 2)
+
+TC: O(N), SC: O(N)
+
+
+(8) Stream API/Lambda
+
+TC: O(N), SC: O(N)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-5: [LC-219] Contains Duplicate II - [Amazon]
+https://leetcode.com/problems/contains-duplicate-ii/description/
+
+Given an integer array nums and an integer k, 
+return true if there are two distinct indices i and j in the array such that nums[i] == nums[j] and abs(i - j) <= k.
+
+ 
+Example 1:
+
+Input: nums = [1,2,3,1], k = 3
+Output: true
+
+
+Example 2:
+
+Input: nums = [1,0,1,1], k = 1
+Output: true
+
+
+Example 3:
+
+Input: nums = [1,2,3,1,2,3], k = 2
+Output: false
+ 
+
+Constraints:
+
+1 <= nums.length <= 105
+-109 <= nums[i] <= 109
+0 <= k <= 105
+
+
+
+
+public boolean containsNearbyDuplicate(int[] nums, int k) {
+        
+    }
+
+
+
+
+Understanding:
+
+
+nums[i] == nums[j] and abs(i-j) <= k
+
+
+
+Input: nums = [1,2,3,1], k = 3
+Output: true
+
+
+Value           Index
+1                 0
+1                 3
+
+abs(3-0) = 3 <=3: TRUE
+
+
+
+
+Input: nums = [1,0,1,1], k = 1
+Output: true
+
+
+
+Value           Index
+1                 0
+1                 2
+1                 3
+
+abs(3-2) = 1 <= 1: TRUE
+
+
+
+
+Input: nums = [1,2,3,1,2,3], k = 2
+Output: false
+
+
+
+Value           Index
+1                 0
+1                 3
+2                 1
+2                 4
+3                 2
+3                 5
+
+
+abs(3-0) = 3 <= 2: false
+abs(4-1) = 3 <= 2: false
+abs(5-2) = 3 <= 2: false
+
+
+
+
+
+
+
+Solution:
+
+nums[i] == nums[j] and abs(i-j) <= k
+
+Since Ordering/Indexing is Important, 
+Sorting is NOT the Correct Option for this.
+
+
+abs(i-j) <= k
+If sorted, i and j position will change
+
+
+(1) Brute Force Solution: Two Nested Loops
+
+
+public boolean containsNearbyDuplicate(int[] nums, int k) 
+{
+	for (i=0; i<n; i++)
+	{
+		for (j=i+1; j<n; j++)
+		{
+			if (arr[i] == arr[j] && abs(j-i)<=k)
+				return true;
+		}
+	}
+
+	return false;
+}
+
+
+TC: O(N^2)
+SC: O(1)
+
+
+
+
+
+
+
+
+(2) Map Based Solution
+
+nums[i] == nums[j] and abs(i-j) <= k
+
+
+
+Map:
+
+key: nums[index]: element
+value: index
+
+
+
+Check if abs(i-j)<= k
+return true
+
+
+
+
+Input: nums = [1,2,3,1], k = 3
+Output: true
+
+
+Map:
+
+1: 0
+2: 1
+3: 2
+1: 3
+
+
+
+abs(3-0) <= 3
+3 <= 3: TRUE
+
+
+OP: true
+
+
+
+
+CODE:
+
+// TC: O(N)
+// SC: O(N) - Map
+
+class Solution 
+{
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k) 
+    {
+        unordered_map<int, int> mp;
+        // MAP: 
+        // Key: nums[index]: Element
+        // Value: index
+        // Much Easier to check if keys are repeated instead of values in a map, hence, kept elements as keys, index can never be repeated
+
+        int i = 0;
+        int n = nums.size();
+
+        for (i=0; i<n; i++)
+        {
+       // Duplicate Element and abs(i-j) <= k, return true
+       // mps[nums[i]] = j
+       if (mp.find(nums[i])!=mp.end() && i-mp[nums[i]] <= k) 
+        return true;
+
+        mp[nums[i]] = i;
+        // Map - Key: Element, Value: Index of Element
+        }
+        
+        return false;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+(3) Set + Sliding Window
+
+abs(i-j) <= k
+
+
+Intuition:
+
+- Keep a Window of Size K
+- If Values are repeated in that window, return true
+
+
+[0......K-1]
+
+If Values are repeated, 
+diff of index <= K: 100%
+
+
+
+Approach:
+(1) Create Sliding Window of Size K
+(2) Using Set, Check if values are repeated
+
+
+diff of index <= K: Sliding Window
+Duplicate value: Set
+
+
+
+
+
+DRY RUN:
+
+
+Input: nums = [1,2,3,1], k = 3
+Output: true
+
+
+Moving left to right, Inserting values in set
+
+
+Set: [1], Size = 1, No Duplicate
+
+Set: [1 2], Size = 2, No Duplicate
+
+Set: [1 2 3], Size = 3, No Duplicate, Size = 3 == K: STOP
+
+
+size <= k: When Duplicate Found
+
+
+OP: true
+
+
+
+
+CODE:
+
+
+// TC: O(N)
+// SC: O(N) - Set
+
+class Solution 
+{
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k) 
+    {
+        unordered_set<int> set;
+        int i = 0;
+        int n = nums.size();
+        int j = 0;
+        // i and j are end points of sliding window, i is always increasing, j will be removed from set and increased only to shrink window size when size > k
+
+        for (i=0; i<n; i++)
+        {
+            // Window Size: <= k, If size > k, delete extra values
+
+            if (i-j > k)
+            {
+                set.erase(nums[j]);
+                j++;
+            }
+
+            // Else Part: Window Size: <= K: Satisfied
+            auto res = set.insert(nums[i]);
+
+/*
+            insert() ----> Returns pair
+
+            First Value: What to insert
+            Second Value: Boolean: Inserted or Not
+
+            Second Value will be FALSE ONLY when it is already present -> Duplicate
+
+            set: [1 2 3]
+
+            auto res = set.insert(1)
+            res = {1, false}
+            Already present, Hence Not Inserted
+
+            auto res = set.insert(4)
+            res = {4, true}
+            Not Already present, Hence  Inserted
+*/
+
+
+            //Second Value will be FALSE ONLY when it is already present -> Duplicate
+             if (!res.second)
+                return true;
+        }
+
+            return false;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+HW:
+- LC: 220 - Contains Duplicate III
+
+
+
+
+
+
+
+
+
+
