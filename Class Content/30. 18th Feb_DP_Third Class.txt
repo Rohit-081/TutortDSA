@@ -1,0 +1,973 @@
+Date : 18th February 2024
+Mentor: DEVANG SHARMA
+Batch: Oct Batch (DSA) - Tutort Academy
+
+Agenda:
+
+- Modulo Arithmetic: 
+
+- Dynamic Programming: 
+- Introduction to DP- DONE
+- DP vs Backtracking vs Greedy - DONE
+- DP vs Recursion- Real Life Example - DONE
+- 4 Steps to Solve Any DP Question in World - MOST IMPORTANT
+
+Questions
+- Max Steps - Amazon: DONE
+- Removing Chocolates- Paypal: DONE
+- [Adobe] Q: Variation of Sum of Numbers- 1,3,5: DONE
+- Uncertain Steps- Google: DONE
+
+2D DP:
+- Goldmine- Microsoft: WIP
+- Maximum size square sub-matrix with all 1s- Paypal
+
+- Recursion and Queue Questions
+https://leetcode.com/problems/count-good-numbers/
+https://leetcode.com/problems/permutation-sequence/
+https://leetcode.com/problems/swap-nodes-in-pairs/
+https://leetcode.com/problems/regular-expression-matching/
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+2D DP:
+Q-9: [Microsoft, GS] Goldmine
+
+
+Given a gold mine of m x n dimensions.
+
+Each field in this mine contains a positive integer which is the amount of gold present at that position.
+Initially the miner is at first column but can be at any row.
+
+He can move only in three directions: right, right-up and right-down. 
+That is, east, northeast and southeast from a given cell
+
+Starting from any row (but always the first column), find out the maximum amount of gold that the miner can collect.
+
+Input format
+
+The first line contains T, the number of test cases. The following T lines contain 2 integers m and n which tell us the rows and columns respectively. This is followed by all the 2D array elements in a single line, separated by space
+
+Output format
+
+For each test case, output the maximum number of gold collected
+
+Example Input #1
+
+1
+4 4 1 3 1 5 2 2 4 1 5 0 2 3 0 6 1 2
+
+Output #1
+
+16
+
+Explanation:
+
+(2,0) -> (1,1) -> (1,2) -> (0,3)  OR  (2,0) -> (3,1) -> (2,2) -> (2,3)
+
+
+
+
+Understanding:
+
+Directions: Right, Right Up, Right Down
+
+Start: First Column, Any Row: mat[][0]
+
+End: Last Column, Any Row: mat[][n-1]
+
+Task: Collect Maximum Gold Coins
+
+
+
+IP:
+
+
+m = 4 
+n = 4 
+
+
+
+1 3 1 5 
+2 2 4 1 
+5 0 2 3 
+0 6 1 2
+
+
+Direction: Right, Right Up and Right Down
+
+Start: First Column, Any Row
+End: Last Column, Any Row
+
+Task: Collect Maximum Gold Coins
+
+
+5-6-2-3: VALID: 16: ANS
+5-2-4-5: VALID: 16: ANS
+
+
+5 - 2 - 4 - 1 -  5: INVALID
+
+
+DP: Find Max of All VALID WAYS
+
+
+
+
+
+Solution:
+
+
+(1) Identify:
+"maximum amount of gold"
+
+
+(2) Decide a State Expression:
+
+State Variables: Determines the current state/position in DP
+			   : Determines the Order of DP
+
+
+state(row) -> Not sufficient for finding position
+state(col) -> Not sufficient for finding position
+
+
+state(row, col) -> Sufficient for finding position
+
+
+state(i,j): Maximum Amount of Gold Coins Collected till (i,j) by traversing right, right_up or right_down
+
+
+state(i,j) = MAX(right, right_up, right_down)
+
+
+
+(3) Formulate the State Relation - IMP:
+
+curr: i,j
+Can Go: right, right_up, right_down
+
+"mat[i][j] = max(mat[i][j+1], mat[i-1][j+1], mat[i+1][j+1])"
+
+
+
+Direction Matrix/Mapping:
+
+curr: i,j
+
+Right: i, j+1
+Left: i, j-1
+Up: i-1, j
+Down: i+1, j
+Right Up: i-1, j+1
+Right Down: i+1, j+1
+
+
+ANS = MAX(right, right_up, right_down)
+
+"mat[i][j] = max(mat[i][j+1], mat[i-1][j+1], mat[i+1][j+1])"
+
+
+
+
+
+
+
+
+- right, right_up, right_down
+
+1st Row: No right_up
+Last Row: No right_down
+Last Col: No right, right_up, right_down
+
+
+CODE:
+
+
+
+
+import java.io.*;
+import java.util.*;
+
+public class Main 
+{
+    static int MAX = 100;
+    
+    //2-D DP Gold
+    // "mat[i][j] = max(mat[i][j+1], mat[i-1][j+1], mat[i+1][j+1])"
+    static int getMaxGold(int gold[][], int m, int n)
+    {
+        int dp[][] = new int[m][n];
+        // dp[i][j] = Max No of Gold Coins Collected TILL (i,j) by Travering Right, Right_Up, Right_Down
+        
+        for(int[] rows: dp)
+            Arrays.fill(rows, 0);
+        
+        for (int col =n-1; col>=0; col--)
+        {
+            for (int row=0; row<m; row++)
+            {
+/*
+curr: i,j
+
+Right: i, j+1
+Right Up: i-1, j+1
+Right Down: i+1, j+1
+    
+First Row: No right_up
+Last Row: No right_down
+Last Col: No right, right_up, right_down
+*/
+    
+    // (i, j+1)
+    int right = (col == n-1) ? 0 : dp[row][col+1];
+                
+    // (i-1, j+1)
+    int right_up = (col == n-1 || row == 0) ? 0 : dp[row-1][col+1];
+                
+    // (i+1, j+1)
+    int right_down = (col == n-1 || row == m-1) ? 0 : dp[row+1][col+1];
+             
+                // Max Gold Collected from taking either of the above 3 paths
+                dp[row][col] = gold[row][col] + Math.max(right, Math.max(right_up, right_down));
+            }
+        }
+    
+        int res = dp[0][0];
+            
+        // Need to get Maximum Starting ONLY from 1st Column, ANY ROW, Hence max(mat[i][0])
+    	for (int i=1; i<m; i++)
+      	  res = Math.max(res, dp[i][0]);
+                        
+
+        // Need to get Maximum Starting ONLY from 1st Row, ANY Column, Hence max(mat[0][i])
+    	//for (int j=1; i<n; i++)
+      	//  res = Math.max(res, dp[0][j]);
+
+      	// Question: Start from Any Row, Any Col
+      	//for (int i=1; i<m; i++)
+      	//{
+      	//	for(int j=1; j<n; j++)
+		//      	  res = Math.max(res, dp[i][j]);
+      	//}
+    
+
+        return res;     
+    }
+    
+    
+    
+    
+    public static void main(String[] args) 
+    {
+        Scanner s = new Scanner(System.in);
+        int tc, m,n,i=0,j=0;
+        tc = s.nextInt();
+        int[][] gold = new int[MAX][MAX];
+        
+        while (tc-- > 0)
+        {
+            m = s.nextInt();
+            n = s.nextInt();
+                        
+            for (i=0; i<n; i++)
+            {
+                for (j=0; j<n; j++)
+                {
+                    gold[i][j] = s.nextInt();
+                }
+            }        
+        System.out.println(getMaxGold(gold, m,n));
+            }
+    }
+}
+
+
+TC: O(M*N)
+SC: O(M*N)
+
+
+IP:
+1
+4 4 1 3 1 5 2 2 4 1 5 0 2 3 0 6 1 2
+
+
+OP:
+
+
+Printing 2D Dp Matrix:
+13 12 6 5  
+14 11 9 1  
+16 9 5 3  
+11 11 4 2  
+
+Final Ans: 16
+
+
+
+
+
+1 3 1 5 
+2 2 4 1 
+5 0 2 3 
+0 6 1 2
+
+Starting from 2: mat[1][0]
+Path: 2-3-4-5: 14
+
+
+Starting from 0: mat[3][0]
+Path: 0-6-2-3: 11
+
+
+
+
+Variations:
+
+https://leetcode.com/problems/path-with-maximum-gold/
+https://practice.geeksforgeeks.org/problems/gold-mine-problem2608/1
+
+
+- Next:
+Convert this to 3D DP
+
+- Max K Steps:
+
+mat[i][j][no_of_steps]
+
+- CodeNation
+
+
+
+
+
+
+
+
+
+
+
+
+--------> Modulo Arithmetic:
+
+int: 4 Bytes: 32 Bits
+Range: -2^31 to 2^31-1
+	 : -2 Bn to 2 Bn
+
+
+
+int a = 1.5 Bn; // No Overflow
+int b = 1.5 Bn; // No Overflow
+
+
+int c = a + b; // Overflow
+
+1.5 Bn + 1.5 Bn = 3 Bn > 2 Bn : int OVERFLOW
+
+
+Cannt store in int, Will Need long or long long
+
+
+
+NOTE:
+
+Whenever Taking Sum or Product,
+ALWAYS Think About Overflow
+
+
+
+Solve Overflow:
+
+(1) Use long or long long (Increase Memory)
+(2) Use Modulo Arithmetic
+
+
+
+
+(1) Use long or long long (Increase Memory)
+
+int arr[n] ------> long arr[n]
+
+SC: O(N)
+
+
+Memory Limit: 256 MB per TC
+
+
+int Solution: 150 MB
+150 < 256 - No MLE
+
+
+OP: WA - 2/10 TC - int Overflow
+
+
+
+int ------> long(8 Bytes) or long long (10 Bytes)
+
+long Solution: 300 MB
+long long Solution: 375 MB
+
+
+300 Mb > 256 Mb: MLE
+375 Mb > 256 Mb: MLE
+
+
+OP: MLE, No Overflow
+
+
+
+
+
+
+(2) Use Modulus
+
+MOD = 1e9+7 OR 10^9+7 OR 1000000007
+Modulus: Very Large Number
+
+
+Reasoning:
+
+Large % Large -----> Small
+
+1000 % 999 = 1
+
+- Always WITHIN Range of int
+- No Overflow
+
+
+Formula for Modulo Arithmetic:
+
+(a + b) % m = ((a % m) + (b % m)) % m
+
+(a - b) % m = ((a % m) - (b % m)) % m
+
+(a * b) % m = ((a % m) * (b % m)) % m
+
+
+
+Why?
+
+a = 101010101010; // 1.1 Bn
+b = 101010101010; // 1.1 Bn
+
+
+(a + b) -----> Overflow
+
+int mod = 1e9+7; // 1000000007
+
+LHS
+= (a+b) % mod
+= 2.2 Bn % mod
+= Garbage Value % mod
+= WA: int Overflow
+
+-2 Bn --------- +2 Bn ----------- -2 Bn ----------- +2 Bn: Cyclic Dependency
+
+
+
+
+RHS 
+= ((a % m) + (b % m)) % m
+= ((1.1 Bn % m) + (1.1 Bn % m)) % m 
+= No Overflow
+
+(a % m) ----> Small
+(b % m) ----> Small
+
+
+(small + small) % m ------> Even Smaller Value -----> No Overflow
+
+
+
+
+
+
+
+
+
+HackerEarth: OA, Jobs
+HackerRank: OA, Jobs
+TopCoder: Gigs, Hiring Assessment
+CodeForces: Contest
+
+
+Q-10: [Amazon] N! under Modulo P - OA - HackerEarth (50 M)
+
+N! = N * (N-1) * (N-2) * .........1
+
+IP:
+N = 5, P = 13
+OP: 3
+
+
+5!= 120
+120 % 13 = 3
+
+
+IP:
+N = 6, P = 11
+OP: 5
+
+
+6! = 720
+720 % 11 = 5
+
+
+Constraints:
+
+0 <= N <= 500
+1 <= P <= 10^9
+
+
+
+------------- EDITABLE -----------------
+
+
+int solve(int n, int p)
+{
+
+}
+
+
+
+---------- NON-EDITABLE -----------------
+
+
+int main()
+{
+	int res = solve(n,p);
+	cout<<res;
+}
+
+
+
+
+Solution:
+
+
+
+N! = Very Large Number
+
+N = 100
+N! = 52 Digits
+
+21!= Within Range of int
+
+
+
+
+Edge Case:
+
+N! % p
+
+
+If N > p:
+
+N! = N * (N-1) * (N-2) * (N-3) .......p......1
+
+N! % p = 0
+
+
+
+
+(1) First Calculate N! and then take Modulo p
+
+int solve(int n, int p)
+{
+	if (n>p)
+		return 0;
+
+	int res = 1;
+	for (i=1; i<=n; i++)
+		res *= i; // Overflow
+
+	return res%p;
+}
+
+
+OP: WA
+
+
+
+
+
+(2) Modification While Calculating N!
+
+
+int solve(int n, int p)
+{
+	if (n>p)
+		return 0;
+
+	int res = 1;
+	for (i=1; i<=n; i++)
+		res = (res*i)%p; // Overflow
+
+	return res;
+}
+
+OP: WA
+
+
+
+(a * b) % m = ((a % m) * (b % m)) % m
+
+LHS = Overflow
+RHS = No Overflow
+
+
+
+(3) Correct Solution Using Modulo Arithmetic
+
+int solve(int n, int p)
+{
+	if (n>p)
+		return 0;
+
+	int res = 1;
+	for (i=1; i<=n; i++)
+		res = ((res%p) * (i%p)) % p; 
+
+	return res;
+}
+
+
+OP: Pass All TC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-11: [LC-91] Decode Ways
+https://leetcode.com/problems/decode-ways/description/
+
+
+A message containing letters from A-Z can be encoded into numbers using the following mapping:
+
+A -> "1"
+'B' -> "2
+...
+Z' -> "26"
+
+To decode an encoded message, all the digits must be grouped then mapped back into letters using the reverse of the mapping above (there may be multiple ways). For example, "11106" can be mapped into:
+
+"AAJF" with the grouping (1 1 10 6)
+"KJF" with the grouping (11 10 6)
+Note that the grouping (1 11 06) is invalid because "06" cannot be mapped into 'F' since "6" is different from "06".
+
+Given a string s containing only digits, return the number of ways to decode it.
+
+The test cases are generated so that the answer fits in a 32-bit integer.
+
+ 
+
+Example 1:
+
+Input: s = "12"
+Output: 2
+Explanation: "12" could be decoded as "AB" (1 2) or "L" (12).
+
+
+Example 2:
+
+Input: s = "226"
+Output: 3
+Explanation: "226" could be decoded as "BZ" (2 26), "VF" (22 6), or "BBF" (2 2 6).
+
+
+
+Example 3:
+
+Input: s = "06"
+Output: 0
+Explanation: "06" cannot be mapped to "F" because of the leading zero ("6" is different from "06").
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s contains only digits and may contain leading zero(s).
+
+
+
+
+Understanding:
+
+12:
+-> 12: L
+-> 1, 2: AB
+
+
+226226
+
+-> 2,2,6,2,2,6
+-> 2,2,6,22,6
+-> 2,2,6,2,26
+-> 22,6,2,2,6
+-> 22,6,22,6
+-> 22,6,2,26
+-> 2,26,2,2,6
+-> 2,26,22,6
+-> 2,26,2,26
+
+9 Ways
+
+
+
+    public int numDecodings(String s) 
+    {
+
+    }
+
+
+
+Solution:
+
+
+Leading Zeroes: dp[0] = 0 - Not Contributing to Any Answer
+
+
+Aplhabets: A - Z: 1 - 26
+
+Two Cases
+
+(1) One Digit: 1-9
+1 Entry Point (Only 1 Digit contributes to Answer)
+
+5 -> E
+9 -> I
+
+Code:
+dp[i] = dp[i-1]
+
+- Only First Digit (Only Digit) Will Contribute to Answer
+
+
+(2) Two Digits: 10-26
+2 Entry Points (Both Digits contributes to Answer)
+
+
+12
+----> AB
+----> L
+
+Code:
+dp[i] = dp[i-1] + dp[i-2]
+
+- Both Digits Will Contribute to Answer
+
+
+
+
+
+
+
+
+
+
+
+CODE:
+
+
+
+    // Recursion Based Solution:
+    // TC: O(2^N)
+    // SC: O(N) - Recursion Space
+    // TC of Recursion: O(Branches^Depth)
+    // Passed 23/269 TC, TLE
+class Solution 
+{    
+    public int numDecodings(String s) 
+    {
+        return s.length()==0?0: solve(0,s);
+    }
+    
+    private int solve(int p, String s)
+    {
+        int n = s.length();
+        if (p==n)
+            return 1;
+        
+        // Leading Zeroes: OP: 0
+        if (s.charAt(p)=='0') //"06"-----? OP: 0
+            return 0;
+        
+        // Two Cases:
+        // (1) If 1-9: dp[i] = dp[i-1]: 1 Entry Point
+        int res = solve(p+1,s); // For 1st Digit - ALWAYS HAPPEN
+        
+        // (2) If 10-26: dp[i] = dp[i-1] + d[i-2]: 2 Entry Point
+        if (p < n-1 && (s.charAt(p)=='1' || s.charAt(p)=='2' && s.charAt(p+1) <='6'))
+            res += solve(p+2,s); // For 2nd Digit - ONLY HAPPEN FOR 2 Digit Numbers (10-26)
+        
+        return res;
+    }
+}
+
+
+
+
+1-9:
+
+dp[i] = dp[i+1]
+
+10-26:
+
+dp[i] = dp[i+1] + dp[i+2]
+
+Ans + dp[i+2]
+
+
+
+
+
+
+
+
+     // Dp Based Solution        
+    // TC: O(N)
+    // SC: O(N)
+    
+class Solution 
+{
+        public int numDecodings(String s) 
+        {
+            int n = s.length();
+            if (s == null || n==0)
+                return 0;
+            
+            int[] dp = new int[n];
+            // If leading zero: NOT Contributing to Answer, hence initialised with 0
+            if (s.charAt(0)=='0')
+            return 0; 
+
+            // Else, Contributing to Answer, hence Initialised with 1
+            dp[0] = 1;
+
+            int i=0;
+            for (i=1; i<n; i++)
+            {
+                int first = Integer.valueOf(s.substring(i,i+1));
+                int second = Integer.valueOf(s.substring(i-1,i+1));
+        
+        // Two Cases:
+        // (1) If 1-9: dp[i] = dp[i-1]: 1 Entry Point
+                if (first >=1 && first<=9)
+                    dp[i] += dp[i-1]; // 1 Entry Point: ALWAYS BE EXECUTED
+
+        // (2) If 10-26: dp[i] = dp[i-1] + d[i-2]: 2 Entry Point   
+                if (second >=10 && second <= 26)
+                {
+            // dp[i] += i>=2 ? dp[i-2] : 1; //2 Entry Points
+                    if (i >=2)
+                        dp[i] += dp[i-2]; 
+    // dp[i] = dp[i-1] + dp[i-2];
+     // dp[i-1] is ALREADY CALCULATED before if part
+
+                    else
+                        dp[i] += 1;
+   // if (i<1), Only 1 Digit will contribute to Answer, 
+   // else, Both 2 Digits will Contribute to Answer
+
+   // String = 26789
+   // Index  = 12345    
+   // At Index 2, Val = 6- Last 2 and current 6 both will contribute     
+                }
+            }
+            
+            //for (i=0; i<n; i++)
+            //    System.out.print(dp[i] + " ");
+            
+            return dp[n-1]; // Initialised, dp[0] in beginning           
+        }
+}
+
+
+
+
+
+/*
+2264:
+- 2,2,6,4
+- 2,26,4
+- 22,6,4
+*/
+
+
+
+
+Solving DP Template:
+
+(1) Recursion
+(2) Bottom Up Solution: Tabulation
+(3) Top Down Solution: Memoisation
+(4) Maths/Formula Based Solution
+
+
+
+
+
+
+Avg: 6-7
+
+
+
+HW:
+
+Variations:
+
+https://leetcode.com/problems/path-with-maximum-gold/
+https://practice.geeksforgeeks.org/problems/gold-mine-problem2608/1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

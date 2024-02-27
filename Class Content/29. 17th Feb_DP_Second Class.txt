@@ -1,0 +1,836 @@
+Date : 17th February 2024
+Mentor: DEVANG SHARMA
+Batch: Oct Batch (DSA) - Tutort Academy
+
+Agenda:
+
+- Modulo Arithmetic: 
+
+- Dynamic Programming: 
+- Introduction to DP- DONE
+- DP vs Backtracking vs Greedy - DONE
+- DP vs Recursion- Real Life Example - DONE
+
+- 4 Steps to Solve Any DP Question in World - MOST IMPORTANT
+
+Questions
+- Max Steps - Amazon: DONE
+- Removing Chocolates- Paypal: DONE
+- [Adobe] Q: Variation of Sum of Numbers- 1,3,5: DONE
+- Uncertain Steps- Google: DONE
+
+2D DP:
+- Goldmine- Microsoft: WIP
+- Maximum size square sub-matrix with all 1s- Paypal
+
+- Recursion and Queue Questions
+https://leetcode.com/problems/count-good-numbers/
+https://leetcode.com/problems/permutation-sequence/
+https://leetcode.com/problems/swap-nodes-in-pairs/
+https://leetcode.com/problems/regular-expression-matching/
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+
+
+Q-5: [Microsoft] Variation of Sum of Numbers - {1,3,5}
+
+Given 3 Numbers: {1,3,5}
+Count the Total Number of Ways to form a Number N 
+using sum of these three numbers - {1,3,5}
+
+
+Note: Repetitions and Combinations are Allowed
+
+
+IP: 6
+OP:
+
+
+[1 1 1 1 1 1]
+[1 1 1 3] - 4!/3! = 4
+[1 1 3 1]
+[1 3 1 1]
+[3 1 1 1]
+[3 3]
+[1 5]
+[5 1]
+
+
+Total Ways: 8
+
+
+Variation:
+Make N ------> 0 By Removing {1,3,5}
+
+
+
+int countWays(int N)
+{
+
+}
+
+
+
+
+Solution:
+
+
+
+
+
+(1) Identify: DONE
+"Count the Total Number of Ways"
+
+
+(2) Decide a State Expression: DONE
+
+state(N) = Number of Ways to make N as sum of {1,3,5}
+state(K) = Number of Ways to make K as sum of {1,3,5}
+
+TRICK:
+
+Note = state(N) = ALWAYS MENTIONED IN THE QUESTION
+state(K) = Replace N with K
+
+
+(3) Formulate a State Relation - IMP
+
+- How Does the Current State Result Relates to Previous State Results
+
+state(k) ----> k-1, k-2 etc
+
+ANS: state(k) = state(k-1) + state(k-3) + state(k-5)
+
+
+
+N = 7
+{1,3,5}
+
+Ways:
+- 6 + 1 = 7
+- 4 + 3 = 7
+- 2 + 5 = 7
+				
+
+						7
+					6   4   2	
+
+
+state(7) = state(6) + state(4) + state(2)
+		 = state(7-1) + state(7-3) + state(7-5)
+
+
+state(k) = state(k-1) + state(k-3) + state(k-5)
+
+
+
+REC: O(3^N): TLE
+DP: O(N): All TC Passed
+
+
+
+
+Max Value: 5, Need to Initialise till 5 Values
+
+
+Make 1: [1] : 1 Way
+Make 2: [1 1]: 1 Way
+Make 3: [1 1 1], [3]: 2 Ways
+Make 4: [1 1 1 1], [1 3], [3 1]: 3 Ways
+Make 5: [1 1 1 1 1], [1 1 3], [1 3 1], [3 1 1], [5]: 5 Ways
+
+
+
+
+CODE:
+
+int countWays(int n)
+{
+	int[] res = new int[n+1];
+
+	// res[i]: Number of Ways to make (i)
+
+	// Base Case:
+	res[1] = 1;
+	res[2] = 1;
+	res[3] = 2;
+	res[4] = 3;
+	res[5] = 5;
+
+	for (int i=6; i<=n; i++)
+		res[i] = res[i-1] + res[i-3] + res[i-5];
+
+	return res[n];
+}
+
+
+TC: O(N)
+SC: O(N)
+
+
+Verify:
+
+N = 6
+OP: 8
+
+
+
+res[6] = res[5] + res[3] + res[1]
+	   = 5 + 2 + 1
+	   = 8
+	   = OP
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-6: [Google] Uncertain Steps
+
+Codu is trying to go down stairs from his building to ground floor.
+
+He can go 3 ways:
+
+- Walk 1 step at a time.
+- Extend his legs and go 2 steps at a time.
+- Jump down 3 steps at a time.
+
+Given n steps, calculate the number of possible ways to reach the ground floor, 
+provided he can jump 3 steps at most once during this process
+
+That is, he can jump down 3 steps only once, but at any time, if he wishes, while walking down the stairs.
+
+Constraints
+1 <= N <= 1000000.
+
+Input Format
+Single Integer denoting the number of Steps, N
+
+Output
+Number of ways to reach ground floor.
+
+As the number can be huge, give output modulo 1000000007.
+
+Example Input 1
+4
+
+Output
+7
+
+Explanation
+1, 1, 1, 1
+1, 2, 1
+1, 1, 2
+2, 1, 1
+2, 2
+1, 3
+3, 1
+
+
+Number of ways = 7.
+
+
+Solution:
+
+
+int solve(int N)
+{
+
+}
+
+
+
+
+
+
+Solution:
+
+
+(1) Identify: DONE
+"Number of Possible Ways"
+
+
+(2) Decide a State Expression: DONE
+
+state(N) = Number of Ways to reach Nth stair using {1,2,3} stairs with at most once for 3 steps
+state(K) = Number of Ways to reach Kth stair using {1,2,3} stairs with at most once for 3 steps
+
+TRICK:
+
+Note = state(N) = ALWAYS MENTIONED IN THE QUESTION
+state(K) = Replace N with K
+
+
+(3) Formulate a State Relation - IMP
+
+- How Does the Current State Result Relates to Previous State Results
+
+state(k) ----> k-1, k-2 etc
+
+
+
+
+
+
+
+At Most Once ------> Count of 3 in 1 Step: <=1
+
+N = 6
+
+[1 2 3] - VALID, Count of 3: <= 1
+[1 1 1 3] - VALID, Count of 3: <= 1
+[3 3] - INVALID, Count of 3: > 1
+
+
+state(k) = state(k-1) + state(k-2) + state(k-3)
+- Counting {1,2,3} Steps Infinite Times
+
+
+
+
+Approach:
+
+
+if (cnt < 1)
+	state(k) = state(k-1) + state(k-2) + state(k-3)
+- Counting {1,2,3} Steps
+
+
+else
+	state(k) = state(k-1) + state(k-2) 
+- Counting {1,2} Steps
+
+
+
+
+
+Solution:
+
+
+Reach from 1: [1] : 1 Way
+Reach from 2: [1 1], [2]: 2 Ways
+Reach from 3: [1 1 1], [1 2], [2 1], [3]: 4 Ways
+
+
+
+CODE:
+
+int solve(int n)
+{
+	in[] res = new int[n+1];
+
+	// Base Case:
+	res[1] = 1, res[2] = 2, res[3] = 4;
+
+	int count = 0;
+
+	for (int i=4; i<=n; i++)
+	{
+		if (count < 1)
+		{
+			res[i] = res[i-1] + res[i-2] + res[i-3]; // Using 3 - At Most ONCE
+			++count;
+		}
+
+		else
+			res[i] = res[i-1] + res[i-2]; // Not Using 3
+	}
+
+	return res[n];
+		
+}
+
+TC: O(N)
+SC: O(N)
+
+
+
+
+
+DRY RUN:
+
+N = 6
+
+res[4] = res[3] + res[2] + res[1]
+	   = 4 + 2 + 1
+	   = 7
+
+count = 1
+
+res[5] = res[4] + res[3]
+	   = 7 + 4
+	   = 11
+
+res[6] = res[5] + res[4]
+	   = 11 + 7
+	   = 18- ANS
+
+
+
+N = 6
+OP: 18
+
+{1,2,3} 3 At Most Once
+
+
+[1 1 1 1 1 1]
+[2 2 2]
+[1 1 1 3]
+[1 1 3 1]
+[1 3 1 1]
+[3 1 1 1]
+[1 1 1 1 2]
+[1 1 1 2 1]
+[1 1 2 1 1]
+[1 2 1 1 1]
+[2 1 1 1 1]
+[1 2 3]
+[2 2 1 1]
+[2 1 1 2]
+[1 1 2 2]
+[1 2 1 2]
+[2 1 2 1]
+[1 2 2 1]
+
+
+OP: 18
+
+
+
+
+
+
+Variation:
+
+Count of 3: At Most K
+
+
+int solve(int n)
+{
+	in[] res = new int[n+1];
+
+	// Base Case:
+	res[1] = 1, res[2] = 2, res[3] = 4;
+
+	int count = 0;
+
+	for (int i=4; i<=n; i++)
+	{
+		if (count < K)
+		{
+			res[i] = res[i-1] + res[i-2] + res[i-3]; // Using 3 - At Most ONCE
+			++count;
+		}
+
+		else
+			res[i] = res[i-1] + res[i-2]; // Not Using 3
+	}
+
+	return res[n];		
+}
+
+TC: O(N)
+SC: O(N)
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-7: [LC-509] Fibonacci Number
+https://leetcode.com/problems/fibonacci-number/description/
+
+The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is,
+
+F(0) = 0, F(1) = 1
+F(n) = F(n - 1) + F(n - 2), for n > 1.
+Given n, calculate F(n).
+
+ 
+
+Example 1:
+
+Input: n = 2
+Output: 1
+Explanation: F(2) = F(1) + F(0) = 1 + 0 = 1.
+
+Example 2:
+
+Input: n = 3
+Output: 2
+Explanation: F(3) = F(2) + F(1) = 1 + 1 = 2.
+
+Example 3:
+
+Input: n = 4
+Output: 3
+Explanation: F(4) = F(3) + F(2) = 2 + 1 = 3.
+ 
+
+Constraints:
+
+0 <= n <= 30
+
+
+
+
+
+    public int fib(int n) 
+    {
+
+    }
+
+
+
+Note:
+
+O(2^N) should also pass also TC
+
+2^30 < 10^8 Computations
+2^31: Billion: 10^9
+
+
+
+Solution:
+
+(1) Recursion:
+TC: O(2^N), SC: O(N) - Recursion Stack
+
+
+(2) Iteration:
+
+Take first and second
+
+first + second
+
+
+TC: O(N), SC: O(1)
+
+
+(3) Use DP:
+Maintain States, and return fib[n-1]
+
+TC: O(N), SC: O(N) - Array Storing the results
+
+
+(4) Binets Formula: Maths Based Solution
+
+Phi = (sqrt(5) + 1) / 2
+
+fib(n) = (phi ^ n) / sqrt(5)
+
+TC: O(1), SC: O(1)
+
+
+
+
+
+
+CODE:
+
+class Solution {
+public:
+    int fib(int n) 
+    {
+        double phi = (sqrt(5) + 1)/2;
+        return round(pow(phi,n)/sqrt(5));
+    }
+};
+
+
+
+TC: O(1)
+SC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-8: [LC-1137] Nth Tribonacci Number
+https://leetcode.com/problems/n-th-tribonacci-number/description/
+
+
+The Tribonacci sequence Tn is defined as follows: 
+
+T0 = 0, T1 = 1, T2 = 1, and Tn+3 = Tn + Tn+1 + Tn+2 for n >= 0.
+
+Given n, return the value of Tn.
+
+ 
+
+Example 1:
+
+Input: n = 4
+Output: 4
+Explanation:
+T_3 = 0 + 1 + 1 = 2
+T_4 = 1 + 1 + 2 = 4
+
+
+Example 2:
+
+Input: n = 25
+Output: 1389537
+ 
+
+Constraints:
+The answer is guaranteed to fit within a 32-bit integer, ie. answer <= 2^31 - 1.
+
+
+
+
+    public int tribonacci(int n) 
+    {
+
+    }
+
+
+
+Solutions:
+
+
+(1) Recursive Solution:
+state(n) = state(n-1) + state(n-2) + state(n-3)
+
+TC: O(3^N)
+SC: O(N) - Recursion Stack
+
+
+(2) Bottom Up DP:
+TC: O(N)
+SC: O(N)
+
+(3) Top Down DP:
+TC: O(N)
+SC: O(N)
+
+
+
+
+
+CODE:
+
+
+// TC: O(N)
+// SC: O(N)
+
+// Bottom Up: Tabulation
+class Solution 
+{
+    public int tribonacci(int n) 
+    {
+        if (n<=1)
+            return n;
+
+        int[] dp = new int[n+1];
+        // Base Case:
+        dp[0] = 0;
+        dp[1] = 1;
+        dp[2] = 1;
+
+        for (int i = 3; i<=n; i++)
+            dp[i] = dp[i-1] + dp[i-2] + dp[i-3];
+
+        return dp[n];
+    }
+}
+
+
+
+
+
+// Top Down DP: Memoisation
+// Recurring on Lower States (i-1, i-2, i-3): DFS Approach
+// TC: O(N)
+// SC: O(N)
+
+class Solution 
+{
+    public int tribonacci(int n) 
+    {
+        if (n<=1)
+            return n;
+
+        if (n==2)
+            return 1;
+
+        int[] dp = new int[n+1];
+        return helper(n, dp);        
+    }
+
+    int helper(int n, int[] dp)
+    {
+        if (n<=1)
+            return n;
+
+        if (n==2)
+            return 1;
+
+        // If Not Empty, already Contained Answer, return ans
+        if(dp[n]!=0)
+            return dp[n];
+
+        // If Empty, Not Yet Calculated ----> Calculate
+        return dp[n] = helper(n-1, dp) + helper(n-2, dp) + helper(n-3, dp);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2D DP:
+Q-9: [Microsoft, GS] Goldmine
+
+
+Given a gold mine of m x n dimensions.
+
+Each field in this mine contains a positive integer which is the amount of gold present at that position.
+Initially the miner is at first column but can be at any row.
+
+He can move only in three directions: right, right-up and right-down. 
+That is, east, northeast and southeast from a given cell
+
+Starting from any row (but always the first column), find out the maximum amount of gold that the miner can collect.
+
+Input format
+
+The first line contains T, the number of test cases. The following T lines contain 2 integers m and n which tell us the rows and columns respectively. This is followed by all the 2D array elements in a single line, separated by space
+
+Output format
+
+For each test case, output the maximum number of gold collected
+
+Example Input #1
+
+1
+4 4 1 3 1 5 2 2 4 1 5 0 2 3 0 6 1 2
+
+Output #1
+
+16
+
+Explanation:
+
+(2,0) -> (1,1) -> (1,2) -> (0,3)  OR  (2,0) -> (3,1) -> (2,2) -> (2,3)
+
+
+
+
+Understanding:
+
+Directions: Right, Right Up, Right Down
+
+Start: First Column, Any Row: mat[][0]
+
+End: Last Column, Any Row: mat[][n-1]
+
+Task: Collect Maximum Gold Coins
+
+
+
+IP:
+
+
+m = 4 
+n = 4 
+
+
+
+1 3 1 5 
+2 2 4 1 
+5 0 2 3 
+0 6 1 2
+
+
+Direction: Right, Right Up and Right Down
+
+Start: First Column, Any Row
+End: Last Column, Any Row
+
+Task: Collect Maximum Gold Coins
+
+
+5-6-2-3: VALID: 16: ANS
+5-2-4-5: VALID: 16: ANS
+
+
+5 - 2 - 4 - 1 -  5: INVALID
+
+
+DP: Find Max of All VALID WAYS
+
+
+
+
+
+Solution:
+
+
+(1) Identify:
+"maximum amount of gold"
+
+
+(2) Decide a State Expression:
+
+State Variables: Determines the current state/position in DP
+			   : Determines the Order of DP
+
+
+state(row) -> Not sufficient for finding position
+state(col) -> Not sufficient for finding position
+
+
+state(row, col) -> Sufficient for finding position
+
+
+state(i,j): Maximum Amount of Gold Coins Collected till (i,j) by traversing right, right_up or right_down
+
+
+state(i,j) = MAX(right, right_up, right_down)
+
+
+
+
+
