@@ -5,7 +5,6 @@ var reverseInGroups = function (arr, n, k) {
     while (left < right) {
       let temp = arr[left];
       arr[left] = arr[right];
-      arr[right] = arr[right];
       arr[right] = temp;
       left++;
       right--;

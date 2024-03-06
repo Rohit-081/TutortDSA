@@ -1,21 +1,18 @@
 function pair(arr, sum) {
   let s = new Set();
-  let val = 0;
   for (let i = 0; i < arr.length; i++) {
-    if (sum > arr[i]) {
-      val = sum - arr[i];
-    } else {
-      val = arr[i] - sum;
-    }
-    if (s.has(val)) {
-      console.log(val, arr[i]);
-      break;
-    }
-    if (!s.has(arr[i])) {
-      s.add(arr[i]);
-    }
-  }
-  return -1;
- }
+    let val = sum - arr[i]; // Calculate the complement value
 
-console.log(pair([10, 5, 2, 3, -6, 9, 11], 4));
+    if (s.has(val)) {
+      console.log(arr[i], val); // Found the pair
+      return;
+    }
+
+    // Add the current element to the set
+    s.add(arr[i]);
+  }
+
+  console.log("No pair found");
+}
+
+pair([10, 5, 2, 3, -6, 1, 9, 11], 4);
