@@ -19,6 +19,21 @@ function getFirstSetBit(n) {
   return console.log(position);
 }
 
+function getFirstSetBit(n) {
+  let position = 1;
+  if (n == 0) {
+    return 0;
+  }
+  while (n > 0) {
+    if ((n & 1) == 1) {
+      break;
+    }
+    n = n >> 1;
+    position++;
+  }
+  return position;
+}
+
 getFirstSetBit(n1);
 getFirstSetBit(n2);
 getFirstSetBit(n3);

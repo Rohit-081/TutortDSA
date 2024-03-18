@@ -1,0 +1,872 @@
+Date : 10th March 2024
+Mentor: DEVANG SHARMA
+Batch: Oct Batch (DSA) - Tutort Academy
+
+Agenda:
+
+- Modulo Arithmetic: DONE
+
+- Dynamic Programming: DONE
+- Introduction to DP- DONE
+- DP vs Backtracking vs Greedy - DONE
+- DP vs Recursion- Real Life Example - DONE
+- 4 Steps to Solve Any DP Question in World - MOST IMPORTANT
+
+Questions
+- Max Steps - Amazon: DONE
+- Removing Chocolates- Paypal: DONE
+- [Adobe] Q: Variation of Sum of Numbers- 1,3,5: DONE
+- Uncertain Steps- Google: DONE
+
+2D DP:
+- Goldmine- Microsoft: DONE
+- Maximum size square sub-matrix with all 1s- Paypal
+
+Backtracking:
+
+Q: [Amazon] Dr CooCoos Pack Of Hens - Google, Cisco, Apple- 
+Q: Combination Sum- Facebook - DONE
+Q: Rat in a Maze- All Variations: (8 Variations) - DONE
+
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+
+
+
+
+
+
+
+Q-4: Rat in a Maze- All Variations: (8 Variations) - 
+
+Check for Possible Path in a 2D Matrix
+The Task is to "Check if there is a path" from "Source" to "Destination"
+
+
+Source: Top Left: mat[0][0]
+Destination: Bottom Right: mat[m-1][n-1]
+
+
+In the Matrix,
+-1 is considered as BLOCKAGE
+(Cannot Go through that cell)
+
+
+0 is considered to be SAFE CELL
+(Can Go through it)
+
+
+Note: 
+Source and Destination will ALWAYS be 0 (SAFE CELL)
+
+
+Directions:
+All 4 Directions: Up, Down, Left, Right
+
+
+Constraints:
+
+0 <= i < row
+0 <= j < col
+1 <= row <= 1000
+1 <= col <= 1000
+
+
+
+Test Case-1: V1
+
+
+
+
+mat[][]
+= 
+{
+ S: 0    0   -1  0
+	-1   0   -1  -1
+	0    0   -1  0
+	-1   0   0   0: D
+}
+
+
+S: 0,0
+D: m-1, n-1
+
+
+OP: 
+
+True
+
+
+Path:
+
+
+mat[][]
+= 
+{
+ S: M    M   -1  0
+	-1   M   -1  -1
+	0    M   -1  0
+	-1   M   M   M: D
+}
+
+
+
+
+
+
+Test Case-2: V1
+
+
+mat[][]
+= 
+{
+ S: 0    0   -1  0
+	-1   -1   -1  -1
+	0    0   -1  0
+	-1   0   0   0: D
+}
+
+
+S: 0,0
+D: m-1, n-1
+
+
+OP: 
+False
+
+
+
+Test Case-3: V2
+
+
+mat[][]
+= 
+{
+ S: 0    0   -1  0
+	-1   0   -1  -1
+	0    0   0:D  0
+	-1   0   0   0
+}
+
+
+S: 0,0
+D: x,y
+
+x = 2, y = 2
+
+OP: 
+True
+
+
+
+
+
+
+Test Case-4: V2
+
+
+mat[][]
+= 
+{
+ S: 0    0   -1  0
+	-1   0   -1  -1
+	0    0   -1  0
+	-1   0   -1  0: D
+}
+
+
+S: 0,0
+D: x,y
+
+x = 2, y = 3
+
+OP: 
+False
+
+
+
+
+
+Test Case-5: V4
+
+
+mat[][]
+= 
+{
+    0    0   0  0:S
+	-1   0   -1  -1
+	0  D:0   -1  0
+	-1   0   -1  0
+}
+
+
+S: c,d
+D: x,y
+
+c = 0, d = 3
+x = 2, y = 1
+
+OP: 
+True
+
+
+
+
+Test Case-6: V6
+
+
+mat[][]
+= 
+{
+   S:0    0   0  0
+	-1   0   -1  -1
+	0    0    0:D  0
+	-1   0   -1  0
+}
+
+
+S: c,d
+D: x,y
+
+c = 0, d = 0
+x = 2, y = 2
+
+K = 2 Steps
+(Jump 2 Times at Once - Right, Left, Up, Down)
+
+
+OP: 
+True
+
+2 Ways:
+- Right and Down
+- Down and Right
+
+
+
+
+
+
+Test Case-7: V6
+
+
+mat[][]
+= 
+{
+   S:0    0   -1  0
+	-1   0   -1  -1
+	0    0    0  0:D
+	-1   0   -1  0
+}
+
+
+S: c,d
+D: x,y
+
+c = 0, d = 0
+x = 2, y = 3
+
+K = 2 Steps
+(Jump 2 Times at Once - Right, Left, Up, Down)
+
+
+OP: 
+False
+
+
+
+
+
+
+
+
+
+
+
+
+
+Java:
+
+boolean pathExist(int[][] mat, int m, int n)
+{
+
+}
+
+
+
+C++:
+
+bool pathExist(int mat[][], int m, int n)
+{
+
+}
+
+
+Py:
+
+def pathExist(mat, m, n):
+
+
+
+
+
+
+
+
+Solution:
+
+-------> Direction Matrix/Mapping:
+
+
+Curr Position: (i,j)
+
+
+Right: (i,j) ->  (i,j+1) -> [0, 1]
+Left: (i,j) -> (i, j-1) -> [0, -1]
+Up: (i,j) -> (i-1, j) -> [-1, 0]
+Down: (i,j) -> (i+1,j) -> [1, 0]
+
+Diagonal Directions:
+
+North West: up left: i, j -> i-1, j-1: [-1,-1]
+
+North East: up right: i, j -> i-1, j+1: [-1, 1]
+
+South West: down left: i, j ->  i+1, j-1: [1, -1]
+
+South East: down right: i, j -> i+1, j+1: [1,1]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Real Life Example:
+Hiking Example With Storing Paths and Marking Visited Paths
+
+
+Approach:
+
+(1) Queue which stores current cell (i,j) for PATH
+(2) Insert (0,0) (Source) in Queue
+(3) Run a loop till Queue is Empty
+- Check for All Paths - Backtracking
+(4) Mark All Cells travelled as Visited
+(5) If you reach Destination,
+		return true
+	else
+		return false
+
+
+
+
+
+
+
+Variations:
+
+
+(1) V1: S = (0,0), D = [m-1, n-1], Dir = 4 Directions
+(2) V2: S = (0,0), D = [x,y], Dir = 4 Directions
+// Source Constant, Varying Destination for Each Test Case
+(3) V3: S = (0,0), D = [x,y], Dir = 2 Directions // Right and Down
+(4) V4: S = (c,d), D = [x,y], Dir = 4 Directions
+// Varying Source, Varying Destination for Each Test Case
+(5) V5: S = (c,d), D = [x,y], Dir = 8 Directions
+(6) V6: S = (c,d), D = [x,y], Dir = 8 Directions, EXACTLY K Steps at a Time - GOOGLE
+(7) V7: S = (c,d), D = [x,y], Dir = 8 Directions, Maximum K Steps at a Time (1,2,3,4......K)
+
+(1......K) - Take Any Number of Steps - Left/Right/Up/Down etc
+
+
+
+
+
+CODE:
+
+def pathExist(mat,m,n,x,y,c,d):
+	
+	Dir = [[0,1], [0,-1], [1,0], [-1,0], [-1,-1], [1,-1], [-1,1], [1,1]]
+	vis = False * max(N) // N: m*n - Mark All Cells as Unvisited
+
+	queue = [] // Queue Storing PATHS
+	queue.append((0,0)) // Source
+	// V4: queue.append((c,d))
+
+	// While Queue is NOT Empty, Exhaust All Possible Paths
+	while(len(queue)>0):
+
+		curr_pair = queue[0] // Queue Contains Pair, curr_pair = i,j
+		// curr_pair[0] = i, curr_pair[1] = j
+		queue.pop()
+
+		// Mark Current Cell as Visited
+		vis[curr_pair[0]][curr_pair[1]] = True
+
+		// Check if Destination is reached
+		if (curr_pair == x,y):
+			return True
+
+		// Check for possible path - Backtrack
+		// curr_pair = i, j, curr_pair[0] = i, curr_pair[1] = j
+
+		for i in range(len(Dir)):
+			for j in range(1,K+1):
+				row = curr_pair[0] + j * Dir[i][0]
+				col = curr_pair[1] + j * Dir[i][1]
+
+				// Boundary Cnditions and Non-Blockage
+				if (row>=0 && row<m && col>=0 && col<n && mat[row][col]!=-1 && vis[row][col] == False):
+					queue.append((row,col))
+
+	// reached here means Exhausted All Possibilities - Path does not exist, return false
+	return False
+
+
+
+
+
+
+
+i = 0
+[0,1]
+
+Dir[0][0] = 0
+Dir[0][1] = 1
+
+curr_pair = i, j
+
+row = i + 0 = i
+col = j + 1 = j + 1
+
+
+i, j -> (i, j+1): RIGHT
+
+
+
+
+
+
+Questions:
+
+- Connected Islands - LC
+- Rat in a Maze - LC
+- Rat in a Maze - GFG
+- Rat in a Maze - HackerRank
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------> TREES:
+
+- What (Use Case): DONE
+- Why (Applications): DONE
+- How (Coding/Implementation)
+
+
+
+
+(1) Linear DS:
+- Arrays
+- Linked Lists
+- Stacks
+- Queues
+
+(2) Hierarchical DS
+- Trees
+- Graphs
+
+
+
+
+(1) Elements are stored in Contiguous Location - Linear: INCORRECT
+(2) There is MORE THAN ONE Logical Way of Traversal - Hierarchical: CORRECT
+
+
+Linear DS:
+- Arrays: L to R, R to L
+- Linked List: Head to Tail
+- Stacks: Top to Bottom
+- Queues: Front to Rear
+
+
+
+Hierarchical DS:
+- DFS (Depth First Search): PreOrder, InOrder, PostOrder
+- BFS (Breadth First Search): LOT (Level Order Traversal)
+
+
+
+
+
+
+
+
+
+
+(2) Tree vs DLL
+
+DLL:
+
+A <------> B <-------> C
+
+B.next = C
+A.next = B
+B.prev = A
+
+
+- No Parent-Child Relationship (No Hierarchy)
+- All Nodes on Same Level
+
+
+
+
+Tree:
+
+- Parent- Child Relationship (Hierarchy)
+- Nodes on Multiple Levels
+
+
+Root ----> Child -----> Subchildren
+
+Root: Top Most Node
+Child: Immediate Children Under Root
+Subchildren: Child can also have Subchildren
+
+
+
+
+				 A
+			  B     C	
+			D  E   F  G  
+
+Root: A
+Child: B C
+Subchildren: D E F G
+
+
+Note:
+
+Parent to Child: YES
+Child to Parent: NO
+
+
+A.left = B
+A.right = C
+
+
+
+
+
+
+
+
+
+
+-------> Types of Trees:
+
+(1) Binary Trees:
+
+A Tree with MAXIMUM of 2 Children (0,1,2) for EACH NODE is called a Binary Tree
+
+Leaf Node: 
+A Node which does not have any children 
+
+Complete/Full Binary Tree:
+All Non-leaf Nodes will have exactly 2 children
+
+
+
+
+IMP:
+
+Property:
+
+Complete/Full Binary Tree:
+Number of Nodes at height h = 2^h
+
+
+
+
+Eg-1:
+
+
+				A                 h = 0, 2^0 = 1
+			 B    C               h = 1, 2^1 = 2
+			D  E  F  G            h = 2, 2^2 = 4
+
+
+OP:
+
+Binary Tree: YES (Max 2 - 0,1,2)
+Leaf Node: D E F G
+Complete/Full Binary Tree: YES
+
+
+
+
+
+
+Eg-2:
+
+
+				 A
+			 B      C
+			D  E  F  NULL 
+
+
+OP:
+
+Binary Tree: YES (Max 2 - 0,1,2)
+Leaf Node: D E F 
+Complete/Full Binary Tree: NO
+
+
+
+
+
+
+
+Eg-3:
+
+
+				 A              h = 0
+
+
+OP:
+
+Binary Tree: YES (Max 2 - 0,1,2)
+Leaf Node: A 
+Complete/Full Binary Tree: YES
+
+
+
+
+
+Eg-4:
+
+
+				 A               h = 0
+			 B      C            h = 1
+
+
+OP:
+
+Binary Tree: YES (Max 2 - 0,1,2)
+Leaf Node: B C 
+Complete/Full Binary Tree: YES
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(2) N-Ary Trees/ Generic Trees:
+
+A Tree with a MAXIMUM of N Children (0,1,2,.......N) for EACH NODE is called N-Ary Tree
+
+
+Leaf Node:
+A Node which does not have any children 
+
+Complete/Full N-Ary Tree:
+All Non-Leaf Nodes will have EXACTLY N Children
+
+
+
+
+Eg-1:
+
+N- Ary Tree (N = 3)
+
+				
+				  A
+			B     C    D	
+			EFG   HI   JKL
+
+
+N- Ary Tree: YES (Max of 3 Children per Node)
+Complete N-Ary Tree: NO (Exactly 3 Children per Node)
+
+
+
+
+
+
+Eg-2:
+
+N- Ary Tree (N = 3)
+
+				
+				  A
+			B     C    D      O	
+			EFG   HI   JKL    PQ
+
+
+N- Ary Tree: NO (Max of 3 Children per Node)
+Complete N-Ary Tree: NO (Exactly 3 Children per Node)
+
+
+
+CODE:
+
+Node left, right; 2 Children: --------------> Binary Tree
+ArrayList<Node> children(N, null); ---------> N-Ary Tree
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> Applications of Tree:
+
+(1) File Storage System
+
+PC:
+	- C:
+	- D:
+	- E:
+	- F:
+
+
+
+Folder A:
+	- Images
+	- Videos
+	- GIF
+
+
+Path: /D/Folder 1/Folder 2
+
+
+Path: /ctp/opt/logs/....
+
+
+-----> Hierarchical Order: TREES
+
+
+
+
+
+(2) Databases:
+
+- Indexing
+(B+ and B- Trees)
+
+
+(3) Ordering: BST (Binary Search Trees)
+
+Search and Access: Faster than Arrays
+
+
+(4) Complexity of Insertion and Deletion
+
+
+Arrays             BST             LL
+O(N)			   O(log N)        O(1)
+
+
+(5) No Upper Limits
+
+Array: Upto a Limit: Static
+LL: No Limit: Dynamic
+Tree: No Limit: Dynamic
+
+
+(6) Dynamic Allocation
+- Increase/Decrease Size of tree at Run Time
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Questions:
+
+- Connected Islands - LC
+- Rat in a Maze - LC
+- Rat in a Maze - GFG
+- Rat in a Maze - HackerRank
+

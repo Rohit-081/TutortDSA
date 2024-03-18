@@ -1,0 +1,1064 @@
+Date : 9th March 2024
+Mentor: DEVANG SHARMA
+Batch: Oct Batch (DSA) - Tutort Academy
+
+Agenda:
+
+- Modulo Arithmetic: DONE
+
+- Dynamic Programming: DONE
+- Introduction to DP- DONE
+- DP vs Backtracking vs Greedy - DONE
+- DP vs Recursion- Real Life Example - DONE
+- 4 Steps to Solve Any DP Question in World - MOST IMPORTANT
+
+Questions
+- Max Steps - Amazon: DONE
+- Removing Chocolates- Paypal: DONE
+- [Adobe] Q: Variation of Sum of Numbers- 1,3,5: DONE
+- Uncertain Steps- Google: DONE
+
+2D DP:
+- Goldmine- Microsoft: DONE
+- Maximum size square sub-matrix with all 1s- Paypal
+
+Backtracking:
+
+Q: [Amazon] Dr CooCoos Pack Of Hens - Google, Cisco, Apple- 
+Q: Combination Sum- Facebook - DONE
+Q: Rat in a Maze- All Variations: (8 Variations) - 
+
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+DSA:
+
+Arrays
+LS and BS
+Prefix Sum
+Two Pointers
+Stacks
+Queues
+Linked Lists
+Strings
+Hashing, Sets and Maps
+DP
+
+Backtracking
+Trees
+Graphs
+
+DCS: Tries, AP, Bridges
+
+
+
+
+
+
+
+
+-------> Backtracking:
+
+Q: [Adobe] Variation of Sum of Numbers {1,3,5}
+
+Given 3 Numbers {1,3,5}
+"Check if its possible" to form a number N using sum of these three numbers {1,3,5}
+
+Note: Repetitions and Arrangements are Allowed
+
+
+IP: 6
+OP: true
+
+
+IP: -4
+OP: false
+
+
+IP: 7
+OP: true (1+1+5)
+
+
+Divisibility wont work:
+
+{2,3,5}
+
+N = 7
+OP: true (2+2+3)
+
+7%2 != 0
+7%3 != 0
+7%5 != 0
+
+
+
+Make DP Solution:
+
+if (dp[n]!=0)
+	return true
+else
+	return false
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q: Array, Target
+
+Check if there is any "pair" in array with sum == target
+
+
+arr = {1,2,3,4,5,6}
+target = 6
+
+OP: YES
+
+[1,5],[2,4]
+
+
+Solutions:
+
+(1) Brute Force
+(2) Sorting and Two Pointers
+(3) Hashing
+
+
+
+
+
+VVVVVVVVVVVI:
+Q: "Check if its possible"
+to use ANY COMBINATION in the Array to make sum == target
+- Google, Cisco
+
+
+OR
+
+
+Subset Sum Problem
+
+
+arr = {1,2,3,4,5,6}
+target = 6
+
+
+Possible Combinations:
+
+{6}
+{1,2,3}
+{2,4}
+{1,5}
+
+OP: true
+
+
+
+Blocker:
+Size of Combination = Varying
+
+
+K Size:
+Combination: Brute Force: O(N^K)
+
+
+
+
+
+
+
+
+BACKTRACKING:
+
+- Optimisation Over Recursion without storing state results
+- Exhausting All Possible States
+
+
+Trick:
+
+DP - 4 Steps
+Backtracking - 2 Steps
+
+
+
+
+Solution:
+
+(1) Identify:
+
+Check if, Is it possible,
+Whether it can be done or not
+
+
+Intuition: "Exhausting All Possible States"
+
+
+True or False - Backtracking
+- Binary Solution
+
+
+- true/false
+- yes/no
+- possible/not possible
+
+
+
+
+Eg:
+
+(1) N Queens Problem
+
+"Can you place" N Queens in a Chessboard?
+
+OP: true/false
+
+
+(2) Rat in a Maze Problem
+
+src, dest, Right/Down
+"Can the Rat" reach to destination?
+
+OP: true/false
+
+
+Underlying Algo: Backtracking
+
+
+
+
+
+Note:
+
+DP: Works With States
+Backtracking: Works With Choices
+
+
+
+
+(2) Apply Backtracking
+
+
+Work With Choices:
+
+- Include/Exclude in Combination
+
+
+
+arr = {1,2,3,4,5,6}
+target = 6
+
+
+curr_sum= Sum of Combination
+need = target - curr_sum
+
+
+Left to Right:
+
+{1}
+include = 1, curr_sum = 1, need = 6-1 = 5
+
+{1,2}
+include = 2, curr_sum = 1+2 = 3, need = 6-3 = 3
+
+
+{1,2,3}
+include = 3, curr_sum = 1+2+3 = 6, need = 6-6 = 0: STOP - Found Combination
+
+
+{1,2,4}
+next number = 4, curr_sum = 1+2+4 = 7, need = 6-7 = -1: EXCLUDE: curr_sum > target
+
+
+
+{1,2,}
+
+next number = 3, curr_sum = 1+2+3 = 6, need = 6-6 = 0: INCLUDE: curr_sum == target
+
+next number = 4, curr_sum = 1+2+4 = 7, need = 6-7 = -1: EXCLUDE: curr_sum > target
+
+
+
+
+NOTE:
+
+(1) INCLUDE
+
+When you include a value in combination:
+(A) curr_sum = curr_sum + new number
+(B) target = target - curr_sum
+
+
+(2) EXCLUDE
+
+When you exclude a value from combination:
+(A) curr_sum : NO CHANGE
+(B) target: NO CHANGE
+
+
+
+
+
+
+
+
+Q: [Amazon] Dr CooCoos Pack Of Hens - Google, Cisco, Apple- DONE
+Q: Combination Sum- Facebook - 
+Q: Rat in a Maze- All Variations: (8 Variations) - 
+
+
+
+
+
+
+Q-1: [Amazon] Dr CooCoos Pack Of Hens - Google, Cisco, Apple
+- Subset Sum Problem
+
+Dr. CooCoo has a pack of hens, each laying some eggs. She represents the eggs laid by each hen in an array, 
+like this:
+
+1 7 2 0 5 6
+
+Given a goal of eggs, we want to know if there are hens which, when summed, give the exact goal required.
+
+For example, for a goal of 3 it is possible in the above array. But a goal of 4 is not.
+
+Write a method Met that takes 2 parameters:
+
+First, an integer arrays that contains the eggs laid by all hens
+Second, an integer with value of goal
+You have to return a boolean value of true (if goal can be reached) or false (if it can’t be reached).
+
+The Met method has to be inside a Solution class. Please check the code editor for the ideal method definition.
+
+You can define other methods for help.
+
+Hint: Google for backtracking algorithm in recursion
+
+Example Input:
+0
+2 4 8
+14
+
+Output:
+true
+
+Example Input:
+0
+10 2 1 5
+9
+
+Output:
+false
+
+Example Input:
+1
+10 2 1 5
+20
+
+Output:
+false
+
+
+
+
+Py:
+
+	eggs = []
+	goal: int
+
+	def Met(self, eggs, goal):
+
+
+
+
+Java:
+
+public static boolean Met(int[] eggs, int goal)
+{
+
+}
+
+
+
+Solution:
+
+(1) Identify:
+
+"if there are hens which, when summed, give the exact goal required"
+
+"You have to return a boolean value of true (if goal can be reached) or false (if it can’t be reached)."
+
+
+(2) Apply Backtracking:
+
+(1) INCLUDE
+
+When you include a value in combination:
+(A) curr_sum = curr_sum + new number
+(B) target = target - curr_sum
+
+
+(2) EXCLUDE
+
+When you exclude a value from combination:
+(A) curr_sum : NO CHANGE
+(B) target: NO CHANGE
+
+
+
+
+Cases:
+
+target = target - curr_sum
+
+(1) if target == 0:
+		return true // Found Combination
+
+
+(2) if (idx > = len(arr))
+		return false
+
+
+(3) if (target < 0) // curr_sum > target
+		return false
+
+
+(4) Two Possibilities:
+
+(A) include	= solve(idx+1, target - arr[idx])
+Included, target reduces and move to next
+
+(B) exclude	= solve(idx+1, target)
+Excluded, target remains same, and move to next
+
+
+
+
+
+
+CODE:
+
+# TC: O(2^N) - Recursion: O(Branches^depth): Either Include or Exclude
+#        select = self.helper(arr, idx+1,target-arr[idx])  # Include - O(N)
+#        not_select = self.helper(arr, idx+1, target)    # Exclude - O(N)
+        
+#      select = self.helper(arr, idx+1,target-arr[idx])  # Include + self.helper(arr, idx+1, target) 
+#    - O(2^N)
+        
+# SC: O(N) - Recursion  Stack
+
+class Solution:
+    
+    def helper(self, arr, idx, target):
+        // target = target - combination_sum
+        if target == 0:
+            return True // Combination Found
+        
+        if target < 0: //Invalid Combination, curr_sum > target
+            return False
+        
+        if idx >= len(arr):
+            return False
+        
+        /*
+        Q: [1,2,3,4]  target = 6
+        
+        #[1,2,3] target = 0: Include : target is reduced: target = target - arr[idx]
+        #[1,2,4] target = 3 (6-(2+1)==3): Exclude: target remains same
+        */
+        
+        select = self.helper(arr, idx+1,target-arr[idx])  // Include
+        // Java: select = helper(arr, idx+1, target-arr(idx))
+        not_select = self.helper(arr, idx+1, target)    // Exclude
+        
+        /*
+        Tree Diagram:
+        
+        At Every Step, Check for 2 possibilities - One with include, One With Exclude for ALL NUMBER
+        - Exhaust All possible states - BACKTRACKING
+        
+        arr = 2 4 8
+        goal = 14
+                                                       2
+                              (include 4)  6.                    2 (not include 4)
+                                    (TRUE)14   6                       10    2 
+                               (include 8)  (not include 8)   (include 8)  (not include 8)   
+        '''
+        */
+        
+        //Either Ans is True, Return True --> Either by Include or By Exclude you get combinatioon
+        ans = select or not_select // Why OR: Any value is true, OP will be true
+        return ans
+        
+    
+    def Met(self, eggs, goal):
+        //write your method here
+        return self.helper(eggs, 0, goal)
+
+
+
+TC: O(2^N)
+SC: O(N) - Recursion Stack
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-2: Combination Sum - Facebook - 
+
+
+Given an array of distinct integers arr and a target integer target, 
+return a list of all unique combinations of arr where the chosen numbers sum to target.
+
+The same number may be chosen from candidates an unlimited number of times. 
+Two combinations are unique if the frequency of at least one of the chosen numbers is different.
+
+
+Note:
+
+All numbers (including target) will be positive integers.
+Elements in a combination (a1, a2, … , ak) must be in non-descending order. (ie, a1 ≤ a2 ≤ … ≤ ak).
+The combinations themselves must be sorted in ascending order.
+CombinationA > CombinationB iff (a1 > b1) OR (a1 = b1 AND a2 > b2) OR … (a1 = b1 AND a2 = b2 AND … ai = bi AND ai+1 > bi+1)
+The solution set must not contain duplicate combinations
+
+Input Format
+
+The first line contains N, denoting the size of the array.
+
+The second line contains N spaced separated integers, denoting the elements of array.
+
+The third line contains the the target value.
+
+
+
+
+
+
+Conditions:
+
+- All numbers (including target) will be positive integers.
+- Elements in a combination (a1, a2, … , ak) must be in non-descending order. (ie, a1 ≤ a2 ≤ … ≤ ak).
+- The combinations themselves must be sorted in ascending order.
+- CombinationA > CombinationB iff (a1 > b1) OR (a1 = b1 AND a2 > b2) OR … (a1 = b1 AND a2 = b2 AND … ai = bi AND ai+1 > bi+1)
+- The solution set must not contain duplicate combinations
+
+
+
+
+
+Understanding:
+
+
+iff -> if and only if
+
+"return a list of all unique combinations of arr where the chosen numbers sum to target."
+
+
+
+Final Ans:
+
+Vector of Vectors/ List of Lists/2D  Array
+
+Ans = [[C1], [C2]......]
+
+
+
+C1: Combination - 1
+C2: Combination - 2
+
+
+
+
+"Elements in a combination (a1, a2, … , ak) must be in non-descending order. (ie, a1 ≤ a2 ≤ … ≤ ak)."
+
+Row Wise Sorted: C1, C2
+
+Inside: C1, C2: Increasing Order
+
+
+[1 2 3 4]: Correct
+[1 4 2 3]: Incorrect
+
+
+
+
+"The combinations themselves must be sorted in ascending order."
+
+Column Wise Sorted: C1 < C2 < C3: Increasing Order
+
+
+
+
+
+"CombinationA > CombinationB iff (a1 > b1) OR (a1 = b1 AND a2 > b2) OR … (a1 = b1 AND a2 = b2 AND … ai = bi AND ai+1 > bi+1)"
+
+[1 2 3] < [2 3 4]
+
+[1 2 3] < [1 5 6]
+
+
+"The solution set must not contain duplicate combinations"
+
+- Unique Values Only: Combinations Must be Unique
+- Between 2 Combinations: Repetitions is NOT Allowed
+
+
+
+[[1,2,3], [1,2,3]]: Incorrect
+
+[[1,2,2,3], [1,2,3,3]]: Correct
+
+
+
+"The same number may be chosen from candidates an unlimited number of times. "
+Inside a Combination: Repetition is Allowed
+
+
+
+"Two combinations are unique if the frequency of at least one of the chosen numbers is different."
+Criteria to check if 2 combinations are different or same
+
+
+Example Input 1
+
+4
+7 2 6 5
+16
+
+Example Output 1:
+
+2 2 2 2 2 2 2 2
+2 2 2 2 2 6: ASCENDING ORDER
+2 2 2 5 5
+2 2 5 7
+2 2 6 6
+2 7 7
+5 5 6
+
+
+Formula: 
+
+Number of Ways/Arrangements/Permutations from N Values where r values are repeated:
+= N! / r!
+
+
+2 2 2 2 2 6
+
+N = 6
+r = 5
+
+Number of Ways/Arrangements/Permutations
+= 6!/ 5!
+= 6
+
+
+2 2 2 2 2 6 - ASCENDING ORDER - ANS
+2 2 2 2 6 2
+2 2 2 6 2 2
+2 2 6 2 2 2
+2 6 2 2 2 2
+6 2 2 2 2 2
+
+
+Out of 6 Permutations, 
+Only 1 (Ascending Order) will be in FINAL ANSWER
+
+
+
+
+
+
+
+Solution:
+
+(1) Unique Values Only:
+- Set
+
+
+(2) Ascending Order of Values:
+
+Sort the Array Initially BEFORE Applying Backtracking
+
+
+
+How Sorting Aray will help?
+
+[7 2 6 5] ------> [2 5 6 7]
+
+Apply Backtracking on Sorted Array: Left to Right
+
+[2......]: Sorted Permutations
+
+Moving left to right in a Sorted Array will ALWAYS give a Sorted Permutation.
+
+
+
+
+Approach:
+
+(1) Sort the Array Initially BEFORE Applying Backtracking
+- To Get Sorted Permutations
+
+(2) Unique Values Only - Set
+
+(3) Apply Backtracking:
+
+
+- Case 1:
+
+	if target == 0:
+		- Combination Found
+		- Add that to your Ans (List of Combinations)
+
+- Case 2:
+	
+	if target < 0:
+		- Ignore that case, Dont add to Ans (List of Combinations)
+
+
+- Case 3:
+	
+	if target > 0:
+		- Insert the Present Array in Answer and Backtrack:
+
+		select = target -----> target - arr[i]
+
+		not_select = target -----> target : NO CHANGE
+
+
+
+
+
+
+
+CODE:
+
+
+def combinationsum(candidates, target):
+    list_of_combinations = [] // list of lists/ 2D Array
+    candidates = sorted(list(set(candidates))) // [2 5 6 7]
+    backtrack(candidates, target, [], list_of_combinations) // target = 16
+    return list_of_combinations
+
+def backtrack(nums, target, combination, list_of_combinations):
+    if target < 0: // Ignore, dont add to ans
+        return
+    
+    if target == 0: // Add to Ans
+        list_of_combinations.append(combination) // final_ans: 2D List - List of Combinations
+        print(*combination) // combination = [2 2 2 2 2 2 2 2], [2 2 2 2 2 6], [2 2 2 5 5], *combination = Only values, not  brackets
+        return
+    
+    for i in range(len(nums)): // backtracking --> Going Left to Right
+        backtrack(nums[i:], target-nums[i], combination+[nums[i]], list_of_combinations) # [2 5 6 7]
+        // C++/Java : helper(nums.begin(i,end), target-nums[i], path + nums[i],final_ans)
+    
+n = int(input())
+arr = list(map(int, input().split()))
+sum = int(input())
+combinationsum(arr, sum)
+
+
+TC: O(2^N)
+SC: O(N) - Recursion    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-3: [LC-39] Combination Sum:
+https://leetcode.com/problems/combination-sum/description/
+
+Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.
+
+The same number may be chosen from candidates an unlimited number of times. Two combinations are unique if the 
+frequency of at least one of the chosen numbers is different.
+
+The test cases are generated such that the number of unique combinations that sum up to target is less than 150 combinations for the given input.
+
+ 
+
+Example 1:
+
+Input: candidates = [2,3,6,7], target = 7
+Output: [[2,2,3],[7]]
+Explanation:
+2 and 3 are candidates, and 2 + 2 + 3 = 7. Note that 2 can be used multiple times.
+7 is a candidate, and 7 = 7.
+These are the only two combinations.
+
+
+Example 2:
+
+Input: candidates = [2,3,5], target = 8
+Output: [[2,2,2,2],[2,3,3],[3,5]]
+
+
+Example 3:
+
+Input: candidates = [2], target = 1
+Output: []
+ 
+
+Constraints:
+
+1 <= candidates.length <= 30
+2 <= candidates[i] <= 40
+All elements of candidates are distinct.
+1 <= target <= 40
+
+
+public List<List<Integer>> combinationSum(int[] candidates, int target) 
+{
+
+}
+
+
+
+Solution:
+
+
+
+class Solution 
+{
+public List<List<Integer>> combinationSum(int[] candidates, int target) {
+    List<List<Integer>> ans = new ArrayList<>(); //2 D Array
+    Arrays.sort(candidates);
+    backtrack(ans, new ArrayList<Integer>(), candidates, target, 0);
+    return ans;
+}
+
+private void backtrack(List<List<Integer>> ans, List<Integer> tempList, int[] arr, int target, int start)
+{
+    if (target < 0)  // target < 0
+        return; // no solution 
+
+    else if (target == 0)  // Found Combination
+        ans.add(new ArrayList<>(tempList)); // ans.add([2 2 3])
+
+    else // Apply Backtracking
+    {
+        for (int i = start; i < arr.length; i++) 
+        { 
+            tempList.add(arr[i]);
+            backtrack(ans, tempList, arr, target-arr[i], i);
+            tempList.remove(tempList.size()-1);
+        } 
+    }
+
+}
+}
+
+
+
+
+TC: O(2^N)
+SC: O(N) - Recursion Stack
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-4: Rat in a Maze- All Variations: (8 Variations) - 
+
+Check for Possible Path in a 2D Matrix
+The Task is to "Check if there is a path" from "Source" to "Destination"
+
+
+Source: Top Left: mat[0][0]
+Destination: Bottom Right: mat[m-1][n-1]
+
+
+In the Matrix,
+-1 is considered as BLOCKAGE
+(Cannot Go through that cell)
+
+
+0 is considered to be SAFE CELL
+(Can Go through it)
+
+
+Note: 
+Source and Destination will ALWAYS be 0 (SAFE CELL)
+
+
+Directions:
+All 4 Directions: Up, Down, Left, Right
+
+
+Constraints:
+
+0 <= i < row
+0 <= j < col
+1 <= row <= 1000
+1 <= col <= 1000
+
+
+
+Test Case-1:
+
+
+
+
+mat[][]
+= 
+{
+ S: 0    0   -1  0
+	-1   0   -1  -1
+	0    0   -1  0
+	-1   0   0   0: D
+}
+
+
+S: 0,0
+D: m-1, n-1
+
+
+OP: 
+
+True
+
+
+Path:
+
+
+mat[][]
+= 
+{
+ S: M    M   -1  0
+	-1   M   -1  -1
+	0    M   -1  0
+	-1   M   M   M: D
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Test Case-2:
+
+
+mat[][]
+= 
+{
+ S: 0    0   -1  0
+	-1   -1   -1  -1
+	0    0   -1  0
+	-1   0   0   0: D
+}
+
+
+S: 0,0
+D: m-1, n-1
+
+
+OP: 
+False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+HW:
+
+https://leetcode.com/problems/combinations/: Easy
+https://leetcode.com/problems/combination-sum-ii/: Med
+https://leetcode.com/problems/combination-sum-iii/: Med
+https://leetcode.com/problems/combination-sum-iv/: Hard
+
+
+
