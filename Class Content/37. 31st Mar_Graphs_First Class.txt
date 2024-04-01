@@ -1,0 +1,812 @@
+Date : 31st March 2024
+Mentor: DEVANG SHARMA
+Batch: Oct Batch (DSA) - Tutort Academy
+
+Agenda:
+
+- Trees
+- What (Use Case): DONE
+- Why (Applications): DONE
+- How (Coding/Implementation): DONE
+- Traversals: DONE
+- Binary Search Trees: DONE
+- Interview Questions on BT and BST: DONE
+
+Trees- Binary Trees
+
+https://leetcode.com/problems/minimum-depth-of-binary-tree/: DONE
+https://leetcode.com/problems/maximum-depth-of-n-ary-tree/: DONE
+https://leetcode.com/problems/balanced-binary-tree/: 
+LC - Premium : https://leetcode.com/problems/binary-tree-upside-down/ 
+
+
+Trees- Binary Search Trees
+
+https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree - IMP
+https://leetcode.com/problems/minimum-absolute-difference-in-bst: DONE
+https://leetcode.com/problems/search-in-a-binary-search-tree: DONE
+https://leetcode.com/problems/range-sum-of-bst: DONE
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+--------> GRAPHS:
+
+
+Basic (70%)
+
+Theory: DONE
+Applications: DONE
+Representations:
+- Adjacency Matrix: DONE
+- Adjacency List: DONE
+
+BFS: WIP
+Detect Cycle in a Graph
+BFS in Disconnected Graph
+DFS
+
+
+Advanced (30%)
+
+Spanning Trees
+MST - Prim and Kruskal
+Shortest Distance - Dijkstra, Bellman Frd, Floyd Warshall
+
+
+
+
+
+
+- What (Use Case/Problem)  - DONE
+- Why (Applications) - DONE
+- How (Coding/Implementation) - DONE
+
+
+
+
+
+
+What?
+
+Graph:
+
+"Finite" Set of "Vertices" and "Edges" which connects a pair of vertices.
+
+
+      0------1------2
+      |      |
+      |      |
+      |      |
+      |      |
+      3------4
+
+
+Vertices: Nodes in a Graph
+Edges: Connections that connects the vertices
+
+
+Vertices = Nodes = V = {0,1,2,3,4}
+Edges = Connections = E = {0-1, 1-2, 0-3, 3-4, 1-4}
+
+
+
+
+Types/Classification:
+
+(1) Based upon Weight
+
+
+- Weighted: Weight/Cost is Associated with "Every" Edge in the Graph
+
+         10     15
+      0------1------2
+      |      |
+      |      |
+    5 |      | 20
+      |      |
+      3------4
+         7
+
+- Unweighted: NO Weight/Cost is Associated with "Every" Edge in the Graph
+
+
+      0------1------2
+      |      |
+      |      |
+      |      |
+      |      |
+      3------4
+
+
+
+
+(2) Based Upon Direction
+
+
+- Directed Graph: One Way
+- UnDirected Graph: Two Way
+
+
+
+
+
+A ------> B : A to B Path ----- Directed Graph (Uni-Directional Graph)
+
+A ------ B : A to B Path and B to A Path: UnDirected Graph
+
+A <------> B : A to B Path and B to A Path: Bi-Directional Graph
+
+
+Note:
+
+Bi-Directional Graphs behave like UnDirected Graph
+
+
+
+
+
+Undirected and Unweighted Graph
+
+      0------1------2
+      |      |
+      |      |
+      |      |
+      |      |
+      3------4
+
+
+
+
+
+
+
+
+
+
+-------> WHY (Applications)
+
+
+(1) Navigation Services
+GPS: Google Maps, Apple Maps
+
+
+
+Source: 0
+Destination: 4
+
+
+         10     15
+      0------1------2
+      |      |
+      |      |
+    5 |      | 20
+      |      |
+      3------4
+         7
+
+
+All Paths from 0 to 4:
+
+(1) 0 - 1 - 4: 10 + 20 = 30 
+(2) 0 - 3 - 4: 5 + 7 = 12
+
+
+Ans = Min(0-1-4, 0-3-4) = 12
+
+
+
+
+
+(2) Networks and Topology in Computer Networking
+
+
+Eg: 10 Servers, Star Topology, Min Cable Length
+
+
+Vertex/Nodes: Servers
+Edges: Cables
+
+
+Graph Question:
+Graph with 10 Vertices, Return Min Edge Length Sum Connecting All Vertices
+
+
+
+
+(3) Social Media and Recommendation System
+
+Instagram/Facebook/Snapchat
+
+
+(A) Direction
+
+A <--------> B <------ C
+
+
+Insta: A can follow B, B may or may not follow back A: Directed Graph
+FB: A and B are connected: Both follow each other: UnDirected Graph
+
+
+A follows B
+B follows A
+C follows B
+
+
+A: Person/Page: Node/Vertex
+------> : Follows
+
+
+
+(B) Connectivity
+
+A <-------> B <------- C
+
+Mutual Friends ------> Suggested Friends
+
+A will visit prodile of C: 
+- Mutual Friends with B (Facebook)
+- Follwed by B (Insta)
+
+
+
+(C) Personalisation/ Degree of Connectivity
+
+     100         10   
+A <-------> B <------- C
+
+
+Closeness Score: 
+Closeness of Connectivity between Users
+
+
+If you want to show both A and C posts to B,
+B is MORE LIKELY to Engage with A Post.
+
+
+
+
+
+
+
+
+
+--------> How (Coding/Implementation)
+
+Representations:
+(1) Adjacency Matrix
+(2) Adjacency List
+
+
+Representation:
+Any Piece of Information which when provided is sufficient 
+to re-draw the entire graph is called Representation
+
+
+Case-1: Adjacency Matrix
+
+
+V * V = V^2
+
+Rows = V
+Cols = V
+
+
+Direct Path Exist,
+	value = 1
+else
+	value = 0
+
+
+
+      0------1------2
+      |      |
+      |      |
+      |      |
+      |      |
+      3------4
+
+
+
+V = 5
+Matrix = 5x5
+
+
+
+
+D    0   1   2   3   4
+S
+
+0    0   1   0   1   0    
+
+1    1   0   1   0   1
+
+2    0   1   0   0   0
+
+3    1   0   0   0   1
+
+4    0   1   0   1   0
+
+
+
+
+(1) Diagonals are 0: adj[i][i] = 0 : No Self Edge on Any Vertex
+
+(2) Adjacency Matrix: UnDirected Graph: ALWAYS be SYMMETRIC Across Primary Diagonal
+
+a ------ b
+b ------ a
+
+
+0   1   0   1   0    
+
+1   0   1   0   1
+
+0   1   0   0   0
+
+1   0   0   0   1
+
+0   1   0   1   0
+
+
+
+Complexity: O(V^2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+Case-2: Adjacency List
+
+
+Array of Lists
+Size of Array = Number of Vertices
+
+
+      0------1------2
+      |      |
+      |      |
+      |      |
+      |      |
+      3------4
+
+
+Adjacency List Representation:
+
+vertex 'a' -----> [List of Directly Connected Vertices with 'a']
+
+Map:
+
+a -> []
+b -> []......
+
+
+Key: Vertex
+Value: List of Vertices
+
+
+0 - [1,3]
+1 - [0,2,4]
+2 - [1]
+3 - [0,4]
+4 - [1,3]
+
+
+
+
+Complexity:
+O(V)
+
+
+
+
+Pros: O(V^2) -------> O(V)
+	 Adj              Adj
+	 Matrix			  List
+
+
+
+
+
+
+
+Cons:
+
+
+Case Where Adjacency Matrix performs better than Adjacency List
+
+
+
+
+Ques:  
+Check if DIRECT Path Exist between src and dest
+
+      0------1------2
+      |      |
+      |      |
+      |      |
+      |      |
+      3------4
+
+
+src: 1
+dest: 4
+
+OP: true
+
+
+src: 1
+dest: 3
+
+OP: false
+
+
+
+Solutions:
+
+
+Adjacency Matrix: O()
+Adjacency List: O()
+
+
+
+(1) Adjacency Matrix:
+
+if (adj[src][dest] == 1)
+	return true;
+else
+	return false;
+
+
+TC: O(1)
+
+
+(2) Adjacency List:
+
+0 - [1,3]
+1 - [0,2,4]
+2 - [1]
+3 - [0,4]
+4 - [1,3]
+
+
+
+1 - [0 2 4]
+
+To Check if 1 ----> 3 or 1 -----> 4 path exist or not
+
+Need to Go Thrugh ALL Directly Connected Vertices  with 1
+
+TC: O(V)
+
+
+
+
+
+
+
+
+
+CODE:
+
+------ Adjacency List
+
+
+C++:
+(1) STL
+(2) Custom Class
+
+Java:
+(1) Collection Framework
+(2) Custom Class
+
+Py:
+(1) Use a Module
+(2) Custom Class
+
+
+
+--------> Normal Dictionary
+
+d = dict()
+d["a"] = 1
+d["b"] = 2
+
+print(d["a"])
+print(d["b"])
+print(d["c"])
+
+
+
+OP:
+
+1
+2
+
+KeyError: 'c'
+          ~^^^^^
+    print(d["c"])
+Line 7 in <module> (Solution.py)
+
+
+
+
+
+
+--------> Default Dictionary
+
+from collections import defaultdict
+
+def default_value():
+    return "Not Present"
+
+d = defaultdict(default_value)
+d["a"] = 1
+d["b"] = 2
+
+print(d["a"])
+print(d["b"])
+print(d["c"])
+
+
+OP:
+
+1
+2
+Not Present
+
+
+
+
+
+
+
+With Lists:
+
+
+from collections import defaultdict
+
+d = defaultdict(list)
+d["a"] = 1
+d["b"] = 2
+
+print(d["a"])
+print(d["b"])
+print(d["c"])
+
+
+
+
+OP:
+
+1
+2
+[]
+
+
+
+
+Adjacency List:
+
+Structure of Adjacency List:
+
+vertex --------> [List of Directly Connected Vertices]
+
+
+v1 - []
+v2 - []
+v3 - []
+v4 - []
+
+Note:
+
+If Any Vertex is NOT Visited yet,
+Instead of throwing Key Error,
+I need [] along with it
+
+
+Hence used defaultdict instead of Normal dict
+
+
+
+
+
+
+
+
+CODE:
+
+
+from collections import defaultdict
+
+graph = defaultdict(list)
+
+# src - [] : Initial
+# graph[src].append(dest): src- [dest]
+
+def addEdge(graph, src, dest):
+    graph[src].append(dest) # src -> dest
+    # Comment this line, it will become Directed Graph
+    graph[dest].append(src) # dest -> src
+    
+    
+# a ---- c ---- b ---- e    
+#        |
+#        d
+        
+addEdge(graph, 'a', 'c')
+addEdge(graph, 'b', 'c')
+addEdge(graph, 'b', 'e')
+addEdge(graph, 'c', 'd')
+
+print("Printing Adjacency List: (Bi-Directional/ UnDirected Graph)")
+# Adj List: {'a': ['c'], 'c': ['a', 'b', 'd'], 'b': ['c', 'e'], 'e': ['b'], 'd': ['c']}
+print(graph)
+
+# a ---> c ----> d  
+#       /|\
+#        b ----> e
+        
+print("Printing Adjacency List: (Uni-Directional/ Directed Graph)")
+# Adj List: {'a': ['c'], 'c': ['d'], 'b': ['c', 'e'], 'e': [], 'd': []}
+print(graph)
+
+
+
+
+OP:
+
+Printing Adjacency List: (Bi-Directional/ UnDirected Graph)
+defaultdict(<class 'list'>, {'a': ['c'], 'c': ['a', 'b', 'd'], 'b': ['c', 'e'], 'e': ['b'], 'd': ['c']})
+
+Printing Adjacency List: (Uni-Directional/ Directed Graph)
+defaultdict(<class 'list'>, {'a': ['c'], 'b': ['c', 'e'], 'c': ['d']})
+
+
+TC: O(V)
+SC: O(V)
+
+
+
+
+
+
+
+
+
+
+
+
+-------> TRAVERSALS:
+
+Hierarchical DS:
+More than 1 Logical Way to traverse
+
+
+BFS: Breadth First Search
+DFS: Depth First Search
+
+
+
+
+Explanation Using Trees:
+
+
+					0
+				1       2	
+			  3   4    5  6	
+
+BFS LOT:
+
+0
+1 2
+3 4 5 6
+
+You are at 1:
+Select 2 - BFS: Choose Adjacent/Breadth
+Select 3 - DFS: Choose Children/Depth
+
+
+
+
+Explanation Using Graphs:
+
+You Cover "ALL" the Directly Connected Vertices (Adjacent Vertices),
+You DONT Go to Any Other Vertex ------ BFS
+
+
+You DONT Cover "ALL" the Directly Connected Vertices (Adjacent Vertices),
+You Go to Any Other Vertex ------ DFS
+
+
+DFS: Depth Vertex is Travelled "BEFORE" Completing All Adjacenct Vertices
+
+
+
+
+
+      0------1------2
+      |      |
+      |      |
+      |      |
+      |      |
+      3------4
+
+
+
+You are at src = 0:
+Directly Connected Vertices: [1 3] : Breadth
+
+
+0 1 3 _ _   OR 0 3 1 _ _ : BFS
+
+0 1 2 _ _  OR  0 3 4 _ _ : DFS
+
+
+
+
+Diff:
+
+
+Graph May Contain Cycle,
+So to Avoid Visiting Same Vertex Again and Again,
+We Keep Track - 
+(1) Either Using Boolean Array
+OR
+(2) Set for Visited Vertices
+
+
+
+
+
+Refer: Image
+
+Directed and Unweighted Graph
+V: 4 , E: 6
+
+
+Starting Vertex: 2
+Directly Connected Vertices for 2: [0 3]
+
+BFS: 2 0 3 1 OR 2 3 0 1
+DFS: 2 0 1 3
+
+
+
+
+
+
+
+
+Nect Class:
+- CODE for DFS and BFS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

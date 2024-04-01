@@ -1,0 +1,692 @@
+Date : 23rd March 2024
+Mentor: DEVANG SHARMA
+Batch: Oct Batch (DSA) - Tutort Academy
+
+Agenda:
+
+- Trees
+- What (Use Case): DONE
+- Why (Applications): DONE
+- How (Coding/Implementation): DONE
+- Traversals: DONE
+- Binary Search Trees: DONE
+- Interview Questions on BT and BST: DONE
+
+Trees- Binary Trees
+
+https://leetcode.com/problems/minimum-depth-of-binary-tree/: DONE
+https://leetcode.com/problems/maximum-depth-of-n-ary-tree/: DONE
+https://leetcode.com/problems/balanced-binary-tree/: 
+LC - Premium : https://leetcode.com/problems/binary-tree-upside-down/ 
+
+
+Trees- Binary Search Trees
+
+https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree - IMP
+https://leetcode.com/problems/minimum-absolute-difference-in-bst: DONE
+https://leetcode.com/problems/search-in-a-binary-search-tree: DONE
+https://leetcode.com/problems/range-sum-of-bst: DONE
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+
+
+
+
+Q-11: [CISCO] Find Largest Number in a BST which is less than or Equal to K
+
+						
+						5
+					2        12	
+				1     3     9     21	
+							  19    25
+
+
+K = 21
+OP: 21
+
+K = 24
+OP: 21
+
+K = 3
+OP: 3
+
+K = 4
+OP: 3
+
+
+int largestLessThanK(Node root, int K)
+{
+
+}
+
+
+
+
+Solution:
+
+						
+						5
+					2        12	
+				1     3     9     21	
+							  19    25
+
+
+InOrder Traversal: 
+[1 2 3 5 9 12 19 21 25]
+
+int prev = -1;
+
+Inside InOrder Traversal:
+
+while (root.data <= K)
+{
+	prev = root.data;
+}
+
+return prev;
+
+
+
+TC: O(1) - Best Case, O(N) - Worst Case
+
+SC: O(1)
+
+
+
+
+DRY RUN:
+
+K = 4
+
+InOrder Traversal: 
+[1 2 3 5 9 12 19 21 25]
+
+prev = -1 -> 1 > 2 -> 3 : ANS
+OP: 3
+
+prev!= 5, 5 > 5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-12: [LC-111] Minimum Depth of Binary Tree
+https://leetcode.com/problems/minimum-depth-of-binary-tree/description/
+
+Given a binary tree, find its minimum depth.
+
+The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
+
+Note: A leaf is a node with no children.
+
+ 
+
+Example 1:
+
+Input: root = [3,9,20,null,null,15,7]
+Output: 2
+
+Example 2:
+
+Input: root = [2,null,3,null,4,null,5,null,6]
+Output: 5
+ 
+
+Constraints:
+
+The number of nodes in the tree is in the range [0, 105].
+-1000 <= Node.val <= 1000
+
+
+
+
+
+    2
+       3
+          4
+            5
+              6
+
+Leaf Node =   6
+Min Depth =   5    
+Max Depth =   5
+
+
+
+    public int minDepth(TreeNode root) 
+    {
+
+    }
+
+
+
+Solution:
+
+
+"The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node."
+
+
+		1
+			2
+				3
+					4
+						5
+
+Leaf Node: 5
+
+Min Depth = 5
+Max Depth = 5
+
+
+If Skewed Tree,
+Min Distance from root to leaf = Max Distance from root to leaf
+
+
+Need: Smaller of Child = min(left, right)  - Works Fine With Non-Skewed Tree
+
+If Skewed Tree,
+min (left, right) = 0
+Either of this value = 0 
+-----> min(leftMin, rightMin) = 0
+
+
+if min(leftMin, rightMin) = 0
+	Select ans = max(leftMin, rightMin)
+
+
+
+
+
+
+CODE:
+
+
+// TC: O(N)
+// SC: O(N)
+
+class Solution 
+{
+    public int minDepth(TreeNode root) 
+    {
+        if (root == null)
+            return 0;
+        
+        int leftHeight = minDepth(root.left);
+        int rightHeight = minDepth(root.right);
+
+        // Skewed Tree
+        if (Math.min(leftHeight, rightHeight) == 0)
+            return 1 + Math.max(leftHeight, rightHeight);
+
+        // Non-Skewed Tree
+        else
+        return 1 + Math.min(leftHeight, rightHeight);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-13: [LC-110] Balanced Binary Tree
+https://leetcode.com/problems/balanced-binary-tree/description/
+
+Given a binary tree, determine if it is height-balanced.
+
+Example 1:
+
+Input: root = [3,9,20,null,null,15,7]
+Output: true
+
+Example 2:
+
+
+Input: root = [1,2,2,3,3,null,null,4,4]
+Output: false
+
+Example 3:
+
+Input: root = []
+Output: true
+ 
+
+Constraints:
+
+The number of nodes in the tree is in the range [0, 5000].
+-104 <= Node.val <= 104
+
+
+    public boolean isBalanced(TreeNode root) 
+    {
+
+    }
+
+
+
+
+
+Solution:
+
+Keep Recurring into left and right subtrees and compare if
+abs(leftDepth - rightDepth) > 1: return false
+else return true
+
+
+
+CODE:
+
+// TC: O(N)
+// SC: O(N) - Auxiliary Space
+
+class Solution {
+    
+    public boolean result = true;
+
+    public boolean isBalanced(TreeNode root) 
+    {
+        maxHeight(root);
+        return result;
+    }
+
+
+    public int maxHeight(TreeNode root)
+    {
+        if (result == false)
+            return 0;
+
+        if (root == null)
+            return 0;
+
+        int leftHeight = maxHeight(root.left);  
+        int rightHeight = maxHeight(root.right);
+
+        // Not Height Balanced
+        if (Math.abs(leftHeight-rightHeight)> 1)
+            result = false;
+
+        // Height Balanced  
+        return 1 + Math.max(leftHeight,rightHeight);
+    }
+}
+
+
+TC: O(N)
+SC: O(N)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[IMP]
+Q-14: [LC-530] Minimum Absolute Difference in BST
+https://leetcode.com/problems/minimum-absolute-difference-in-bst/description/
+
+Given the root of a Binary Search Tree (BST), 
+return the minimum absolute difference between the values of any two different nodes in the tree.
+
+Example 1:
+
+Input: root = [4,2,6,1,3]
+Output: 1
+
+Example 2:
+
+Input: root = [1,0,48,null,null,12,49]
+Output: 1
+ 
+
+Constraints:
+
+The number of nodes in the tree is in the range [2, 104].
+0 <= Node.val <= 105
+ 
+
+Note: This question is the same as 783: https://leetcode.com/problems/minimum-distance-between-bst-nodes/
+
+
+
+    public int getMinimumDifference(TreeNode root) 
+    {
+
+    }
+
+
+
+Solution:
+
+Edge cases:
+
+No Duplicates in BST, 
+Hence, Min Difference = 1
+
+Solution:
+
+InOrder Traversal of BST ------> Sorted List of Values
+
+
+Minimum Absolute Difference in Sorted Array: Between Adjacent Values
+
+Maximum Absolute Difference in Sorted Array: Between First and Last Values
+
+
+
+[4 2 6 1 3]
+After Sorting: [1 2 3 4 6]
+
+Min Diff = 1,2 = 2,3 = 3,4 = 1
+Max Diff = 1,6 = 5
+
+
+
+Note:
+
+(1) If Adjacent Value Difference is Required  -------> No need to Store diff
+
+diff = curr value - prev value
+
+Can be done by a variable
+
+
+
+(2) If First and Last Values Difference is Required ------> Need to store Diff
+
+diff = Last Value - First Valeue
+
+Can not be done by one variable
+
+
+
+
+
+Approach:
+
+(1) InOrder Traversal
+(2) Difference of Adjacent Values
+(3) Minimum Adjacent Value Difference
+
+
+
+
+
+Edge Case:
+
+
+
+
+CODE:
+
+arr = [0,null,2236,1277,2776,519]
+
+After Sorting: [0, 519, 1277, 2236, 2776]
+
+
+Output
+540
+
+Expected
+519
+
+
+
+class Solution {
+    
+    // Global because Recursive function will reuse same value everytime
+    int min_diff = Integer.MAX_VALUE; // Ans: Min Diff between any 2 Nodes
+    int curr_diff = -1; // Min Diff between any 2 ADJACENT Nodes in Inorder Tarversal
+
+    public int getMinimumDifference(TreeNode root) 
+    {
+        // Inorder: Left - Root - Right
+        
+        // Recur on Left
+        if (root.left!=null)
+            getMinimumDifference(root.left);
+        
+        if (curr_diff >= 0)
+            min_diff = Math.min(min_diff, root.val - curr_diff);
+        
+        // Hold previous value
+        // root.val - curr_diff -> curr - prev value
+        curr_diff = root.val;
+
+        // System.out.println("Diff: " + min_diff);
+        // System.out.println("Current Node: " + curr_diff );
+        
+        // Recur on Right        
+        if (root.right!=null)
+            getMinimumDifference(root.right);
+            
+        return min_diff;        
+    }
+}
+
+
+TC: O(N)
+SC: O(N)
+
+
+
+DRY RUN:
+
+
+[1 2 3 4 6]
+
+min_diff = -2Bn
+curr_diff = -1
+
+curr_diff = 2-1 = 1
+min_diff = 1
+
+curr_diff = 3-2 = 1
+min_diff = 1
+
+
+curr_diff = 4-3 = 1
+min_diff = 1
+
+curr_diff = 6-4 = 2
+min_diff = 1
+
+ANS: 1
+
+
+
+
+Edge Case:
+
+[0, null, 2236, 1277, 2776, 519]
+      
+
+          0
+       _      2236   
+           1277  2776 
+          519  
+
+
+Inorder Traversal:
+[0 519 1277 2236 2776]
+
+Correct OP: 519
+
+curr > 0: curr will never become 0: INCORRECT
+
+diff = 1277-519, 2236-1277, 2776-2236
+
+Min Value = 2776-2236 = 540
+OP: 540
+
+Correct OP: 519
+
+curr >=0: CORRECT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-15: [LC-700] Search in a Binary Search Tree
+https://leetcode.com/problems/search-in-a-binary-search-tree/description/
+
+You are given the root of a binary search tree (BST) and an integer val.
+
+Find the node in the BST that the nodes value equals val and return the subtree rooted with that node. If such a node does not exist, return null.
+
+ 
+
+Example 1:
+
+
+Input: root = [4,2,7,1,3], val = 2
+Output: [2,1,3]
+
+Example 2:
+
+
+Input: root = [4,2,7,1,3], val = 5
+Output: []
+ 
+
+Constraints:
+
+The number of nodes in the tree is in the range [1, 5000].
+1 <= Node.val <= 107
+root is a binary search tree.
+1 <= val <= 107
+
+
+
+    public TreeNode searchBST(TreeNode root, int data) 
+    {
+
+    }
+
+
+
+
+Solution:
+
+
+
+class Solution {
+
+    // Iterative Code - Binary Search
+    // T: O(log N), S: O(1)
+    public TreeNode searchBST(TreeNode root, int data) 
+    {
+        while (root!=null && root.val!=data)
+        {
+            if (data < root.val)
+                root = root.left;
+            else
+                root = root.right;
+        }
+        
+        return root;
+    }
+
+
+
+    // Recursive Code - Binary Search
+    // T: O(log N), S: O(1)
+
+    public TreeNode searchBST(TreeNode root, int data) 
+    {
+        if (root == null || root.val == data)
+            return root;
+
+        else
+        {
+            if (data < root.val)
+                root = searchBST(root.left, data);
+
+            else 
+                root = searchBST(root.right, data);
+        }
+
+        return root;    
+    }   
+}
+
+
+
+
+
+- Company Website
+- Employee Referral
+- Linkedin/Platform: Connect with HM, Senior Engineer
+- Networking Events
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
