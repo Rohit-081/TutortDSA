@@ -1,0 +1,683 @@
+Date : 6th Apr 2024
+Mentor: DEVANG SHARMA
+Batch: Oct Batch (DSA) - Tutort Academy
+
+Agenda:
+
+Basic (70%)
+
+Theory: DONE
+Applications: DONE
+Representations:
+- Adjacency Matrix: DONE
+- Adjacency List: DONE
+BFS: DONE
+Detect Cycle in a Graph: DONE
+BFS in Disconnected Graph: DONE
+DFS
+
+Advanced (30%)
+
+Spanning Trees: DONE
+MST - Prim and Kruskal: DONE
+Shortest Distance - Dijkstra, Bellman Frd, Floyd Warshall
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+CODE:
+
+
+
+from collections import defaultdict
+
+class Graph:
+    
+    def __init__(self):
+        self.graph = defaultdict(list)
+        
+    # src - [] : Initial
+    # graph[src].append(dest): src - [dest]
+    def addEdge(self, src, dest):
+        self.graph[src].append(dest) # src -> dest
+        # self.graph[dest].append(src) # dest -> src
+    
+    def BFS(self, start):
+        visited = [False] * (max(self.graph) + 1)
+        queue = []
+        queue.append(start)
+        visited[start] = True
+        
+        while queue:
+            curr_vertex = queue.pop(0)
+            print(curr_vertex, end = " ")
+            
+            # Adjacency list: curr_vertex - [neighbours]
+            # Iterating Over DIRECTLY CONNECTED VERTICES of curr_vertex
+            for neighbour in self.graph[curr_vertex]:
+                if visited[neighbour] == False:
+                    queue.append(neighbour)
+                    visited[neighbour] = True
+        
+g = Graph()
+g.addEdge(0,1)
+g.addEdge(0,2)
+g.addEdge(1,2)
+g.addEdge(2,0)
+g.addEdge(2,3)
+g.addEdge(3,3)
+
+print("BFS from 2: ")
+g.BFS(2)
+# Expected: 2 0 3 1 OR 2 3 0 1
+print(" ")
+print(" ")
+
+print("BFS from 1: ")
+g.BFS(1)
+# Expected: 1 2 0 3 OR 1 2 3 0
+print(" ")
+print(" ")
+
+print("BFS from 0: ")
+g.BFS(0)
+# Expected: 0 1 2 3 OR 0 2 1 3
+print(" ")
+print(" ")
+
+print("BFS from 3: ")
+g.BFS(3)
+# Expected: 3
+
+
+
+
+
+OP:
+
+BFS from 2: 
+2 0 3 1  
+ 
+BFS from 1: 
+1 2 0 3  
+ 
+BFS from 0: 
+0 1 2 3  
+ 
+BFS from 3: 
+3 
+
+
+
+TC: O(V+E)
+SC: O(V)
+
+
+
+For DFS and BFS - Travel All Vertex and All Edges
+TC: O(V+E)
+
+
+
+
+
+
+
+
+
+Q-1: BFS for Disconnected Graph
+
+
+      0------1------2
+      |      |
+      |      |
+      |      |
+      |      |
+      3------4
+
+
+Starting Vertex: 0
+BFS: 0 1 3 2 4 
+
+
+Disconnected Graph:
+
+
+
+      0------1                 2------5
+      |      |
+      |      |
+      |      |
+      |      |
+      3      4
+
+
+BFS OP:
+[0 1 3 4 2 5]
+
+
+Solution:
+
+Simple BFS - Will Not Give Me Answer
+
+
+Modified BFS:
+Simple BFS from EACH UNVISITED VERTEX
+
+
+BFS from 0:
+
+OP: [0 1 3 4]
+
+BFS from 1: NO (Already Visited)
+BFS from 3: NO (Already Visited)
+BFS from 4: NO (Already Visited)
+
+BFS from 2: YES (Unvisited Visited)
+
+OP: [2 5]
+
+Final Output: [0 1 3 4].append([2 5])
+            = [0 1 3 4 2 5]    
+
+TC: O(V+E)
+SC: O(V) - Storing Vertices in Queue
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------> Degrees in Graph: Only for DIRECTED GRAPHS
+
+InDegree and OutDegree
+
+
+    0 -----> 1 ----> 2
+   /|\      /|\
+    |        |
+    |        |
+    |        |
+    3        4
+
+
+
+InDegree:
+
+Number of Edges for which Vertex V is the Destination
+    OR
+Number of Edges INCOMING/Merging Towards a Vertex
+
+0: InDegree[0]: 1 ( 3---->0)
+1: InDegree[1]: 2 (0---->1, 4---->1)
+
+
+OutDegree:
+
+Number of Edges for which Vertex V is the Source
+    OR
+Number of Edges OUTGOING/Emerging from a Vertex
+
+
+
+0: OutDegree[0]: 1 (0---->1)
+1: OutDegree[1]: 1 (1----> 2)
+
+
+
+
+
+
+
+Q-2: [LC-1791] Find Center of Star Graph
+https://leetcode.com/problems/find-center-of-star-graph/description/
+
+There is an undirected star graph consisting of n nodes labeled from 1 to n. A star graph is a graph where there is one center node and exactly n - 1 edges that connect the center node with every other node.
+
+You are given a 2D integer array edges where each edges[i] = [ui, vi] indicates that there is an edge between the nodes ui and vi. Return the center of the given star graph.
+
+Example 1:
+
+
+Input: edges = [[1,2],[2,3],[4,2]]
+Output: 2
+Explanation: As shown in the figure above, node 2 is connected to every other node, so 2 is the center.
+
+Example 2:
+
+Input: edges = [[1,2],[5,1],[1,3],[1,4]]
+Output: 1
+ 
+
+Constraints:
+
+3 <= n <= 10^5
+edges.length == n - 1
+edges[i].length == 2
+1 <= ui, vi <= n
+ui != vi
+The given edges represent a valid star graph.
+
+
+    public int findCenter(int[][] edges) 
+    {
+
+    }
+
+
+
+
+
+
+Understanding:
+
+     4
+     |
+5----1----3
+     |
+     2
+
+
+Min 3 Vertices Required to form a Centre:
+
+     1 ---- 2 ---- 3
+
+
+
+Solution:
+
+
+Intuition:
+
+Centre: A Centre Node MUST Appear in ALL Edges
+
+Vertex Common in All Edges -----> Ans
+
+Brute Force: Check for All Edges, Check Common Vertex
+
+TC: O(E)
+
+
+
+3 <= n <= 10^5
+edges.length == n - 1
+
+
+Min Vertices = 3
+Min Edges Length = 3-1 = 2
+
+-----> First 2 Edges WILL ALWAYS Exist
+
+
+Optimised:
+First 2 Edges - Find the Common Vertex - Centre of Star Graph
+
+TC: O(1)
+
+
+[A,B], [B,C]
+B: Common Vertex - Center
+
+A ---- B ----- C
+B: Star
+
+
+Min Edges = 2
+Min Vertices = 3
+
+
+
+
+CODE:
+
+
+class Solution {
+    public int findCenter(int[][] edges) 
+    {
+        int starVertex = -1;
+
+        if (edges[0][0] == edges[1][0] || edges[0][0] == edges[1][1])
+            starVertex = edges[0][0];
+        else
+            starVertex = edges[0][1];
+
+        return starVertex;  
+    }
+}
+
+
+
+TC: O(1)
+SC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q-3: [LC-997] Find the Town Judge
+https://leetcode.com/problems/find-the-town-judge/description/
+
+
+In a town, there are n people labeled from 1 to n. There is a rumor that one of these people is secretly the town judge.
+
+If the town judge exists, then:
+
+- The town judge trusts nobody.
+- Everybody (except for the town judge) trusts the town judge.
+There is exactly one person that satisfies properties 1 and 2.
+You are given an array trust where trust[i] = [ai, bi] representing that the person labeled ai trusts the person labeled bi. If a trust relationship does not exist in trust array, then such a trust relationship does not exist.
+
+Return the label of the town judge if the town judge exists and can be identified, or return -1 otherwise.
+
+ 
+
+Example 1:
+
+Input: n = 2, trust = [[1,2]]
+Output: 2
+
+
+Example 2:
+
+Input: n = 3, trust = [[1,3],[2,3]]
+Output: 3
+
+
+Example 3:
+
+Input: n = 3, trust = [[1,3],[2,3],[3,1]]
+Output: -1
+ 
+
+Constraints:
+
+1 <= n <= 1000
+0 <= trust.length <= 104
+trust[i].length == 2
+All the pairs of trust are unique.
+ai != bi
+1 <= ai, bi <= n
+
+
+
+
+
+
+
+
+
+Input: n = 2, trust = [[1,2]]
+Output: 2
+
+
+1 ------> 2
+Town Judge: 2
+
+
+
+
+Input: n = 3, trust = [[1,3],[2,3]]
+Output: 3
+
+
+1 -----> 3 <----- 2
+Town Judge: 3
+
+
+
+
+Input: n = 3, trust = [[1,3],[2,3],[3,1]]
+Output: -1
+
+
+1 <-----> 3 <----- 2
+Town Judge: -1
+
+
+
+
+    public int findJudge(int n, int[][] trust) 
+    {
+
+    }
+
+
+
+
+Solution:
+
+
+
+- Everybody (except for the town judge) trusts the town judge.
+InDegree  = N-1
+
+
+
+- The town judge trusts nobody.
+OutDegree = 0
+
+
+
+InDegree - OutDegree = N-1
+
+
+Approach:
+
+trust[i] = [ai, bi]
+
+a ------> b: Edge
+
+
+
+- Directed and Unweighted Graph
+
+InDegree - OutDegree = N-1
+
+
+
+
+
+CODE:
+
+class Solution {
+    public int findJudge(int n, int[][] trust) 
+    {
+        int[] trust_score = new int[n+1]; // All values = 0
+
+        // Calculate Indegree and Outdegree
+        for (int[] edges: trust) // O(E)
+        {
+            trust_score[edges[0]]--; // Outdegree
+            trust_score[edges[1]]++; // Indegree
+        }
+        
+        // Diff of Indegree - Outdegree = N-1-0 = N-1
+        for (int i = 1; i<=n ; i++) // O(V)
+        {
+            if (trust_score[i] == n-1)
+                return i;
+        }
+
+        return -1;
+    }
+}
+
+
+TC: O(V+E)
+SC: O(V)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> SPANNING TREE:
+
+
+Definition:
+- A Subgraph that connects ALL Vertices in a Graph
+
+
+Property:
+
+Vertices: V
+Edges: V-1
+
+
+
+                 10
+            0--------1
+            |  \     |
+           6|   5\   |15
+            |      \ |
+            2--------3
+                4     
+
+
+Undirected-Weighted Graph
+
+
+Vertices: V = 4 (0,1,2,3)
+Edges: E = 5 (0-1, 1-3, 2-3, 0-2, 0-3)
+
+
+Spanning Trees:
+
+(1) 0-1-3-2
+(2) 0-2-3-1
+(3) 2-0-3-1
+(4) 1-3-2-0
+..........................
+
+
+2-0-3: Not a Spanning Tree: All Vertices are NOT Covered
+
+
+
+
+
+
+
+
+
+MST:
+- Minimum Spanning Tree
+- Special Kind of Spanning Tree
+
+
+
+Minimum: Weight of Spanning Tree
+
+Weight of Spanning Tree: Sum of All Edges Weight in Spanning Tree
+
+
+
+                 10
+            0--------1
+            |  \     |
+           6|   5\   |15
+            |      \ |
+            2--------3
+                4     
+
+
+
+Spanning Trees:
+
+(A) 0-1-3-2: 10 + 15 + 4 = 29
+(B) 0-2-3-1: 6 + 4 + 15 = 25
+(C) 2-0-3-1: 6 + 5 + 15 = 26
+(D) 1-3-2-0: 15 + 4 + 6 = 25
+...........................
+
+
+
+MST: Minimum Cost (Minimum Sum of Edges Weight)
+
+2-3-0-1: 4 + 5 + 10 = 19
+1-0-3-2: 10 + 5 + 4 = 19
+
+
+
+
+
+Q: Can a Graph have Multiple MST?
+Ans: YES
+
+
+Eg:
+
+Make Every Edge Weight Equal
+- All ST will become MST
+
+
+
+
+
+Algorithms:
+- Kruskal (Greedy)
+- Prim (Greedy)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

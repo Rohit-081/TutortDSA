@@ -1,0 +1,1051 @@
+Date : 7th Apr 2024
+Mentor: DEVANG SHARMA
+Batch: Oct Batch (DSA) - Tutort Academy
+
+Agenda:
+
+Basic (70%)
+
+Theory: DONE
+Applications: DONE
+Representations:
+- Adjacency Matrix: DONE
+- Adjacency List: DONE
+BFS: DONE
+Detect Cycle in a Graph: DONE
+BFS in Disconnected Graph: DONE
+DFS
+
+Advanced (30%)
+
+Spanning Trees: DONE
+MST - Prim and Kruskal: DONE
+Shortest Distance - Dijkstra, Bellman Ford, Floyd Warshall: DONE
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+Algorithms:
+- Kruskal (Greedy)
+- Prim (Greedy)
+
+
+
+
+
+
+
+--------> KRUSKAL ALGO: (Greedy)
+
+Objective/Task: 
+- To find the MST in a Graph
+
+Approach:
+
+(1) Sort All the Edges as per Weight # O(ElogE)
+(2) Pick the Smallest Edge Weight # GREEDY
+(3) Check if a Cycle is Performed
+
+If Cycle is Performed, Ignore that Edge
+
+Else:
+Include that Edge in MST
+
+
+(4) Repeat Step-2,3 until V-1 Edges
+
+
+
+TC: O(ElogE) + O(V)
+SC: O(V) - Mark the Vertices Traversed
+
+
+DRY RUN:
+
+
+OP:
+
+MST: Minimum Cost (Minimum Sum of Edges/Weight)
+
+                 10
+            0--------1
+            |  \     |
+           6|   5\   |15
+            |      \ |
+            2--------3
+                4     
+
+MST: Minimum Cost (Minimum Sum of Edges Weight)
+
+2-3-0-1: 4 + 5 + 10 = 19
+1-0-3-2: 10 + 5 + 4 = 19
+
+Min Cost = 19
+
+
+Undirected and Weighted Graph:
+
+Vertex = 4 (0,1,2,3)
+Edges = 5
+
+0-1: 10
+0-2: 6
+0-3: 5
+1-3: 15
+2-3: 4
+
+
+
+After Sorting: 
+
+[4 5 6 10 15]
+
+Smallest Edge Wight = 4, Edge : 2-3
+
+
+val = 4             Edge = 2-3               No of E: 1       weight = 4
+
+
+val = 5             Edge = 3-0               No of E: 2       weight = 4+5 = 9
+
+
+val = 6             Edge = 0-2               No of E: 3       weight = 4+5+6 = 15
+----------- NOT INCLUDE IN MST
+
+
+
+val = 10            Edge = 0-1               No of E: 3       weight = 4+5+10 = 19
+
+
+No of Edges = 3 = V-1: STOP
+
+
+MST: 2-3-0-1
+Minimum Cost = 4 + 5 + 10 = 19
+
+
+TC: O(ElogE) + O(V)
+SC: O(V)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------> Shortest Distance Algorithms:
+
+(1) Single Source Shortest Path
+
+(2) All Pairs Shortest Path
+
+
+
+
+
+--------> Single Source Shortest Path:
+
+"Single Source, Multiple Destinations"
+
+
+
+
+Real Life Example:
+
+New Delhi -----> [Texas, Nevada, Vancouver, Utah]
+
+Can Go By:
+- Flight
+- Train
+- Car
+
+
+Shortest Path from Source to Each Individual Destinations:
+
+
+New Delhi -----> [Texas, Nevada, Vancouver, Utah]
+                  Flight  Train  Flight     Car
+
+
+
+Theory:
+
+
+V: Vertices
+S: Starting Vertex
+
+
+
+Ans = [d0, d1, d2, ..........dv]
+
+1-D Array
+Size: V
+
+
+d0: Shortest Distance of 0 vertex from Source
+
+d1: Shortest Distance of 1 vertex from Source
+
+d2: Shortest Distance of 2 vertex from Source
+
+ds: Shortest Distance of source vertex from Source = 0
+
+dv: Shortest Distance of v vertex from Source
+
+
+Algos:
+- Dijkstra
+- Bellman Ford
+
+
+
+
+
+
+
+
+
+-------> All Pairs Shortest Path
+
+
+V: Vertices
+s[i]: All vertices become Source Vertices and Destination Vertices
+
+Real Life Example:
+
+New Delhi -----> [Texas, Nevada, Vancouver, Utah]
+
+Can Go By:
+- Flight
+- Train
+- Car
+
+
+Shortest Path from Source to Each Individual Destinations:
+
+
+New Delhi -----> [Texas, Nevada, Vancouver, Utah]
+                  Flight  Train  Flight     Car
+
+
+Texas -----> [Texas, Nevada, Vancouver, Utah]
+                  Flight  Train  Flight     Car
+
+
+Nevada-----> [Texas, Nevada, Vancouver, Utah]
+                  Flight  Train  Flight     Car
+
+
+Vancouver -----> [Texas, Nevada, Vancouver, Utah]
+                  Flight  Train  Flight     Car
+
+
+Utah -----> [Texas, Nevada, Vancouver, Utah]
+                  Flight  Train  Flight     Car
+
+
+
+Ans = 
+
+[
+
+[d0, d1, d2, ..........dv]
+
+[d0, d1, d2, ..........dv]
+
+[d0, d1, d2, ..........dv]
+
+[d0, d1, d2, ..........dv]
+
+......... V Times
+
+]
+
+
+
+2-D Array - Array of Arrays
+
+Matrix: V * V
+
+
+Algo:
+- Floyd- Warshall Algo
+
+
+
+
+Shortest Path:
+
+- Weights (City, Cost, Time......)
+- Edges (Minimum Sim of Edges to reach from src to dest)
+
+
+
+
+
+
+
+
+
+-------> Single Source Shortest Path
+
+
+(1) DIJKSTRA ALGO
+
+
+- Example: DONE
+- Algo (Underlying Algo): GREEDY
+- Constraints: Negative Edge Weights WONT WORK
+
+
+
+Example:
+
+      10        15
+  0 ------> 1 ------> 2
+  |                  /|\
+  |                   |
+  | 5                 | 18
+  |                   |
+ \|/                  |
+  3-------------------
+
+
+Directed and Weights Graph:
+
+V: 4 (0,1,2,3)
+E: 4 (0-1, 1-2, 3-2, 0-3)
+
+
+Source: 0
+
+
+0: Min Cost = 0
+1: Min Cost = 10
+2: Min Cost = Min(23, 25) = 23
+3: Min Cost = 5
+
+OP: [0 10 23 5]
+
+
+Change 18 to -18
+
+OP: [0 10 INF 5] - Dijkstra
+
+OP: [0 10 0 5] - Bellman Ford
+
+
+
+
+
+
+Real Life Example:
+
+src --------> dest
+
+
+
+(A) Direct Flight
+
+		10 Hrs
+Delhi --------> Bangalore
+
+Total: 10 Hrs
+
+
+
+(B) Connecting Flight
+
+
+		2 Hrs        5 Hrs
+Delhi -----> Mumbai ------> Bangalore
+
+
+Total: 7 Hrs
+
+
+IMP:
+
+dist(src, dest) > dist(src, transit) + dist(transit, dest)
+
+Min Cost from src to dest = dist(src, transit) + dist(transit, dest)
+
+Transit Distance < Direct Distance
+
+A Transit Vertex (Mumbai) is used to give Shorter Distance
+
+
+
+
+
+
+
+
+Refer: Graph Image
+
+- Undirected and Weighted Graph
+
+Vertices: 9
+Edges: 14
+
+
+Source: 0
+
+
+Shortest Path: [0 4 12 19 21 11 9 8 14]
+
+
+
+
+CODE:
+
+
+class Graph():
+
+  def __init__(self, vertices):
+    self.V = vertices
+    self.graph = [[0 for column in range(vertices)]
+          for row in range(vertices)]
+
+  def printSolution(self, dist):
+    print("Vertex \t Distance from Source")
+    for node in range(self.V):
+      print(node, "\t\t", dist[node])
+
+  def minDistance(self, dist, visited):
+
+    min = 1e7 # INF   # 1e7 = 10^7
+
+    for v in range(self.V): # O(V)
+      if dist[v] < min and visited[v] == False:
+        min = dist[v]
+        min_index = v
+
+    return min_index
+
+
+  def dijkstra(self, src):
+
+    dist = [1e7] * self.V #1e7: 10^7
+    dist[src] = 0 # src-src: 0
+    visited = [False] * self.V # Mark all vertices as unvisited
+
+    for i in range(self.V): # For All the Vertices
+      u = self.minDistance(dist, visited)
+      visited[u] = True
+      for v in range(self.V):
+        if (self.graph[u][v] > 0 and visited[v] == False and
+        dist[v] > dist[u] + self.graph[u][v]):
+        # dist(src, dest) > dist(src, transit) + dist(transit, dest)
+          dist[v] = dist[u] + self.graph[u][v]
+
+    self.printSolution(dist)
+
+
+g = Graph(9)
+g.graph = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
+    [4, 0, 8, 0, 0, 0, 0, 11, 0],
+    [0, 8, 0, 7, 0, 4, 0, 0, 2],
+    [0, 0, 7, 0, 9, 14, 0, 0, 0],
+    [0, 0, 0, 9, 0, 10, 0, 0, 0],
+    [0, 0, 4, 14, 10, 0, 2, 0, 0],
+    [0, 0, 0, 0, 0, 2, 0, 1, 6],
+    [8, 11, 0, 0, 0, 0, 1, 0, 7],
+    [0, 0, 2, 0, 0, 0, 6, 7, 0]
+    ]
+
+print("Shortest Distance to All Vertices from 0 Vertex as Source: ")
+print(" ")
+g.dijkstra(0)
+# Expected Ans: Shortest Path: [ 0, 4, 12, 19, 21, 11, 9, 8, 14]
+
+
+
+
+
+
+OP:
+
+
+Shortest Distance to All Vertices from 0 Vertex as Source: 
+ 
+Vertex 	 Distance from Source
+0 		 0
+1 		 4
+2 		 12
+3 		 19
+4 		 21
+5 		 11
+6 		 9
+7 		 8
+8 		 14
+
+
+
+TC: O(V*E)
+SC: O(V)
+
+Optimised Code Using PQ/Min Heap: O (E * log V)
+
+
+
+
+C++:
+
+// T : O(E logV)
+
+vector<int> dijkstra(int n, int source, vector<pair<int, int>> G[])
+{
+int INF = (1e9);
+vector<int> D(n,INF);
+
+D[source] = 0;
+
+set<pair<int,int>> Q;
+
+Q.insert({0, source});
+
+while (!Q.empty())
+{
+
+auto top = Q.begin();
+int u = top->second; //Vertex 
+Q.erase(top);
+
+for (auto next: G[u])
+{
+int v = next.first;
+int weight = next.second;
+
+if (D[u] + weight < D[v])
+{
+if (Q.find({D[v], v})!= Q.end())
+Q.erase(Q.find({D[v],v}));
+
+D[v] = D[u] + weight;
+Q.insert({D[v], v});
+
+}
+}
+}
+
+
+
+//for (int i=0; i<n; i++)
+//cout<<D[i]<<" ";
+
+cout<<endl;
+
+return D;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(2) BELMMAN FORD ALGO
+
+
+- Example: DONE
+- Algo (Underlying Algo): GREEDY
+- Optimisation Over Dijkstra: Works with Negative Edge Weights
+- Initialise the Negative Distance to 0
+
+
+Example:
+
+      10        15
+  0 ------> 1 ------> 2
+  |                  /|\
+  |                   |
+  | 5                 | 18
+  |                   |
+ \|/                  |
+  3-------------------
+
+
+Directed and Weights Graph:
+
+V: 4 (0,1,2,3)
+E: 4 (0-1, 1-2, 3-2, 0-3)
+
+
+Source: 0
+
+
+0: Min Cost = 0
+1: Min Cost = 10
+2: Min Cost = Min(23, 25) = 23
+3: Min Cost = 5
+
+OP: [0 10 23 5]
+
+
+Change 18 to -18
+
+OP: [0 10 INF 5] - Dijkstra
+
+OP: [0 10 0 5] - Bellman Ford
+
+
+
+
+For Negative Edges:
+
+Dijkstra: Ans = 1e7 = INF
+Bellman Ford: Correct Ans
+
+
+
+
+
+
+CODE:
+
+
+class Graph:
+
+  def __init__(self, vertices):
+    self.V = vertices # No. of vertices
+    self.graph = []
+
+  def addEdge(self, u, v, w):
+    self.graph.append([u, v, w]) # Directed
+
+  def printArr(self, dist):
+    print("Vertex Distance from Source")
+    for i in range(self.V):
+      print("{0}\t\t{1}".format(i, dist[i]))
+
+  def BellmanFord(self, src):
+
+    dist = [float("Inf")] * self.V
+    dist[src] = 0 # src- src: 0
+    for _ in range(self.V - 1):
+      for u, v, w in self.graph:
+        if dist[u] != float("Inf") and dist[u] + w < dist[v]:
+          dist[v] = dist[u] + w # transit vertex
+                    
+    for u, v, w in self.graph: # O(E)
+      if dist[u] != float("Inf") and dist[u] + w < dist[v]:
+        print("Graph contains negative weight cycle")
+        return
+
+    self.printArr(dist)
+
+
+if __name__ == '__main__':
+  g = Graph(5)
+  g.addEdge(0, 1, -1)
+  g.addEdge(0, 2, 4)
+  g.addEdge(1, 2, 3)
+  g.addEdge(1, 3, 2)
+  g.addEdge(1, 4, 2)
+  g.addEdge(3, 2, 5)
+  g.addEdge(3, 1, 1)
+  g.addEdge(4, 3, -3)
+  # g.addEdge(0, 0, -5) - Negative Weight Cycle
+  print("Shortest Distance from Vertex: 0 as Source: ")
+  print(" ")
+  g.BellmanFord(0)
+
+
+
+'''
+
+      4       5        -3
+    0----->2<-----3<-------4
+    |     /|\    /|\      /|\
+    |      | 3    | 2      | 2      
+    ------>1------|-------- 
+     -1
+
+V: 5 (0,1,2,3,4)
+Edges: 7
+0-2: 4
+0-1: -1
+3-2: 5
+4-3: -3
+1-2: 3
+1-3: 2
+1-4: 2
+
+Expected OP:
+src: 0
+
+0-0: 0
+0-1: -1 (0-1, 1 Path Exist - Direct)
+0-2: 2 (0-1-2, 4 Path Exists)
+0-3: -2 (0-1-4-3, 2 Path Exists)
+0-4: 1 (0-1-4, 1 Path Exist)
+
+Final OP: [0 -1 2 -2 1]
+
+'''
+
+
+
+OP:
+
+Shortest Distance from Vertex: 0 as Source: 
+ 
+Vertex Distance from Source
+0		0
+1		-1
+2		2
+3		-2
+4		1
+
+
+
+TC: O(E*log V) + O(E)
+SC: O(V)
+
+
+
+
+
+
+
+
+
+C++ Code:
+
+// T : O(VE)
+// S: O(V)
+vector<int> bellmanford(int n, int source, vector<pair<int, int>> G[])
+{
+
+int INF = (1e9);
+vector<int> D(n,INF);
+
+D[source] = 0;
+
+int i=0,u=0;
+
+for (i=0; i<n-1; i++)
+{
+for (u=0; u<n; u++)
+{
+
+for (auto edge: G[u])
+{
+
+int v = edge.first;
+int w = edge.second;
+
+if (D[u]!=INF)
+  D[v] = min(D[v], D[u] + w);
+
+}
+
+}
+}
+
+
+
+for (u=0; u<n ;u++)
+{
+
+for (auto edge: G[u])
+{
+int v =edge.first;
+int w = edge.second;
+
+if (D[u]!=INF and D[v]>D[u] + w) // Negative Cycle
+{
+  assert(0);
+}
+
+}
+}
+
+return D;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> All Pairs Shortest Path
+
+
+(3) Floyd Warshall Algo:
+
+- All Pairs Shortest Path
+- Underlying Algo: Dynamic Programming (DP)
+- OP: V*V Matrix
+- Each Vertex will become Source, Each Vertex Will Become Destination
+
+
+
+CODE:
+
+V = 4
+
+INF = 99999
+
+# Solves all pair shortest path
+# via Floyd Warshall Algorithm
+
+
+def floydWarshall(graph): # O(V^3)
+  dist = list(map(lambda i: list(map(lambda j: j, i)), graph))
+
+  for k in range(V): # O(V)
+
+    # pick all vertices as source one by one
+    for i in range(V): # O(V)
+
+      # Pick all vertices as destination for the
+      # above picked source
+      for j in range(V): # O(V)
+
+        # If vertex k is on the shortest path from
+        # i to j, then update the value of dist[i][j]
+        dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
+        # src: i, dest: j, transit: k
+        # Check if direct i-j is shorter or i-k + k-j is shorter
+  printSolution(dist)
+
+
+def printSolution(dist):
+  print("Following matrix shows the shortest distances \
+between every pair of vertices")
+  for i in range(V):
+    for j in range(V):
+      if(dist[i][j] == INF):
+        print("%7s" % ("INF"), end=" ")
+      else:
+        print("%6d\t" % (dist[i][j]), end=' ')
+      if j == V-1:
+        print()
+
+
+if __name__ == "__main__":
+    
+    '''
+         10
+    (0)------->(3)
+     |         /|\
+    5|          |
+     |          | 1
+    \|/         |
+    (1)------->(2)
+         3    
+ 
+    '''
+
+graph = [
+        [0, 5, INF, 10],
+        [INF, 0, 3, INF],
+        [INF, INF, 0, 1],
+        [INF, INF, INF, 0]
+    ]
+
+floydWarshall(graph)
+
+'''
+
+Expected OP:
+    0    1    2   3
+    
+0   0    5    8   9
+1   INF  0    3   4 
+2   INF  INF  0   1
+3   INF  INF  INF 0
+    
+'''    
+    
+
+
+
+OP:
+
+Following matrix shows the shortest distances between every pair of vertices
+     0	      5	      8	      9	 
+    INF      0	      3	      4	 
+    INF     INF      0	      1	 
+    INF     INF     INF      0	 
+
+
+TC: O(V^3)
+SC: O(V) - Vertex
+
+
+
+
+
+
+
+
+
+C++ Code:
+
+Floyd Warshall
+
+#include <bits/stdc++.h>
+#define INF 1000000000
+using namespace std;
+
+int main(){
+    int m,s,x,y,z,n;
+    cin>>n>>m>>s; //Input the number of nodes(0 based), number of edges and the source vertex.
+    int G[n][n];
+    for(int i=0;i<n;i++)
+        for(int j=0;j<n;j++){
+            if(i==j)
+                G[i][j]=0;
+            else
+                G[i][j]=INF;
+        }
+
+    for(int i=0;i<m;i++){
+        cin>>x>>y>>z; //Input the starting vertex of the edge, the ending vertex and the cost of the edge.
+        G[x][y]=z;
+    }
+
+    //Code for Floyd Warshall which computes all pair shortest path.
+    for(int k=0; k<n; k++)  
+    {
+        for(int i=0; i<n; i++)  
+        {
+          for(int j=0; j<n; j++)  
+          {
+            G[i][j] = min(G[i][j], G[i][k] + G[k][j]);
+          }
+        }
+    }
+
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++)
+            cout<<G[i][j]<<" ";
+        cout<<endl;
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+Next Steps:
+
+Google Docs:
+
+- Topics
+- Questions
+- Career Guidance
+- Interview Preparation
+
+
+1 DCS (Doubt Clearing Session)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Question Pattern:
+
+(1) Simple BFS/DFS Based
+(2) MST Based - Kruskal or Prim
+(3) InDegree/ OutDegree Based
+(4) Shortest Distance - Dijkstra, Bellman Ford, Floyd Warshall
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
