@@ -1,0 +1,563 @@
+Date : 28th Apr 2024
+Mentor: DEVANG SHARMA
+Batch: Mixed Batch (System Design) - Tutort Academy
+
+Agenda: Low Level Design
+
+Low Level Design:
+
+(1) Requirement Gathering: DONE
+(2) Laying Down Use Cases: DONE
+(3) OOP vs OOD: DONE
+- Classes and Objects: DONE
+- NVT Technique: DONE
+- Case Study: Diagram Using Case Study Technique: DONE
+- Class Diagram Using draw.io: DONE
+(4) Different Class Relations: DONE
+(5) Assigning Responsibilities to Classes: DONE
+(6) Relations between Classes: DONE
+- HAS-A (Composition vs Aggregation): DONE
+- IS-A (Inheritance): DONE
+- Relations apart from HAS-A and IS-A (Association): DONE
+(7) UML/Class Diagrams: Types and Purpose: DONE
+- Class Diagram: DONE
+- Activity Diagram: DONE
+- Use Case Diagram: DONE
+- Sequence DiagramL DONE
+(8) Abstraction vs Encapsulation: DONE
+(9) OOD to Model Problem: DONE
+
+WIP:
+(10) Implement Code (Design Patterns + SOLID + KISS + DRY -> Best Practises)
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+
+S: Single Responsibility Principle (SRP)
+O: Open-Closed Principle (OCP)
+L: Liskov Substitution Principle (LSP)
+I: Interface Segregation Principle (ISP)
+D: Dependency Inversion Principle (DIP)
+
+
+
+
+
+(5) D: Dependency Inversion Principle (DIP)
+
+
+Dependency Inversion Principle is NOT Same As:
+- Dependency Injection
+- Inversion of Control
+
+
+
+Dependency Inversion Principle: Principle
+- Dependency Injection: Implementation
+- Inversion of Control: Implementation
+
+
+
+
+Definition:
+
+High Level Modules Should NOT Depend On Low Level Modules.
+Both should depend upon Abstraction ------ Interfaces
+
+
+Abstraction should not depend on Implementation
+Implementation should depend upon Abstraction
+
+
+
+
+
+Example:
+
+
+class A
+- field: type
+- method(type): type
+
+	|
+	|
+	|   depends on
+	|
+   \|/
+
+class B
+- field: type
+- method(type): type
+
+
+	|
+	|
+	|   depends on
+	|
+   \|/
+
+class C
+- field: type
+- method(type): type
+
+
+
+
+
+
+CODE:
+
+class Grandparent
+{
+	int getGrandParentAge()
+	{
+		return age;
+	}
+}
+
+
+class Parent
+{
+	Grandparent g = new Grandparent();
+	int val = g.getGrandParentAge();
+
+	int getParentAge()
+	{
+		return val;
+	}
+
+}
+
+
+class Child
+{
+	Parent p = new Parent();
+	int val = p.getParentAge();
+
+}
+
+
+
+
+
+
+(1) Any Change in Class C would require a change in Class A and Class B
+
+(2) While Writing the UT for Class C:
+
+You will need to MOCK Dependencies from Class A and Class B
+
+Focus: Functional Aspects of Class C
+
+(3) Such Code Bases are Difficult to Manage, Change and Test
+
+
+
+
+
+
+Solution:
+
+Diagram: DONE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> DESIGN PATTERNS:
+
+
+Reference: 
+Book: Design Patterns by Gang of 4 (1995) - 22 Design Patterns
+
+
+Defintion:
+
+
+- Design Patterns are Typical Solutions to Commonly Occuring Problems in Software Design
+
+- They are TEMPLATES that you can customise to solve Problems for a particular use case
+
+- Patterns are NOT Algorithm.
+Algorithm defines a clear set of instructions
+Pattern is a high level description of the solution
+
+Code of the SAME Pattern Applied to two different programs can be different
+
+
+Defintion from the Book:
+
+"Thumbrules or Different Concepts using which you can solve the problem of 
+modelling real world examples into object modelling"
+
+
+
+
+- A Design Pattern is a "WELL-PROVED" Solution for specific problems/tasks
+
+
+Eg:
+
+Use Case:
+
+You want to create a class for which only a single instance should be created
+That Instance can be used by all other classes
+
+
+Solution:
+
+Singleton Design Pattern
+
+
+
+
+
+Note:
+
+Every Design Pattern is a Combination of 2 Things:
+- Problem
+- Solution
+
+
+Design Pattern tells you the solution to Commonly Existing Problems.
+
+Every Design Pattern is a Solution to a Problem.
+
+
+
+
+------> Design Patterns are Language Agnostic:
+
+- Golang, Java, C++, C#, Python etc
+
+
+
+
+
+-----> Advantages of Design Pattern:
+
+(1) These are well proven solutions to existing problems
+(2) Helps you convert real world problems into Object Oriented Design
+(3) Reusable in Multiple Projects
+(4) Makes System Design More Transparent and Clear
+
+
+
+
+
+
+
+
+
+-------> Types of Design Patterns
+
+
+(1) Based Upon Purpose
+
+- Creational
+Used for Creating or Instantiating Objects and Classes
+
+
+(1) Factory
+(2) Abstract Factory
+(3) Singleton
+(4) Builder
+(5) Prototype
+
+
+- Structural
+Used for structuring more than one classes or objects together.
+Deep Dive into Inheritance, ISP etc
+
+(6) Adapter - Class and Object
+(7) Bridge
+(8) Decorator
+(9) Composite
+(10) Facade
+(11) Flyweight
+(12) Proxy
+
+
+- Behavioral
+Used for identifying and setting up common communication patterns
+among objects
+
+
+
+(13) Interpreter
+(14) Template Method 
+(15) Chain of Responsibility
+(16) Command
+(17) Iterator
+(18) State
+(19) Strategy
+(20) Observer
+(21) Mediator
+(22) Memento
+
+
+(2) Based Upon Implementation
+
+
+- Class vs Object Design Patterns
+
+
+Design Patterns implemented at Class Level:
+
+- Factory
+- Adapter (Class)
+- Interpreter
+- Template Method
+
+
+Rest All: Object Level
+
+
+
+
+
+
+
+
+
+
+Total: 23 Patterns (As Per Book)
+
+
+
+
+80-20 Rule:
+
+80% of Real Life Problems can be Solved by 20% of Design Patterns
+
+
+
+
+Important Patterns:
+
+- Factory: DONE
+- Singleton
+- Builder
+- Facade
+- Decorator
+- Abstract Factory
+- Prototype
+- Adapter
+- Observer
+
+
+
+
+
+
+
+
+
+
+------> FACTORY Pattern:
+
+
+- Definition: DONE
+- Explanation: DONE
+- Real Life Example: DONE
+- CODE: DONE
+- Pros and Cons: DONE
+
+
+
+(1) Defintion:
+
+A Creational Design Pattern that provides an interface for creating objects
+in a superclass, but allows subclasses to alter type of objects that will be created
+
+
+
+
+
+
+(2) Explanation:
+
+Creational
+- Creating Objects of Similar Type
+- Hides Complexity of Object Creation
+- Client Code has NO Idea about Object Creation (Abstraction)
+
+
+Before:
+
+
+Client Class ---------> Server Class
+No Abstraction
+
+Client knows all about Server Class Details
+
+
+After:
+
+
+Client Class ----- Factory Class ----> Server Class (Concrete Class)
+
+Abstraction
+
+- Client knows NOTHING about Server Class Details
+- Client Only Communicates with Factory Class
+
+
+
+
+
+
+
+(3) Real Life Example:
+
+Factory: 
+Balls - Leather, Metal, Tennis etc
+
+
+Client:
+Order: 1000 Leather Balls
+
+
+Inside Factory:
+
+Departments (Concrete Classes)
+- Leather
+- Tennis
+- Metallic etc
+
+
+- These Details are HIDDEN from the Client as Client does not need those details (Abstraction)
+
+
+
+
+FLOW:
+
+Client ---------> Factory Class ---------> Implementation Classes/ Concrete Classes
+
+                  Balls Factory                  - Leather, Tennis, Metallic etc
+                  (Determine Which Classes)
+                  to call based upon Order Types
+
+
+
+
+
+Tip:
+
+Good Software Engineers:
+Architecture:
+
+"Dumb Client, Smart Server"
+
+
+Client: No Logic (Business, Implemntation)
+Server: All Lgic (Business, Implemntation, Data)
+
+
+
+
+
+
+
+
+
+Another Example:
+
+
+- Java Calendar Class
+- Java Number Format Class
+
+
+
+
+Docs:
+- Java
+
+
+Calendar Class is implemeted as a Factory Pattern
+
+
+
+
+
+
+
+Resources:
+
+Design Patterns: Refactoring.guru
+Machine Coding Round: workat.tech
+
+
+Books:
+
+- Clean Code by Uncle Bob
+- Design Patters by Gang of 4
+- Designing Data Intensive Applications by Orielly
+
+
+
+
+
+
+
+
+(4) CODE: DONE
+
+Client ------> Factory ------> Concrete Classes
+
+Client Class: GenerateBill
+Factory Class: GetPlanFactory
+Concrete Claaes:
+- CommercialPlan
+- DomesticPlan
+- InstitutionalPlan
+
+
+
+
+
+(5) Pros and Cons
+
+Pros:
+
+- Guarantees abstraction
+- Code is flexible and adaptable
+(New Concrete classes can be added easily)
+- Useful for Libraries and Frameworks
+
+
+Cons:
+
+- Makes a code little bit complex
+- Not a Pattern that can be refactored into
+- Think in Advance to use this pattern
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

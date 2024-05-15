@@ -1,0 +1,587 @@
+Date : 4th May 2024
+Mentor: DEVANG SHARMA
+Batch: Mixed Batch (System Design) - Tutort Academy
+
+Agenda: Low Level Design
+
+Low Level Design:
+
+(1) Requirement Gathering: DONE
+(2) Laying Down Use Cases: DONE
+(3) OOP vs OOD: DONE
+- Classes and Objects: DONE
+- NVT Technique: DONE
+- Case Study: Diagram Using Case Study Technique: DONE
+- Class Diagram Using draw.io: DONE
+(4) Different Class Relations: DONE
+(5) Assigning Responsibilities to Classes: DONE
+(6) Relations between Classes: DONE
+- HAS-A (Composition vs Aggregation): DONE
+- IS-A (Inheritance): DONE
+- Relations apart from HAS-A and IS-A (Association): DONE
+(7) UML/Class Diagrams: Types and Purpose: DONE
+- Class Diagram: DONE
+- Activity Diagram: DONE
+- Use Case Diagram: DONE
+- Sequence DiagramL DONE
+(8) Abstraction vs Encapsulation: DONE
+(9) OOD to Model Problem: DONE
+
+WIP:
+(10) Implement Code (Design Patterns + SOLID + KISS + DRY -> Best Practises)
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+workat.tech
+
+
+- Factory: DONE
+- Singleton: DONE
+- Builder: WIP
+- Abstract Factory
+- Prototype
+
+
+
+-------> SINGLETON
+
+- Definition: DONE
+- Explanation: DONE
+- Real Life Example: DONE 
+- CODE: DONE
+- Early vs Lazy Loading: DONE
+- Thread Safety: DONE
+- Pros and Cons: DONE
+- Usage: DONE
+
+
+
+
+(1) Definition:
+
+Define a Class that has ONLY one Instance and provide a Global Point of Access to it
+
+OR
+
+A Class must ensure that ONLY Single Instance should be created and used by all other classes
+
+
+(2) Explanation
+
+
+AM: App Modules
+
+
+			  AM3
+			  |
+			  |
+			  |
+AM2 -------- INSTANCE ------- AM1
+			  |
+			  |
+			  |
+			  |
+			  AM4
+
+
+Instance Example:
+(1) DB Instance
+(2) Logger Instance
+
+
+
+
+Postgres 
+
+DBConnectivity class = new ();
+ObjectDao = ();
+
+
+AM-1:
+ObjectDao
+
+AM-2:
+ObjectDao
+
+
+Amazon:
+
+UserDAO:
+{
+	user_id,
+	first_name,
+	last_name,
+	email...
+}
+
+
+Profile - Module-1:
+- UserDAO Object
+
+
+Order - Module - 2:
+- UserDAO Object
+
+
+
+
+
+Two Ways:
+
+(1) Global Variable 
+(2) Singleton
+
+
+
+
+
+
+------> Saving in a Global Variable
+
+AM: App Modules
+
+
+			  AM3
+			  |
+			  |
+			  |
+AM2 -------- Global Variable (Logger) ------- AM1
+			  |
+			  |
+			  |
+			  |
+			  AM4
+
+
+
+global variable logger;
+logger = "abc";
+
+
+AM4 Changes the value:
+logger = "pqr"
+
+
+Problem:
+AM1, AM2 and AM3 are expecting "abc" but now they will get "pqr"
+
+
+
+
+
+
+
+
+-------> How to Create Singleton Design Pattern?
+
+(A) Static Member:
+It gets memory only once
+Contains the instance of Singleton Class
+
+
+(B) Private Constructor:
+Prevent to instantiate the class from outside the class
+
+
+(C) Static Public Method:
+This provides global point of access (PUBLIC) to Singleton Object
+and returns the instance to the caller.
+
+
+Make the variable initialised by a private Constructor.
+
+Access to be given only by getter() - PUBLIC Method
+
+
+
+CODE REFERENCE:
+
+Singleton:
+- Singleton(): void - PRIVATE
+- getInstance(): Singleton - PUBLIC - Returns Instance
+
+
+
+
+
+
+
+
+
+(3) Real Life Example:
+
+A CEO Calendar:
+
+
+
+CEO          								--------> Board Members  (READ)
+Calendar ---------> Personal Assistant	 	--------> Leadership Meeting (READ)
+			 		(WRITE) 				--------> Press Conferences (READ)
+
+
+
+
+
+
+
+(4) CODE:
+
+
+
+Singleton Class:
+
+
+// Eager Loading
+public class LoggerSingleton {
+    private static LoggerSingleton instance= new LoggerSingleton(); // Static Because CREATED Only Once in memory
+    private LoggerSingleton() {
+
+    }
+    public static LoggerSingleton getInstance() {
+        return instance;
+    }
+}
+
+
+
+// Lazy Loading
+public class LoggerSingleton {
+    private static  LoggerSingleton instance= null;
+    private LoggerSingleton() {
+
+    }
+
+    // For first instance,  a null object would be created,
+    // For second instance onwards, it will reuse the same instance.
+    public static LoggerSingleton getInstance() {
+        if (instance == null){
+            instance = new LoggerSingleton();
+        }
+
+        return instance; // Returning Same Instance
+    }
+}
+
+
+
+
+// Thread Safety - Lazy Loading
+public class LoggerSingleton {
+    private static volatile LoggerSingleton instance= null;
+
+    // Avoid access Using reflection
+    private LoggerSingleton() {
+        if (instance!=null){ // If there is already an instance, dont allow tro create another instance
+            throw new RuntimeException("Runtime Exception"); // Can be accessed via Reflection
+        }
+    }
+
+    // For first instance,  a null object would be created,
+    // For second instance onwards, it will reuse the same instance.
+    public static LoggerSingleton getInstance() {
+        if (instance == null) {
+            // Create a new instance
+            synchronized (LoggerSingleton.class) { // Used at block level not class level
+                if (instance == null) {
+                    // Checking again for instance == null because only 1 thread should have access to this resource - THREAD SAFETY
+                    instance = new LoggerSingleton();
+                }
+            }
+        }
+        // return the already existing instance
+        return instance;
+    }
+
+}
+
+
+
+
+
+Driver Class:
+
+
+package Singleton;
+
+public class SingletonDemo {
+
+    public static void main(String[] args) {
+
+        LoggerSingleton obj1 = LoggerSingleton.getInstance();     //new obj;
+        System.out.println(obj1);
+
+        LoggerSingleton obj2 = LoggerSingleton.getInstance();     //new obj;
+        System.out.println(obj2);
+
+    }
+}
+
+
+
+
+OP:
+
+Singleton.LoggerSingleton@30f39991
+Singleton.LoggerSingleton@30f39991
+
+
+
+
+
+
+
+
+
+(5) Early vs Lazy Loading
+
+(A) Early/Eager Instantiation:
+- Creation of Instance at Compile Time/Load Time
+- Instance is already instantiated as soon as application is up.
+
+
+
+(B) Lazy Instantiation
+- Creation of Instance at Run Time
+- The instance is initialised only when App Module calls for it.
+
+
+
+
+
+
+
+(6) Usage:
+
+- Logging
+- Caching
+- Thread Pools
+- Configuration Classes
+- EJB (Enterprise Java Beans)
+- MDB (Message Drive Beans)
+
+
+
+
+
+Code Ref:
+- Singleton
+
+class A
+{
+	private static member;
+	private A()
+
+	public static getter()
+	{
+
+	}
+
+}
+
+
+
+
+
+(7) Summary:
+
+
+- Neat Way to Handle Access to shared resource
+- Easy to implement
+- Guarantees 1 instance
+- Solves a well defined problem (Only 1 Instance required to be shared)
+- Thread safety needs to be insured
+
+
+Note:
+
+- Never pass parameter to the Constructor in Singleton
+- Passed parameter in Constructor == Factory Pattern
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(3) BUILDER DESIGN PATTERN
+
+
+(1) Problems Solved: DONE
+(2) Real Life Example - 2 (Pizza and House) : DONE
+(3) Implementation: DONE
+(4) Usability : DONE
+(5) Code Walk Through
+(6) Summary (Pros and Cons)
+
+
+
+
+
+(1) Problems Solved
+- Creating/Instantiating Complex Object
+- Effective use of Telescope Constructors
+- Helps with Immutable Classes
+- Less need for Exposing Setters to Client Classes
+
+
+
+
+
+(2) Definition:
+
+Builder is a Creational Design Pattern that lets you construct 
+"COMPLEX OBJECTS"
+
+
+This allows to produce different types of object using the 
+"SAME CONSTRUCTOR" Code.
+
+
+
+-------- Complex Object:
+Step by Step Initialisation of many fields and nested objects
+
+
+Such Initialisation is difficult, and usually implemented with a 
+constructore having lot of parameters
+
+OR
+
+Scattered over client code.
+
+
+
+Code Example:
+
+Payment
+{
+	CreditCard : {},
+	DebitCard: {}
+	UPI: {}
+}
+
+
+CreditCard
+{
+	card_no: String,
+	CVV: String,
+	first_name: String,
+	last_name: String
+}
+
+
+Use of Builder Pattern:
+- Make Easy Instantiation to Payment Class
+
+
+
+
+
+
+
+(3) Real Life Problem:
+
+
+Use Case:
+We need to create "House" Object
+
+
+To Build a House:
+- 4 Walls, Door, Window, Land, Roof
+
+
+Ameneties:
+- AC
+- Washing Machine
+- Heaters
+- Patios
+- Garage
+- Multiple Floors
+- Garden
+- Pool
+
+
+
+2 Ways:
+(1) Inheritance
+(2) Multiple Constructors
+
+
+
+(1) Inheritance
+
+Parent Class: House
+Child Class: Door, Floor, Garden, Pool etc
+
+Issue:
+For Each Requirement, if a child class is created
+This will lead to so many child classes created
+
+
+
+(2) Multiple Constructors
+
+House(windows, door, rooms, hasGarage, hasSwimmingPool, hasGarden.......)
+
+
+new House(4, 4, 10, true, true, true.....) - House-1
+new House(4, 4, 10, false, true, false.....) - House - 2
+
+
+- Ugly Calls to Constructor
+- Too Many Permutations
+
+
+
+
+
+
+
+(3) Solution:
+
+- Builder Design Pattern
+
+- Client interacts with Director
+- Director interacts with the Builder Interface
+- Builder Interface is implemented by concrete builder classes
+- Concrete Builder Classes actually does the work
+
+
+
+
+Diagrams:
+- Problem: DONE
+- Solution: DONE
+- Director: DONE
+- Class Diagram: DONE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

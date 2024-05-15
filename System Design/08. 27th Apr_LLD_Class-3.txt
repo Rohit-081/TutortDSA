@@ -1,0 +1,798 @@
+Date : 27th Apr 2024
+Mentor: DEVANG SHARMA
+Batch: Mixed Batch (System Design) - Tutort Academy
+
+Agenda: Low Level Design
+
+Low Level Design:
+
+(1) Requirement Gathering: DONE
+(2) Laying Down Use Cases: DONE
+(3) OOP vs OOD: DONE
+- Classes and Objects: DONE
+- NVT Technique: DONE
+- Case Study: Diagram Using Case Study Technique: DONE
+- Class Diagram Using draw.io: DONE
+(4) Different Class Relations: DONE
+(5) Assigning Responsibilities to Classes: DONE
+(6) Relations between Classes: DONE
+- HAS-A (Composition vs Aggregation): DONE
+- IS-A (Inheritance): DONE
+- Relations apart from HAS-A and IS-A (Association): DONE
+(7) UML/Class Diagrams: Types and Purpose: DONE
+- Class Diagram: DONE
+- Activity Diagram: DONE
+- Use Case Diagram: DONE
+- Sequence DiagramL DONE
+(8) Abstraction vs Encapsulation: DONE
+(9) OOD to Model Problem: DONE
+
+WIP:
+(10) Implement Code (Design Patterns + SOLID + KISS + DRY -> Best Practises)
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+
+
+S: Single Responsibility Principle (SRP)
+O: Open-Closed Principle (OCP)
+L: Liskov Substitution Principle (LSP)
+I: Interface Segregation Principle (ISP)
+D: Dependency Inversion Principle (DIP)
+
+
+
+
+----------> L: Liskov Substitution Principle (LSP)
+
+- Introduced by Barabara Liskov
+- Turing Award
+
+- It extends the OCP and focuses on behaviour (functions) of superclass 
+and its subclasses
+
+Super/Parent/Base: Same
+Sub/Child/Derived: Same
+
+
+Definition:
+
+- If a Function takes an instance of a class.
+That same function should be able to take the instance of derived classes from that class
+
+
+Easier Definition:
+"Derived Classes MUST be Completely Substitutional for their Base Classes"
+
+
+
+- Liskov Principle is used to check if Inheritance is done properly.
+
+- Correct Inheritance: Not Violate LSP
+- InCorrect Inheritance: Violate LSP
+
+
+
+
+
+Inheritance:
+
+Base Class:
+- Property-1
+- Property-2
+
+
+Child Class:
+- Property-1
+- Property-2
+- Property-3
+
+
+
+
+
+CODE:
+
+Eg-1
+
+class C
+{
+	public void x()
+	{
+		......
+	}
+}
+
+
+class C1 extends C
+{
+	public void y()
+	{
+		......
+	}
+
+}
+
+
+class C2 extends C
+{
+
+    public void z()
+	{
+		......
+	}
+
+}
+
+
+C c = new C();
+C1 c1 = new C1();
+C2 c2 = new C2();
+
+
+c.x(); ----LISKOV
+c1.x(); ----LISKOV
+c2.x();  ----LISKOV
+
+
+
+
+
+
+
+
+Eg-2:
+
+
+CODE: Intellij IDEA
+
+
+Real Life Use Case:
+
+- MenuItems: No Discount
+- BeverageItems: 10% Discount
+
+
+Parent: MenuItems
+Child: BeverageItems
+
+
+
+
+PROBLEM:
+
+
+package SOLID;
+
+public class LiskovSubstititutionIncorrect
+{
+    public static class MenuItem // Parent Class
+    {
+        public String Name;
+        public String Description;
+        public double price;
+
+        public MenuItem(double price, String Description, String Name)
+        {
+            this.Name = Name;
+            this.price = price;
+            this.Description = Description;
+        }
+
+        public double getPrice()
+        {
+            return this.price;
+        }
+
+    };
+
+    public static class BeverageItems extends MenuItem // Child Class
+{
+		public BeverageItems(double price, String Description, String Name)
+    {
+        super(price, Description, Name);
+    }
+
+        public double getPriceWithDiscount(int discountPercentage)
+    {
+        return this.price - (discountPercentage * 0.01 * this.price);
+    }
+
+}
+
+    public static void printItemPrice(MenuItem item)
+    {
+        // VIOLATION OF LISKOV
+        // getPrice() (Parent Class) Should Give you the Correct Answer Here
+
+        if (item instanceof BeverageItems)
+        {
+            System.out.println(((BeverageItems)item).getPrice());
+           // System.out.println(((BeverageItems)item).getPriceWithDiscount(10));
+        }
+        else
+        {
+            System.out.println((item.getPrice()));
+        }
+    }
+
+    public static void main(String[] args)
+    {
+        MenuItem item = new MenuItem(25, "ham burger is the burger", "Burger");
+        BeverageItems bItem = new BeverageItems(30, "Souping around", "Soup");
+
+        printItemPrice(item);
+        printItemPrice(bItem);
+    }
+}
+
+
+
+
+OP:
+
+25
+30 - Incorrect, Expected: 27
+
+getPrice() is NOT Working as Expected for Child Class.
+
+
+
+25
+27 - getPriceWithDiscount(10)
+
+
+Violating the LSP.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SOLUTION:
+
+
+
+
+Real Life Use Case:
+
+- MenuItems: No Discount
+- BeverageItems: 10% Discount
+
+
+
+Future Use Case:
+
+- MenuItems: No Discount - Might Have Discount in Future
+- BeverageItems: 10% Discount
+
+
+Expectation:
+getPrice() should be used in the BeverageItems and give me correct answer.
+
+
+
+
+
+CODE:
+
+
+package SOLID;
+
+public class LiskovSubstititutionCorrect
+{
+    public static class MenuItem
+    {
+        public String Name;
+        public String Description;
+        public double price;
+
+        public MenuItem(double price, String Description, String Name)
+        {
+            this.Name = Name;
+            this.price = price;
+            this.Description = Description;
+        }
+
+        public double getPrice()
+        {
+            return this.price - getDiscount();
+        }
+
+        public double getDiscount()
+        {
+            return 0;
+        }
+    }
+
+    public static class BeverageItems extends MenuItem
+{
+		public BeverageItems(double price, String Description, String Name)
+    {
+        super(price, Description, Name);
+    }
+
+
+    public double getDiscount()
+    {
+        int discountPercentage = 10;
+        return (discountPercentage * 0.01 * this.price);
+    }
+}
+
+    public static void printItemPrice(MenuItem item)
+    {
+        // below is not the violation
+        if (item instanceof LiskovSubstititutionCorrect.BeverageItems)
+        {
+            System.out.println("Beverage Prices: ");
+        }
+        else
+        {
+            System.out.println("Menu Prices: ");
+        }
+
+        // Derived Classes MUST BE Completely Substituitable for their Base Classes.
+        // Irrespective if item in Base Class Object or Child Class Object, they should be calling the same function
+       System.out.println(item.getPrice());
+
+    }
+
+    public static void main(String[] args)
+    {
+        MenuItem item = new MenuItem(25, "ham burger is the burger", "Burger");
+        BeverageItems bItem = new BeverageItems(30, "Souping around", "Soup");
+
+        printItemPrice(item);
+        printItemPrice(bItem);
+    }
+}
+
+
+
+OP:
+
+25
+27
+
+
+
+
+
+ANOTHER WAY:
+
+
+
+package SOLID;
+
+public class LiskovSubstititutionCorrect
+{
+    public static class MenuItem
+    {
+        public String Name;
+        public String Description;
+        public double price;
+        public int discountPercentage = 0;
+
+        public MenuItem(double price, String Description, String Name)
+        {
+            this.Name = Name;
+            this.price = price;
+            this.Description = Description;
+        }
+
+        public double getPrice(int discountPercentage)
+        {
+            return this.price - (discountPercentage * 0.01 * this.price);
+        }
+
+    }
+
+    public static class BeverageItems extends MenuItem
+{
+		public BeverageItems(double price, String Description, String Name)
+    {
+        super(price, Description, Name);
+    }
+
+}
+
+    public static void printItemPrice(MenuItem item)
+    {
+        // below is not the violation
+        if (item instanceof LiskovSubstititutionCorrect.BeverageItems)
+        {
+            System.out.println("Beverage Prices: ");
+            System.out.println(item.getPrice(10));
+        }
+        else
+        {
+            System.out.println("Menu Prices: ");
+            System.out.println(item.getPrice(0));
+        }
+
+        // Derived Classes MUST BE Completely Substituitable for their Base Classes.
+        // Irrespective if item in Base Class Object or Child Class Object, they should be calling the same function
+       //System.out.println(item.getPrice(10));
+
+    }
+
+    public static void main(String[] args)
+    {
+        MenuItem item = new MenuItem(25, "ham burger is the burger", "Burger");
+        BeverageItems bItem = new BeverageItems(30, "Souping around", "Soup");
+
+        printItemPrice(item);
+        printItemPrice(bItem);
+    }
+}
+
+
+
+OP:
+
+25
+27
+
+
+
+
+
+
+
+
+Example-3:
+
+
+
+Class Shape
+{
+	double area(...)
+	{
+
+	}
+}
+
+
+Class Rectangle extends Shape
+{
+	double area(...)
+	{
+
+	}
+}
+
+
+class Square extends Rectange ----- INCORRECT
+{
+
+	length = side;
+	breadth = side;
+}
+
+
+
+ class Square extends Shape ------ CORRECT
+ {
+ 		double area(...)
+	{
+
+	}
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> I: Interface Segregation Principle (ISP)
+
+
+Interface:
+Keep things abstract (hiding details) and let classes implement them
+
+
+
+-------> Abstract Class vs Interface
+
+Abstract Class:
+
+(1) Can have both abstract and non-abstract methods
+(2) Doesnt support Multiple Inheritance
+(3) Can have final, static, non-final, non-static variables
+(4) Provide the implementation of interface
+(5) An Abstract class can extend another class and Multiple Interfaces
+(6) extends - keyword
+(7) private, public and protected members
+
+
+Interface:
+
+(1) Only abstract method, After JAVA 8 - default and static methods as well
+(2) Supports Multiple Inheritance
+(3) Only static and final variables
+(4) Cannot provide implementation of abstract classes
+(5) An Interface can extend another Interface Only
+(6) implements - keyword
+(7) by default: public members
+
+
+
+
+Abstract Class: 
+- Does not give you 100% Abstraction (Data Hiding)
+
+
+
+Interfaces:
+- Gives you 100% Abstraction  (Data Hiding)
+
+
+
+
+
+"Design Interfaces in such a way that classes that implements those interfaces
+do not have any unused functions"
+
+
+
+
+
+- Fat Interfaces: NO
+- Includes a Lot of Functionality
+- Hide a Lot of Functionality
+
+
+
+
+Eg:
+
+
+
+-----> Correct ISP:
+
+- i1 with Only 2 Functions
+- All Classes implementing all the required functions
+- No Unused Function in i1
+
+
+interface i1
+{
+	getFunction();
+	setFunction();
+}
+
+
+Class c1 implements i1
+{
+	getFunction()
+	{
+
+	}
+
+	setFunction()
+	{
+
+	}
+}
+
+
+Class c2 implements i1
+{
+	getFunction()
+	{
+
+	}
+
+	setFunction()
+	{
+
+	}
+}
+
+
+
+
+
+
+
+
+-----> Incorrect ISP:
+
+- i1 with 20 Functions
+- All Classes NOT implementing all the required functions
+- Unused functions in i1
+
+interface i1
+{
+	getFunction();
+	setFunction();
+	.... 20 functions
+}
+
+
+Class c1 implements i1
+{
+	getFunction()
+	{
+
+	}
+
+	setFunction()
+	{
+
+	}
+}
+
+
+Class c2 implements i1
+{
+	getFunction()
+	{
+
+	}
+
+	setFunction()
+	{
+
+	}
+}
+
+
+
+
+
+
+
+Definition:
+
+One Interface should NOT Handle a lof of Responsibilities (Fat Interfaces)
+Instead, Multiple Interfaces should be handling Different Responsibilities.
+
+
+Large Interfaces should be split into smaller ones.
+
+
+Interface i1 (Large) -----> Interface i2 (Small) + Interface i3 (Small)
+
+
+
+
+
+
+
+DIAGRAM: DONE
+
+
+
+
+CODE:
+
+
+Violation:
+
+
+package SOLID;
+
+interface Conversion
+{
+    public void intToDouble();
+    public void intToChar();
+    public void charToString();
+}
+
+//--- There is NO Option to implement only a Single Function in Subclasses.
+
+
+
+
+
+Solution:
+
+
+package SOLID;
+
+
+interface ConvertIntToDouble
+{
+    public void intToDouble();
+}
+
+interface ConvertIntToChar
+{
+    public void intToChar();
+}
+
+interface ConvertCharToString
+{
+    public void charToString();
+}
+
+
+class DataTypeConversion implements ConvertIntToDouble{
+
+    public void intToDouble(){
+        //logic
+    }
+}
+
+
+
+
+
+
+Large Interface Conversion
+-----> Splitted into 3 Smaller Interfaces
+
+ConvertIntToDouble
+ConvertIntToChar
+ConvertCharToString
+
+
+
+
+1 Class Can Implement Multiple Interfaces
+
+
+class DataTypeConversion implements ConvertIntToDouble, ConvertIntToChar {
+
+    public void intToDouble(){
+        //logic
+    }
+
+    public void intToChar(){
+        //logic
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

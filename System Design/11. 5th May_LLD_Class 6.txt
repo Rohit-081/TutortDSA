@@ -1,0 +1,693 @@
+Date : 5th May 2024
+Mentor: DEVANG SHARMA
+Batch: Mixed Batch (System Design) - Tutort Academy
+
+Agenda: Low Level Design
+
+Low Level Design:
+
+(1) Requirement Gathering: DONE
+(2) Laying Down Use Cases: DONE
+(3) OOP vs OOD: DONE
+- Classes and Objects: DONE
+- NVT Technique: DONE
+- Case Study: Diagram Using Case Study Technique: DONE
+- Class Diagram Using draw.io: DONE
+(4) Different Class Relations: DONE
+(5) Assigning Responsibilities to Classes: DONE
+(6) Relations between Classes: DONE
+- HAS-A (Composition vs Aggregation): DONE
+- IS-A (Inheritance): DONE
+- Relations apart from HAS-A and IS-A (Association): DONE
+(7) UML/Class Diagrams: Types and Purpose: DONE
+- Class Diagram: DONE
+- Activity Diagram: DONE
+- Use Case Diagram: DONE
+- Sequence Diagram: DONE
+(8) Abstraction vs Encapsulation: DONE
+(9) OOD to Model Problem: DONE
+(10) Implement Code (Design Patterns + SOLID + KISS + DRY -> Best Practises): DONE
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+(3) BUILDER DESIGN PATTERN
+
+
+(1) Problems Solved: DONE
+(2) Real Life Example - 2 (Pizza and House) : DONE
+(3) Implementation: DONE
+(4) Usability : DONE
+(5) Code Walk Through: DONE
+(6) Summary (Pros and Cons)
+
+
+
+
+
+- Pizza Example
+- Telescope Constructor: DONE
+- URL Example: DONE
+
+
+
+
+(5) Code Walk Through
+
+
+URL Builder:
+
+Used to Create URL Object provided with some params
+
+
+URL:
+
+https://website.com:8080/companies?paramterID = {ID}
+
+https: Protocol
+website.com: Hostname
+8080: Port
+companies: Path Param
+paramterID: Query Param
+
+
+Essential:
+- Protocol
+- Hostname
+
+Optional:
+- Port
+- Path Param
+- Query Param
+
+
+Analogy:
+
+House <----> URL
+
+
+Essential:
+- Land
+- Roof
+- Door
+- Rooms
+
+Optional:
+- AC
+- Heater
+- Swimming Pool
+- Patios
+
+
+
+
+
+
+
+CODE WALK THROUGH:
+
+
+
+
+(1) Problem:
+
+- Without any Design Pattern
+- Plain Java CODE
+
+
+URL Class
+- 5 parameter
+- 5 getters
+- 5 setters
+
+All Possible Constructor Overloading
+
+- NOT a Good Code
+
+
+Driver Class:
+
+        URL url = new URL();
+        url.setProtocol("https://");
+        url.setHostname("mywebsite");
+        url.setPort(":8080/");
+        url.setPathParam("homepage/");
+        url.setQueryParam("random");
+        System.out.print(url.getProtocol());
+        System.out.print(url.getHostname());
+        System.out.print(url.getPort());
+        System.out.print(url.getPathParam());
+        System.out.print(url.getQueryParam());
+
+
+
+
+
+(2) Solution:
+
+
+(A) Telescopic Constructor
+
+
+C1 - Constructor1
+C2 - Constructor2
+C3 - Constructor3
+
+
+C2()
+{
+	On Top of C1()
+}
+
+C3()
+{
+	On Top of C2()
+}
+
+
+C3 -> C2 -> C1: Telescopic Constructor
+
+
+
+CODE:
+
+    public URLTelescopic(String protocol, String hostname, String port) {
+        this(protocol,hostname);
+        this.port = port;
+    }
+
+
+    public URLTelescopic(String protocol, String hostname, String port, String pathParam) {
+        this(protocol,hostname,port);
+        this.pathParam = pathParam;
+    }
+
+
+
+Note:
+
+- Telescopic Constructor helps me to reuse other Constructors
+- No Need to initialise all params, only initialise new params
+- Issue still exist with Cherrypicked params
+(Still Need to Create All Possibilities)
+
+
+
+
+
+
+(B) Builder Pattern
+
+
+package com.devang.BuilderDesignPattern.URL;
+
+public class URLBuilder {
+    public static class Builder{ // STATIC Class
+        private String protocol;
+        private String hostname;
+        private String port;
+        private String pathParam;
+        private String queryParam;
+        public Builder protocol(String protocol){
+            this.protocol = protocol;
+            return this;
+        }
+        public Builder hostname(String hostname){
+            this.hostname = hostname;
+            return this;
+        }
+        public Builder port(String port){
+            this.port = port;
+            return this;
+        }
+        public Builder pathParam(String pathParam){
+            this.pathParam = pathParam;
+            return this;
+        }
+        public Builder queryParam(String queryParam){
+            this.queryParam = queryParam;
+            return this;
+        }
+        public URLBuilder build(){
+            return new URLBuilder(this);
+        }
+    }
+    public final String protocol;
+    public final String hostname;
+    public final String port;
+    public final String pathParam;
+    public final String queryParam;
+
+    private URLBuilder(Builder builder){
+        this.protocol = builder.protocol;
+        this.hostname = builder.hostname;
+        this.pathParam = builder.pathParam;
+        this.port = builder.port;
+        this.queryParam = builder.queryParam;
+    }
+}
+
+
+
+
+
+
+
+
+Main Class:
+
+        System.out.println("Object with Builder Design Pattern (Protocol, Hostname, Port): ");
+        URLBuilder.Builder builder = new URLBuilder.Builder();
+        builder.protocol("https://").hostname("mywebsite:").port("443"); // Cherry Pick the Params
+        URLBuilder urlBuilder = builder.build();
+        System.out.print(urlBuilder.protocol);
+        System.out.print(urlBuilder.hostname);
+        System.out.print(urlBuilder.port);
+
+        System.out.println(" ");
+
+
+        System.out.println("Object with Builder Design Pattern (Protocol, Hostname, Path Param): ");
+        URLBuilder.Builder builder2 = new URLBuilder.Builder();
+        builder2.protocol("https://").hostname("mywebsite2").pathParam("/abc");  // Cherry Pick the Params
+        URLBuilder urlBuilder2 = builder2.build();
+        System.out.print(urlBuilder2.protocol);
+        System.out.print(urlBuilder2.hostname);
+        System.out.print(urlBuilder2.pathParam );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(6) Summary (Pros and Cons)
+
+Pros:
+(1) Good Way to Handle Complex Objects
+(2) Provides Optimisation Over Plain Java Implementation 
+(3) Provides Optimisation Over Telescopic Constructor Implementation 
+(4) Easy to Implement
+(5) Can be refactored into
+
+
+Cons:
+- Have to think of End to End Chain
+
+
+
+
+
+
+
+
+
+util
+	 - configs
+	 - constants
+
+controller
+ 	- clientcode
+
+impl
+	- validator
+	- service
+	   - Code
+
+
+
+
+
+
+
+
+------> Applicability
+
+(1) Use the Builder Dsign Pattern to get rid of "Telescopic Constructor"
+
+If you have constructor with 10 parameters, 
+calling it will be very inconvenient.
+
+
+Hence, you overload the constructor with shorter versions with few parameters.
+
+
+
+
+Eg:
+
+Class Pizza
+{
+	Pizza(int size) {...}
+	Pizza(int size, boolean cheese) {....}
+	Pizza(int size, boolean cheese, boolean pepperoni) {......}
+	............ 
+}
+
+
+Builder Design Pattern lets you build complex object step by step,
+instead of doznes of parameters in your constructor
+
+
+
+(2) Use the builder pattern where you want to create different representation
+of same product
+
+
+Eg:
+
+buildHouse()
+buildHouseWithWindows()
+buildHouseWithPool()
+buildHouseWithWindowsandPool()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(4) ABSTRACT FACTORY PATTERN
+
+(1) Problems Solved: DONE
+(2) Real Life Example - DONE
+(3) Implementation: DONE
+(4) Usability : DONE
+(5) Code Walk Through: DONE
+(6) Summary (Pros and Cons): DONE
+
+
+
+(1) Definition:
+
+"Factory of Factory Pattern"
+"Pattern Inside a Pattern"
+
+Creational:
+Creating Objects which belong to a family of similar objects
+
+Implemented using a common interface
+(Implementation is deferered to concrete classes)
+
+
+
+
+(2) Explanation:
+
+Creational
+- Creating Objects of Similar Type
+- Hides Complexity of Object Creation
+- Client Code has NO Idea about Object Creation (Abstraction)
+
+
+Before:
+
+
+Client Class ---------> Server Class
+No Abstraction
+
+Client knows all about Server Class Details
+
+
+After:
+
+
+Client Class ----- Abstract Factory ----- Factory Class ----> Server Class (Concrete Class)
+
+Abstraction
+
+- Client knows NOTHING about Server Class Details
+- Client Only Communicates with Abstract Factory Class
+- Abstract Factory Class Communicates with Factory Class
+- Factory Class telss Concerte Classes What to Do?
+
+
+
+
+
+(3) Real Life Example:
+
+
+
+--------> FACTORY DESIGN PATTERN
+
+Factory: 
+Balls - Leather, Metal, Tennis etc
+
+
+Client:
+Order: 1000 Leather Balls
+
+
+Inside Factory:
+
+Departments (Concrete Classes)
+- Leather
+- Tennis
+- Metallic etc
+
+
+- These Details are HIDDEN from the Client as Client does not need those details (Abstraction)
+
+
+
+
+FLOW:
+
+Client ---------> Factory Class ---------> Implementation Classes/ Concrete Classes
+
+                  Balls Factory                  - Leather, Tennis, Metallic etc
+                  (Determine Which Classes)
+                  to call based upon Order Types
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------> ABSTRACT FACTORY DESIGN PATTERN
+
+WareHouse for Furniture:
+- Chair Factory
+- Table Factory
+- Sofa Factory
+- Door Factory
+etc
+
+
+Client:
+Order: 1000s Door of Sandalwood
+
+
+Inside WareHouse:
+- Chair Factory
+- Table Factory
+- Sofa Factory
+- Door Factory
+etc
+
+
+Inside Door Factory:
+
+Departments (Concrete Classes)
+- Sandalwood
+- Metallic Wood
+- Red Wood etc
+
+
+
+- These Details are HIDDEN from the Client as Client does not need those details (Abstraction)
+
+
+
+
+FLOW:
+
+Client --------->   Abstract Factory --------> Factory Class ---------> Implementation Classes/ Concrete Classes
+
+                 	WareHouse					Chair, Sofa, Door, Table	        - Sandalwood, Redwood, Metallic wood etc
+                 								 (Determine Which Factory)
+                 				 				to call based upon Order Types
+
+
+
+
+
+Work Flow:
+
+- Client makes a call to Warehouse for 1000 Doors of Sandalwood
+- Client is NOT Aware of Any Factory or Concerte Classes
+- WareHouse -----> Door Factory as Order == DOOR
+- Door Factory -----> Sandalwood as Order_Type == Sandalwood
+
+
+
+
+
+Diagrams:
+- Class Diagram: DONE
+
+
+
+
+
+
+
+
+
+
+(4) Real Life Example:
+
+
+GRE ---> Score
+
+User ---> GRE ---> Score ------> Ivy League -----------> MS, MBA
+				         ------> Public University ------> MS, MBA 
+
+
+				         										 Subjects
+Client -----> GRE Score (Abstract Factory) ------>  Ivy League -----------> MS, MBA
+										   ------> Public University ------> MS, MBA 
+
+										   		 (Factories)                (Concrete Clases)
+
+
+
+For Choosing Factory:
+
+if (score > cutoff)
+	factory = IvyLeague;
+else
+	factory = PublicUniversity;
+
+
+
+
+For Choosing Concrete Classes:
+
+if (subjects == Math && Phy)
+	Concrete = MS;
+else
+	Concrete = MBA;
+
+
+
+
+
+
+
+(5) Code Walk Through:
+
+
+
+				         										 Subjects
+Client -----> GRE Score (Abstract Factory) ------>  Ivy League -----------> MIT, CalTech, GeorgiaTech
+										   ------> Public University ------> USC, ASU, VSU
+
+										   		 (Factories)                (Concrete Clases)
+
+
+
+Ivy League:
+
+- MIT
+- GeorgiaTech
+- CalTech
+
+
+
+PublicUniversity:
+
+- USC
+- VSC
+- ASU
+
+
+
+
+CODE: DONE
+
+
+
+
+
+
+
+
+(6) Summary:
+
+Pros:
+
+(1) Good for Abstraction and family of similar objects
+(2) Loose Coupling between clients and actual /concrete codes
+(3) All Classes (Concrete Classes) will follow Single Responsibility Principle
+(4) Supprts Open CLsed Principle
+
+Cons:
+
+(1) Code can become complex
+(2) Pattern Inside a Pattern
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

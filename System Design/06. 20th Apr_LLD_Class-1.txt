@@ -1,0 +1,712 @@
+Date : 20th Apr 2024
+Mentor: DEVANG SHARMA
+Batch: Mixed Batch (System Design) - Tutort Academy
+
+Agenda: Low Level Design
+
+Low Level Design:
+
+(1) Requirement Gathering: DONE
+(2) Laying Down Use Cases: DONE
+
+
+(3) OOP vs OOD: DONE
+- Classes and Objects: DONE
+- NVT Technique: DONE
+- Case Study: Diagram Using Case Study Technique: DONE
+- Class Diagram Using draw.io: DONE
+
+(4) Different Class Relations: DONE
+(5) Assigning Responsibilities to Classes: DONE
+(6) Relations between Classes: DONE
+- HAS-A (Composition vs Aggregation): DONE
+- IS-A (Inheritance): DONE
+- Relations apart from HAS-A and IS-A (Association): DONE
+
+(7) Abstraction vs Encapsulation: DONE
+
+(8) UML/Class Diagrams: Types and Purpose
+- Class Diagram: DONE
+- Activity Diagram
+- Use Case Diagram
+- Sequence Diagram
+
+(9) OOD to Model Problem
+(10) Implement Code (Design Patterns + SOLID + KISS + DRY -> Best Practises)
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+Introduction:
+
+
+"Devang Sharma"
+
+Tech Lead, BMO - Hedge Funds + Commercial Banking - NACB
+
+Prev:
+- Facebook (Meta), London and Canada
+- Google - SGP and London
+- Cisco - India + London
+
+
+CP:
+- TopCoder : TCO World Finalist: 20,21,22
+- Codejam, Hacker Cup: World Semi- Finalist
+
+Open Source:
+- React, React Native
+
+Research:
+- Research Gate
+- 500+ Citations
+
+
+
+
+Batch: 2010 - 2023
+Current Domain: Various
+
+
+
+
+
+AGENDA:
+
+9-10 Classes
+
+
+- Complete SOLID
+- Design Patterns
+- Case Studies
+
+
+(1) 3 Classes - OOP vs OOD, UML/Class Level Diagrams, Design Patterns
+(2) 3 Classes - SOLID Principles
+(3) 3 Classes - Case Studies
+
+
+
+
+
+
+
+Eg:
+
+- Create a Parking Lot
+- Vehicles: CAR, TRUCK, BIKE
+
+
+
+
+
+
+
+-----> High Level Design
+
+Top Down Approach:
+
+Eg:
+Design Whatsapp
+
+(1) Client-Server
+(2) Load Balancing - CDN etc
+(3) Services - Group Service, User Profile Service, Chat Service etc
+(4) Db Schema - Sql vs No Sql
+(5) Data Flow
+(6) Caching
+(7) Analytics
+
+
+
+
+
+
+
+------> Low Level Design
+
+
+(1) Requirement Gathering
+(2) Laying Down Use Cases
+(3) UML/Class Diagrams: Types and Purpose
+(4) OOD to Model Real World Problem
+(5) Implement Code (Design Patterns + SOLID + DRY + KISS)
+
+
+
+
+
+
+Resources:
+
+(1) Design Pattern: Elements of Reusable Object Oriented Software
+Hardcover: Oct 31, 1994
+(1995)
+
+- 4 C++ Engineers: Gangs of Four
+
+
+
+(2) Designing Data Intensive Applications
+- Orielly 
+
+
+
+Website:
+- refactoring.guru/design patterns
+
+
+
+
+
+(1) Requirement Gathering:
+
+Eg:
+Build LLD for a Parking Lot System
+
+
+- 1 Level Parking vs Multi Level Parking
+- 1 Type of Vehicle or Multiple Type of Vehicle
+- 1 Place or Spread Across the Cities
+- 1 User or Multiple Users
+
+
+
+- 1 Type of Vehicle or Multiple Type of Vehicle
+
+1 Type:
+
+String vehicle = "CAR";
+
+
+Multiple Vehicle:
+
+enum = ["CAR", "BIKE"....]
+
+
+
+"Dumb Client, Smart Server"
+
+
+
+
+
+
+(2) Laying Down Use Cases
+
+Every Stake Holder (Actor) will have their Use Cases in the System
+
+
+Eg:
+
+Online Banking (Net Banking)
+
+
+Customer:
+- Check Balance
+- Do Transactions
+- Use Features in App (UPI, NEFT etc)
+
+
+Bank Employees:
+- Can Help Resolve Transactions Issues related to your Account
+
+
+Admin:
+- Lock or Unlock
+
+
+External Systems:
+- Approvals
+- Third Party Systems
+
+
+
+
+
+
+
+(3) UML Diagrams: Types and Purpose
+
+
+UML: Unified Modelling Language
+
+Purpose:
+Converting Certain Requirements into Diagrams
+
+
+
+UML Diagrams are categorised into 3 Categories:
+
+(1) Structural Diagram
+(2) Behavioural Diagram
+(3) Interaction Diagram
+
+
+
+
+(1) Structural Diagram
+- Class Diagram -  IMP
+- Component Diagram
+- Object Diagram
+- Deployment Diagram
+- Package Diagram
+- Composite Structure Diagram
+
+
+(2) Behavioural Diagram:
+- Activity Diagram - IMP
+- State Machine Diagram
+- Use Case Diagram - IMP
+
+
+(3) Interaction Diagram:
+- Communication Diagram
+- Timing Diagram
+- Sequence Diagram - IMP
+
+
+
+
+
+
+Images:
+
+- All UML Diagrams: DONE
+
+- Class Diagram -  IMP: DONE
+
+- Activity Diagram - IMP: DONE
+
+- Use Case Diagram - IMP : DONE
+
+- Sequence Diagram - IMP: DONE
+
+
+
+
+
+
+
+
+Before Class was Invented:
+
+Struct:
+
+struct employee
+{
+	int emp_id;
+	int name;
+}
+
+
+
+
+Struct: Only Data Members
+Functions: Behaviour
+
+- Separate
+
+
+After Class was Invented:
+
+Language: C++ (C with Classes)
+Person: Bjarne Stroustrup
+Year: 1979
+
+
+
+class Employee
+{
+	// Data Members - Property
+	int emp_id;
+	String name;
+
+	// Member Functions - Behaviour
+	getSalary();
+	getBonus();
+}
+
+
+Class = Data Members + Member Functions
+	  = Property + Behaviour
+
+
+
+
+Employee e1 = new Employee();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> OOP vs OOD
+
+
+OOP: Object Oriented Programming
+OOD: Object Oriented Design
+
+
+1 Line
+
+
+OOP:
+Inheritance, Polymorphism, Encapsulation, Abstraction
+
+- Coding up an Application/Program using the Object Oriented Features of a particular language
+
+
+
+
+OOD:
+
+- Model a Real World Problem Using Object Oriented Design Techniques
+(SOLID, DRY, KISS etc)
+
+
+
+
+(1) Can I use OOP without OOD? - YES/NO - YES
+(2) Can I use OOD without OOP? - YES/NO - NO
+
+
+1 - Y/N
+2 - Y/N
+
+
+OOP can be done while violating OOD Principles
+
+OOP! = OOD
+
+
+Eg:
+
+Driving - OOP
+Overtaking - OOD
+
+
+
+
+
+
+
+
+
+
+--------> Classes and Objects
+
+Class:
+- Blueprint or Template of Objects
+- Not a Real World Entity
+
+Object:
+- Instance of a Class
+- Object is a Real World Identity
+
+
+
+Eg:
+
+Blueprint of Compartment of a Train: Class
+Actual Compartment of a Train: Object
+
+
+CODE:
+
+class Employee
+{
+	int[] name = new int[100];
+	int val;
+}
+
+Size of Employee in Bytes?
+
+
+
+Class
+= 
+{
+	data members + member functions
+}
+
+
+
+
+Data Members: INFORMATION - Attributes
+- Data Variables
+- Constants
+- Enums
+
+
+
+Member Functions: BEHAVIOUR - Properties
+- Functions
+
+
+
+
+
+
+Eg: Real World Scenarios
+
+
+Class: 
+Car
+
+
+Attributes:
+- Wheels
+- Color
+- Engine
+
+Behaviour:
+- Accelerate()
+- Drive()
+- Stop()
+
+
+
+Objects:
+
+Car C1 = new Car("Tesla");
+Car C2 = new Car("BMW");
+Car C3 = new Car("Porsche");
+
+
+
+
+
+
+Class: HUMAN
+
+
+Attributes:
+- height
+- weight
+
+Properties:
+- eat()
+- walk()
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> NVT Technique/Trick: Case Study: Diagram Using Case Study Technique
+
+
+NVT: Noun Verb Technique
+
+In a Problem Statement,
+Noun: Classes
+Verb: Behaviour
+
+
+
+
+Case Study: Udemy Classes Case Study
+
+
+(1) User goes to the website and selects the batch slots for the course he/she wants to enroll
+
+(2) Add them to Cart
+
+(3) Checkout and Make the Payment
+
+(4) Confirmation of Courses being Enrolled
+
+
+
+
+
+NOUN -----> Classes/Objects
+
+
+(1) "User" 
+(2) "Batch"
+(3) "Courses"
+(4) "Cart"
+
+
+
+VERB -----> Behaviour/Functions
+
+(1) "Select the Cart"
+(2) "Add them to Cart"
+(3) "Checkout and Make the Payment"
+(4) "Courses Being Enrolled"
+
+
+
+Image:
+Create Class Diagram on draw.io
+
+
+
+
+
+
+
+
+
+
+
+
+--------> Relation between Classes:
+
+- HAS - A (Composition vs Aggregation)
+- IS - A (Inheritance)
+- Relations apart from HAS-A and IS-A (Association)
+
+
+
+Relations between Different Classes in Our System:
+
+- Association
+- Composition
+- Aggregation
+- IS - A (Inheritance)
+
+
+
+
+
+
+
+(1) HAS- A Relationsip: Composition
+
+
+Class:                          Class:
+Customer  --------------->  Credit Card
+			  HAS-A
+              1:N
+
+- Customer can have Multiple Credit Cards
+- Without a Customer, Credit Card CANNOT Exist
+
+
+
+
+
+
+(2) HAS- A Relationsip: Aggregation
+
+
+Class:                    Class:
+Cart  --------------->  Courses
+			  HAS-A
+			  1 : N
+
+
+- Cart can have Multiple Courses
+- Even Without a Cart, Course CAN Exist
+
+
+
+
+(3) IS - A Relationsip: Inheritance
+
+
+Class:                    Class:
+Course  --------------->  LLD Course
+			  IS-A
+			  1 : N
+
+- Parent Class: Course
+- Child Class: LLD Course
+
+
+
+
+--------> Association:
+
+- Structural Relationship in a System in which different Objects are linked within the system
+
+- Represented by a line between classes followed by an arrow that navigates the direction
+
+- We can specify the Cardinality/Multiplicity of an Association
+
+- Exhibits a Binary Behaviour
+
+
+
+
+Association can be divided into 2 parts:
+- Composition
+- Aggregation
+
+
+- In Both these cases, Object of One Class is OWNED By Object of Another Class
+
+- In Case of Composition, the Owned Object DOES NOT Exist Independently
+
+- In Case of Aggregation, the Owned Object DOES Exist Independently
+
+
+
+
+Note:
+- Aggregation is a special form of Association
+- Composition is special form of Aggregation
+
+
+Venn Diagram:
+
+- Association
+ 	- Aggregation
+	 	 - Composition
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

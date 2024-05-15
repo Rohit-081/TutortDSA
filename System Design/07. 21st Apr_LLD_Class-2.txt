@@ -1,0 +1,474 @@
+Date : 21st Apr 2024
+Mentor: DEVANG SHARMA
+Batch: Mixed Batch (System Design) - Tutort Academy
+
+Agenda: Low Level Design
+
+Low Level Design:
+
+(1) Requirement Gathering: DONE
+(2) Laying Down Use Cases: DONE
+(3) OOP vs OOD: DONE
+- Classes and Objects: DONE
+- NVT Technique: DONE
+- Case Study: Diagram Using Case Study Technique: DONE
+- Class Diagram Using draw.io: DONE
+(4) Different Class Relations: DONE
+(5) Assigning Responsibilities to Classes: DONE
+(6) Relations between Classes: DONE
+- HAS-A (Composition vs Aggregation): DONE
+- IS-A (Inheritance): DONE
+- Relations apart from HAS-A and IS-A (Association): DONE
+(7) UML/Class Diagrams: Types and Purpose: DONE
+- Class Diagram: DONE
+- Activity Diagram: DONE
+- Use Case Diagram: DONE
+- Sequence DiagramL DONE
+(8) Abstraction vs Encapsulation: DONE
+(9) OOD to Model Problem: DONE
+
+WIP:
+(10) Implement Code (Design Patterns + SOLID + KISS + DRY -> Best Practises)
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+Example of Association:
+- Draw.io: DONE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------> Abstraction vs Encapsulation
+
+
+
+Abstraction: (Data Hiding)
+
+- Hide the Implementation Details, Just Expose the Functionality to End Users
+- Design Level
+- Achieve by Abstract Classes and Interfaces
+
+
+
+Encapsulation:
+
+- Combining the Attribute and Functionality into a SINGLE UNIT
+- So That Data can be HIDDEN/PROTECTED from Outside Stakeholders
+- Implementation Level
+- Achieve by Access Modifiers (Private, Protected, Public)
+
+
+
+
+OOPS:
+
+- Inheritance: DESIGN LEVEL
+- Polymorphism: IMPLEMENTATION LEVEL
+- Abstraction: DESIGN LEVEL
+- Encapsulation: IMPLEMENTATION LEVEL
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> Implement Code (Design Patterns + SOLID + KISS + DRY -> Best Practises)
+
+
+
+-------> Software Design Principles | DRY | YAGNI | KISS etc
+
+Reference:
+"Clean Code" by Uncle Bob
+
+
+Software Design Principles: Clean Code: Uncle Bob
+Design Patterns: Gangs of 4
+
+
+
+
+(1) DRY (Dont Repeat Yourself)
+
+DRY Principle:
+Every Piece of Knowledge must have a single representation within a system
+
+How to Achieve?
+- Creating Functions and Classes to make sure that any logic should be 
+written in only 1 place
+
+
+
+
+(2) Curly Law - Do One Thing
+
+
+An Entity(Class, Function, Variable) should mean one thing ONLY.
+It should not mean that one thing in one circumstance and carry a different value
+from a different domain in another circumstance.
+
+
+
+(3) Keep it Simple and Short (KISS)
+
+
+Goal: Simplicity and Extensibility
+
+
+Benefits:
+- Less Time to Write
+- Less Chances of Bugs
+- Easier to Understand, Debug and Modify
+
+
+
+
+(4) You Are Not Gonna Need It (YAGNI)
+
+- Always Implement Things when you ACTUALLY Need them
+- Never Implement when you just foresee that you need them
+- If its a required feature, then only implement it
+- That does not mean that your code is not flexible/extensible
+
+"Dont try to solve a problem which does not even exist"
+
+
+
+
+
+(5) Premature Optimisation - Root of All Evil
+
+- First Get a Working Solution (Brute Force is Fine)
+- Then think about Optimisation
+
+
+
+
+(6) Boy-Scout Rule
+
+- Uncle Bob:
+
+- Always leave the code behind in a better state than you found it
+- Reduces Technical Debt
+
+
+
+Technical Debt:
+- Unused Code
+- Non Scalable Code
+- Code which needs to be refactored
+
+
+
+(7) Code as a Maintainer/Owner
+
+- Always Code considering you are the maintainer and make changes accordingly
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------> SOLID Principles:
+
+
+S: Single Responsibility Principle (SRP)
+O: Open-Closed Principle (OCP)
+L: Liskov Substitution Principle (LSP)
+I: Interface Segregation Principle (ISP)
+D: Dependency Inversion Principle (DIP)
+
+
+
+
+
+
+
+-----------> Single Responsibility Principle (SRP)
+
+
+
+Incorrect:
+
+- SRP Means that one class has only 1 reason to change
+
+- Once Class Should have Only 1 Public Method
+
+- If your class has "AND" in the definition, 
+then you are violating SRP
+
+
+
+Correct:
+
+
+"One Class Must Perform a Single Functionality Only"
+- Curly Law
+
+
+Clean Code:
+"One Module Should be changed by Only 1 Actor in the System"
+
+- 1 Module Should Have Only 1 Responsibility
+
+
+Module:
+- Set of Functions
+- Class
+- Package
+- Source Code
+
+
+
+
+Example:
+Using Draw.io
+
+
+
+
+CODE:
+
+Example-1:
+
+public int calculateSalary()
+{
+	calculateHours();
+}
+
+private calculateHours()
+{
+
+}
+
+
+public saveEmpData()
+{
+	calculateHours();	
+}
+
+
+
+
+Problem:
+
+Finance: calculateSalary()
+HR: calculateHours()
+Operations: saveEmpData()
+
+
+HR (Actor) wants to change the calculateHours()
+Since calculateHours() is used in calculateSalary() and saveEmpData(),
+Other Actors would need to change at their places as well.
+
+
+- Violation of SRP
+
+"One Module Should be changed by Only 1 Actor in the System"
+
+
+
+
+Solution:
+
+
+- Breaking down into classes
+
+
+
+
+
+
+
+
+Example-2:
+
+
+- MenuItem Class
+- Bill Class
+
+
+
+
+Problem:
+
+Bill Class Contains saveBill()
+Initially, Bill is saved in a local server
+
+Due to Increasing Requests, Tech Team Decides to migrate it to a Cloud DB
+
+
+Since saveBill() is contained in Bill Class,
+It will affect all the Functionalities of Bill Class
+
+- Violation of SRP
+
+
+
+
+
+
+Solution:
+
+
+3 Different Classes:
+- Bill
+- Print
+- Store
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> O: Open-Closed Principle (OCP)
+
+According to New Business Requirements, 
+The Module Should be Open for Extension but Closed for Modification.
+
+
+
+Extension allows to implement new Functionality.
+
+
+
+
+CODE:
+
+
+Class: VehicleInfo
+Method: vehicleNumber()
+
+
+Current Requirement: 
+- Car
+- Bike
+
+
+New Business Requirement:
+- Truck
+
+
+Way-1: INCORRECT
+
+
+class VehicleInfo
+{
+	public String vehicleNumber(Vehicle v)
+	{
+		if (v instanceOf Car)
+			return v.getNumber();
+
+		else if (v instanceOf Bike)
+			return v.getNumber();
+	}
+}
+
+
+
+Problem:
+
+To Add the New Requirement of TRUCK,
+Add 1 more "if" statement, it will vialte the OCP.
+
+
+
+
+
+Solution:
+Add Subclasses and Achieve the OCP by Overriding the vehicleNumber() Method
+
+
+
+Way-2: CORRECT
+
+
+class VehicleInfo
+{
+		public String vehicleNumber(Vehicle v)
+		{
+			// functionality
+		}
+}
+
+class Car extends VehicleInfo
+{
+		public String vehicleNumber(Vehicle v)
+		{
+			this.vehicleNumber();
+		}
+}
+
+
+class Bike extends VehicleInfo
+{
+		public String vehicleNumber(Vehicle v)
+		{
+			this.vehicleNumber();
+		}
+}
+
+
+class Truck extends VehicleInfo
+{
+		public String vehicleNumber(Vehicle v)
+		{
+			this.vehicleNumber();
+		}
+}
+
+
+
+Similarly, We can Add More Vehicles by making More Subclasses extending from the VehicleInfo Class
+
+
+This approach will NOT Modify the Original VehicleInfo Class, hence follows OCP.
+
+
+
+
+
