@@ -18,7 +18,7 @@ Low Level Design:
 (6) Relations between Classes: DONE
 - HAS-A (Composition vs Aggregation): DONE
 - IS-A (Inheritance): DONE
-- Relations apart from HAS-A and IS-A (Association): DONE
+- Relations apart from HAS-A and IS-A (Association): DoNE
 (7) UML/Class Diagrams: Types and Purpose: DONE
 - Class Diagram: DONE
 - Activity Diagram: DONE
