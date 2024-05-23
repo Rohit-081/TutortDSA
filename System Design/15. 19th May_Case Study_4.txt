@@ -1,0 +1,615 @@
+Date : 19th May 2024
+Mentor: DEVANG SHARMA
+Batch: Mixed Batch (System Design) - Tutort Academy
+
+Agenda: Low Level Design
+
+Low Level Design:
+
+(1) Requirement Gathering: DONE
+(2) Laying Down Use Cases: DONE
+(3) OOP vs OOD: DONE
+- Classes and Objects: DONE
+- NVT Technique: DONE
+- Case Study: Diagram Using Case Study Technique: DONE
+- Class Diagram Using draw.io: DONE
+(4) Different Class Relations: DONE
+(5) Assigning Responsibilities to Classes: DONE
+(6) Relations between Classes: DONE
+- HAS-A (Composition vs Aggregation): DONE
+- IS-A (Inheritance): DONE
+- Relations apart from HAS-A and IS-A (Association): DONE
+(7) UML/Class Diagrams: Types and Purpose: DONE
+- Class Diagram: DONE
+- Activity Diagram: DONE
+- Use Case Diagram: DONE
+- Sequence Diagram: DONE
+(8) Abstraction vs Encapsulation: DONE
+(9) OOD to Model Problem: DONE
+(10) Implement Code (Design Patterns + SOLID + KISS + DRY -> Best Practises): DONE
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+
+
+
+
+------> CASE STUDIES:
+
+
+(1) Problem Statement
+- Mandatory Requirements
+- Optional Requirements
+
+(2) Time: 1.5 Hrs - 2 Hrs
+
+(3) Expectations:
+- Use Appropriate Design Patterns
+- Use Best Programming Practises (SOLID, KISS, DRY, YAGNI, Scout Principle)
+
+(4) IDE: Your Choice -> Screen Share
+
+(5) Write Code from Scratch
+
+(6) Sample IP and Sample OP
+
+(7) Code: Any Language
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Agenda:
+
+(1) Pub-Sub Pattern - 1 Hr - DONE
+(2) Real Interview Question - Flipkart SDE-2/SDE-3 - 1 Hr : DONE
+
+
+
+
+
+
+
+--------> Publisher - Subscriber Pattern (Pub - Sub)
+
+- Asynchronous vs Synchronous Messaging: DONE
+- Messaging Queue: DONE
+- Producer Consumer: DONE
+- Pub-Sub (Theory): DONE
+- Pub-Sub (Real Life Example): DONE
+- Pub-Sub (CODE): DONE
+
+
+
+
+
+
+- Asynchronous vs Synchronous Messaging
+
+
+Synchronous Messaging:
+- In Sync (Synchronous) with Response
+- Get the response with the request
+- Real Time Communication
+
+         Req
+Client ------> Server
+		<----
+		Resp
+
+Expectation: Immediate Response
+
+Eg:
+
+Phone Call - Immediate Response is Expected
+
+
+
+Asynchronous Messaging:
+
+- Not in Sync (Synchronous) with Response
+- The Response will come when it is available
+- Performed by Queues (Not Real Time)
+- Might Require ACK or Might Not Require ACK
+
+         Req
+Client ------> Server
+		<----
+		Resp
+
+Expectation: No Immediate Response
+
+Eg: Text, Email - Immediate Response is NOT Expected
+
+
+Queue:
+
+[req1, req2, req3]
+
+After few seconds:
+
+req1 <-> resp1
+req2 <-> resp2
+req3 <-> resp3
+
+
+
+With ACK:
+
+After req1 processed ----> ACK Received ----> Removed from QUEUE
+
+ACK not received, NOT Remove from the QUEUE, Stick to req1
+
+Queue: [req1, req2, req3]
+
+
+Without ACK:
+
+After req1 processed ----> Removed from QUEUE
+
+ACK not received,  Remove from the QUEUE, Move to req2 and req3
+
+Queue: [req1, req2, req3]
+
+
+
+
+
+Response:
+Checksum: ACK
+
+
+Response without ACK:
+			
+			Req
+	Client -------> Server
+			<-----
+			 Resp
+
+
+Resp: 
+{
+	JSON
+}
+
+
+Response with ACK:
+			
+			Req              Data
+	Client -------> Server ------> DS (DB)
+			<-----
+			 Resp
+
+
+Resp:
+
+Checksum: ACK
+{
+	JSON
+}
+
+
+
+Read: 3- Way Handshake
+
+
+
+
+
+
+
+
+
+
+
+------->  Messaging Queue
+
+- Producer-Consumer
+- Pub-Sub
+
+
+MQ:
+
+Eg: RabbitMQ, Redis
+
+Store the Messages/Events/Topics/Channels
+
+
+
+2 Components in the System:
+
+
+Producer        <------------ MQ ------------>     Consumer
+Producing the Message         Channel       Consuming the Message
+
+
+
+MQ: 
+Provides a Channel for Components - Producer and Consumer
+
+
+
+
+
+
+
+
+-------> PUBLISHER - SUBSCRIBER PATTERN (Pub-Sub Pattern)
+
+
+Real Life Example:
+
+On-Call: Production Support
+
+Pager: 
+
+Issues:
+
+SEV1 : Highly Critical, High Impact - Staff Engineers/Architect
+SEV2 : Highly Critical, Moderate Impact  - Senior Engineers
+SEV3 : Moderate Critical, Moderate Impact - Mid Engineers
+SEV4 : Low Critical, Low Impact - Interns
+
+
+
+
+
+CODE:
+
+Publisher              Event/Topics               Subscribers
+
+Software Service        SEV1 - M1                 Staff Engineers/Architect (SUB1)
+						SEV2 - M2                 Senior Engineers (SUB2)
+						SEV3 - M3                  Mid Engineers (SUB3)
+						SEV4 - M4                  Interns (SUB4)
+
+
+
+For Event SEV1, Message M1 --------> SUB1
+
+For Event SEV2, Message M2 --------> SUB2
+
+For Event SEV3, Message M3 --------> SUB3
+
+For Event SEV4, Message M4 --------> SUB4
+
+
+
+
+
+
+
+
+
+
+CASE-STUDY:
+
+
+[Problem Statement]
+
+## Message Queue
+We have to design a message queue supporting publisher-subscriber model. It should support following operations:
+
+(1) It should support multiple topics where messages can be published.
+Eg: SEV1, SEV2, SEV3, SEV4
+
+(2) Publisher should be able to publish a message to a particular topic.
+
+(3) Subscribers should be able to subscribe to a topic.
+Eg: SEV1 <------- Staff Engineers (SUB1)
+
+(4) Whenever a message is published to a topic, all the subscribers, who are subscribed to that topic, should receive the message.
+Eg: SEV1 <------- Staff Engineers (SUB1)
+         <-------- Business (SUB2)
+
+SEV1 -----> Message (M1) ----> Both SUB1 and SUB2 will be Notified
+
+(5) Subscribers should be able to run in parallel
+Eg: SUB1 and SUB2 here should run in parallel
+
+
+(6) Subscribers should support offSet (Eg: Index)
+
+SUB1 - [m1 m2 m3 m4 m5]: Topic
+                   curr	
+
+SUB1:
+
+m1: consumed
+m2: consumed
+m3: consumed
+m4: consumed
+m5: In progress
+
+
+offSet(2): Restart at m2
+
+SUB1:
+
+m1: consumed
+m2: In Progress
+m3: Pending
+m4: Pending
+m5: Pending
+
+
+
+offSet(4): Restart at m4
+
+SUB1:
+
+m1: consumed
+m2: consumed
+m3: consumed
+m4: In Progress
+m5: Pending
+
+
+
+Edge Case:
+What happens if a new message m6 comes when offSet is triggered?
+
+
+SUB1:
+
+m1: consumed
+m2: consumed
+m3: consumed
+m4: consumed
+m5: In progress
+
+offSet(2): Restart at m2
+
+New Message: m6
+
+
+Ans:
+
+
+SUB1:
+
+m1: consumed
+m2: In Progress
+m3: Pending
+m4: Pending
+m5: Pending
+m6: Pending
+
+
+
+
+
+
+[APIs supported in queue]:
+(1) createTopic(topicName) -> topicId
+(2) subscribe(topicId, subscriber) -> boolean
+(3) publish(topicId, message) -> boolean
+(4) readOffset(topicId, subscriber, offset) -> boolean
+
+
+
+
+
+
+
+Solution DEMO:
+
+DONE
+
+
+
+
+
+Publisher              Topic          Subscriber         Message                           
+						
+						t1             sub1             [m1, m2]
+									   sub2             [m1, m2]
+
+
+						t2             sub3             [m3]
+
+
+
+
+
+(1) Subscribers run in parallel to the ssmae topic
+
+t1 ------> m1: sub1 and sub2 will run in parallel
+
+
+(2) Inside a Subscriber, Messages are Executed in Sequence
+
+sub1 - [m1, m2]
+
+When m1 is consumed, then ONLY m2 will start from sub1
+
+
+
+
+
+OP:
+
+Without Offset:
+
+
+Created topic: t1
+Created topic: t2
+sub1 subscribed to topic: t1
+sub2 subscribed to topic: t1
+sub3 subscribed to topic: t2
+m1 published to topic: t1
+m2 published to topic: t1
+m3 published to topic: t2
+Subscriber: sub2 started consuming: m1
+Subscriber: sub1 started consuming: m1
+Subscriber: sub3 started consuming: m3
+Subscriber: sub3 done consuming: m3
+Subscriber: sub1 done consuming: m1
+Subscriber: sub1 started consuming: m2
+Subscriber: sub2 done consuming: m1
+Subscriber: sub2 started consuming: m2
+m4 published to topic: t2
+m5 published to topic: t1
+Subscriber: sub3 started consuming: m4
+Subscriber: sub1 done consuming: m2
+Subscriber: sub1 started consuming: m5
+Subscriber: sub3 done consuming: m4
+Subscriber: sub2 done consuming: m2
+Subscriber: sub2 started consuming: m5
+Subscriber: sub1 done consuming: m5
+Subscriber: sub2 done consuming: m5
+
+
+
+
+
+
+With Offset:
+
+
+Created topic: t1
+Created topic: t2
+sub1 subscribed to topic: t1
+sub2 subscribed to topic: t1
+sub3 subscribed to topic: t2
+m1 published to topic: t1
+m2 published to topic: t1
+m3 published to topic: t2
+Subscriber: sub3 started consuming: m3
+Subscriber: sub1 started consuming: m1
+Subscriber: sub2 started consuming: m1
+Subscriber: sub3 done consuming: m3
+Subscriber: sub2 done consuming: m1
+Subscriber: sub2 started consuming: m2
+Subscriber: sub1 done consuming: m1
+Subscriber: sub1 started consuming: m2
+m4 published to topic: t2
+m5 published to topic: t1
+Subscriber: sub3 started consuming: m4
+WITH OFFSET: TOPIC1-SUB1-Index:0
+sub1 offset reset to: 0
+Subscriber: sub3 done consuming: m4
+Subscriber: sub1 done consuming: m2
+Subscriber: sub1 started consuming: m1
+Subscriber: sub2 done consuming: m2
+Subscriber: sub2 started consuming: m5
+Subscriber: sub1 done consuming: m1
+Subscriber: sub1 started consuming: m2
+Subscriber: sub2 done consuming: m5
+Subscriber: sub1 done consuming: m2
+Subscriber: sub1 started consuming: m5
+Subscriber: sub1 done consuming: m5
+
+
+CODE:
+
+DONE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(2) Real Interview Question - Flipkart SDE-2/SDE-3 - 1 Hr
+
+Problem Statement:
+DONE
+
+
+Solution Demo:
+DONE
+
+
+
+
+
+
+
+
+
+
+
+
+Next Week:
+
+Agenda:
+
+- High Level Design
+- 14 Classes
+
+
+3 Classes: Theory
+10 Classes: 10 Case Studies
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
