@@ -1,0 +1,547 @@
+Date : 25th May 2024
+Mentor: DEVANG SHARMA
+Batch: May Batch (System Design) - Tutort Academy
+
+Agenda:  Basics of System Design
+
+- Basic of System Design: 
+- Scalability: 
+- Availability: 
+- Consistency: 
+- Load Balancing: 
+- Caching
+- Data Partitioning
+- CAP Theorem
+- Choice of DB
+- Reliability
+- Efficiency
+- Manageability
+- Resiliency
+- Thread in OS, Process vs Thread
+- Kernal and Different Types of Kernal
+- What is a Scheduling Algorithm?
+- Semaphore and Deadlock and Starvation
+- DBMS and Advantage of DBMS
+- ACID Properties in DBMS
+- Entity Relation Model in DBMS
+- Normalization and denormalization
+- Keys in Database
+- What is OS, Purpose of OS, Different Types of OS:
+- 10 Case Studies: Whatsapp, Instagram, Yelp, Uber, Dropbox, Google Drive, URL Shortner, Netflix
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+Introduction:
+
+Curr Role/Years of Experience, Batch, Branch
+
+
+2000 - 2023
+Dev, QA, BA, Data Engineer
+
+
+
+"DEVANG SHARMA"
+- Linked
+
+- Professional Experience:
+
+- BMO, Toronto, Canada
+Lead Software Engineer
+Commercial Banking, Captial Markets, Hedge Funds - North America
+(US, Canada, Mexico)
+
+- Prev:
+- Facebook (Meta) (Whatsapp Business Team)
+- Grab (SEA - Finanical Payments) - UK
+- Cisco (Security Business Group) - London
+
+
+- Open Source:
+
+- React and React Native
+- Fedora Projects
+
+- Teaching: 
+7 Years
+
+- DSA, CP
+- MERN
+- System Design: HLD + LLD
+
+
+- CP:
+
+- TCO 20, 21, 22 : World Finalist
+- GCJ: 2020, 2021: World Semi Finalist
+- FHC: 2020: Semi Finalist
+
+
+Research: 
+Researchgate: 500+ Citations
+
+
+
+
+
+
+
+
+
+
+
+
+SYSTEM DESIGN:
+
+Software System interacting with different components
+
+Components:
+- Load Balancer
+- Client
+- Server
+- DB
+- Cache
+- Web Server
+- Application Server
+
+
+HLD:
+- High Level Design
+- Overview of different components in a System and how they interact with each other
+
+
+LLD:
+- Low Level Design
+- Component Level Design
+- UML Diagrams: Class Diagrams, Use Case Diagram, Activity Diagram, Sequence Diagrams
+- Design Principles and Best Practised: SOLID, KISS, DRY, YAGNIK etc
+- Design Patterns: 23 (Gang of Four) 
+
+
+
+
+
+Software Architecture/ SDLC:
+
+(1) Requirements
+(2) Solution/Design
+(3) High Level Design: Tech Lead/ Architect
+(4) LLD: 
+Classes, Interfaces, Abstraction, Service Layer, Controller etc - CODE
+(5) Unit Testing/Integration Testing
+(7) Release
+
+
+
+
+
+
+
+---------> HIGH LEVEL DESIGN
+
+Key Charactertics of a Distributed System:
+
+- Scalability: DONE
+- Availability: DONE
+- Consistency: DONE
+- Load Balancing: WIP
+- Caching
+- Data Partitioning
+- CAP Theorem: DONE
+- Choice of DB
+- Reliability
+- Efficiency
+- Manageability
+- Resiliency
+
+
+
+
+
+
+
+
+
+(1) Scalability:
+
+- Definition:
+Scalability is the capability of a system,
+process or a network to grow and manage increased demands
+
+
+
+- Why to Scale:
+
+Increased Demands:
+- Increased Users
+- Increased Requests
+- Increased Data
+
+
+
+(1) Horizontal Scaling
+- Scale by adding more servers into pool of resources
+- Easier to scale dynamically by adding more machines, no downtime
+- Costly
+
+Existing: S1 S2 S3
+
+New: S1 S2 S3 S4 S5 S6 S7
+
+
+
+Eg:
+
+1 Machine/Server: 65k Ports
+5k Ports: Internally
+
+60k Requests: Parallel
+
+500K Requests: Load
+
+Servers Needed: 500/60 ~= 9 Servers
+
+
+
+
+
+(2) Vertical Scaling
+- Scale by adding more power (CPU, Storage, RAM) to an Existing Server
+- Limited to capacity of a single server and involves downtime
+- Cheaper
+
+
+
+"Scheduled Maintainance: Website will be down at 1 AM - 3 AM on 25th May"
+
+
+
+
+Eg:
+
+Horizontal Scaling:
+- Apache Cassandra or MongoDB
+
+Vertical Scaling:
+- MySQL
+
+
+
+(3) Auto - Scaling:
+
+Upscaling + Downscaling
+
+- Configuration
+- Memory/CPU/RAM Usage: Crosses 80% ----> Get Another Instance
+- Memory/CPU/RAM Usage: Reaches less than 10% ----> Turn Off That Instance
+
+
+
+Pagerduty/Pager: On Call
+
+Error Rate: API -> 10%
+
+Eg: Kibana, Grafana
+
+
+
+Cloud: 
+- AWS: SQS (Event Trigger) etc
+
+On-Prem: (On-Premises)
+- config.yaml
+
+
+
+
+
+
+
+On-Premises:
+
+- Military Stations
+- Electric Supply (Tata/Reliance)
+- Banks
+
+Office: Server Room
+
+Cost:
+- Cleaning
+- Maintainance etc
+
+
+
+Cloud
+
+- Google/AWS/Azure:
+
+Google:
+
+Data Centres: 
+- Neterlands
+- Mumbai, India
+- US
+
+
+Managing:
+
+- IAAS
+- PAAS
+- SAAS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> Availability
+
+
+Availability is the time a system remains operational to its request.
+
+Usually measured in terms of 9
+Ideally: 9 9s or 11 9s
+
+90%
+99% - 2 9s
+99.99999 - 7 9s
+.........Closer to 100% Available
+
+
+Eg: Whatsapp
+
+- Single Tick: Send from your End
+- Double Tick: Received by Receiver
+- Blue/Green Tick: Read (Read Receipts On)
+
+Availability Example:
+- Send a Message: (Single Tick)
+
+
+
+- Opened any App: Works as expected
+
+Eg: Zomato: Homepage Service: Available
+			Cart Service: Available
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> Consistency: 
+
+
+Strong Consistency:
+- All Nodes would be updated at the SAME TIME even if there has to be non-availability
+- No Stale Data Possible
+
+Eventual Consistency:
+- All Nodes will EVENTUALLY be consistent
+- Can have Stale Data for very short time
+- System should also be available
+
+
+
+
+CAP Theorem:
+
+- Consistency
+- Availability
+- Partition Tolerance: Distributed Systems (Fault Tolerance)
+
+Out of 3, Any Distributed System can have only 2
+- CP or AP Systems
+
+
+Partition Tolerance:
+- No Single Point of Failure
+- Given By Distributed Systems
+
+
+-----> CP Systems: 
+
+- Consistency > Availability
+- Strong Consistency
+- My system goes down for sometime, I am fine with it
+- No Stale Data
+
+
+Eg:
+Banking System - Transactions
+
+
+ATM:
+
+Transaction: 100 USD
+1000 USD ----> 900 USD
+
+
+- All ATM Must Show the updated balance
+- If in meantime, Bank App/ ATM is not up for that user its fine
+- No Stale Data to be Shown
+
+
+
+
+
+-----> AP Systems: 
+
+- Availability > Consistency
+- Eventual Consistency
+- My System MUST NOT Go Down
+- Stale Data
+
+
+Eg:
+Social Media
+
+
+- Homepage Service/News Feed: Always Available
+- Priority: Instagram app should be UP and Available for All Users
+- Eventually (TTL: 200-500 ms), you will see the updated posts
+- Stale Data/ Old Posts: Okay
+
+
+
+
+
+
+
+
+(1) Food Delivery Service: Uber Eats/Zomato
+
+Homepage Service:
+
+Eventual:
+- Homepage will load immediately without any delay/pause
+- Stale data: Hotels, Restaurants - Which are open, which are not - Not immediately updated
+
+
+Strong:
+- There would be slight delay
+- No Stale Data: Exactly updated with all the Restaurants, Hotels etc
+
+- Correct Ans: Stromg Comsistency
+
+
+Zomato:
+- Shows food information/vlogs
+- In meantime, fetched the latest data for Restaurants, Hotels etc
+
+
+
+
+(2) Driving Service: Uber
+
+Ride Finding Service:
+
+
+Strong Consistency:
+- Search for nearby drivers
+- Some delay is fine
+
+Ans: Strong Consistency
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------> Load Balancing: 
+
+
+- Helps to spread the traffic (incoming requests) across a cluster of servers to improve
+responsiveness and availability of a system
+- LB also keeps track of the status of all resources (servers) while distributing requests
+- IF a Server is Not Available, LB will stop sending request/traffic to that server
+
+
+
+
+Client -----  LB --------  Web Server - 1
+				 --------  Web Server - 2
+
+
+Total Request: 100K
+
+
+LB:
+
+Web Server-1: 50K
+Web Server-2: 50K
+
+
+HashMap:
+
+req1: WS-1: Good
+req2: WS-2: Bad
+
+
+
+Eg:
+
+- NginX Plus
+- AWS Elastic Load Balancer (ELB)
+- Citrix ADC (Prev: NetApp)
+- Google Cloud Load Balancer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

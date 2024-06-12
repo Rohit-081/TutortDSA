@@ -1,0 +1,514 @@
+Date : 1st June 2024
+Mentor: DEVANG SHARMA
+Batch: May Batch (System Design) - Tutort Academy
+
+Agenda:  Basics of System Design
+
+- Basic of System Design: 
+- Scalability: DONE
+- Availability: DONE
+- Consistency: DONE
+- Load Balancing: DONE
+- Caching: DONE
+- CDN: DONE
+- Choice of DB: DONE
+- CAP Theorem: DONE
+- Data Partitioning
+- Reliability
+- Efficiency
+- Manageability
+- Resiliency
+- Thread in OS, Process vs Thread
+- Kernal and Different Types of Kernal
+- What is a Scheduling Algorithm?
+- Semaphore and Deadlock and Starvation
+- DBMS and Advantage of DBMS
+- ACID Properties in DBMS
+- Entity Relation Model in DBMS
+- Normalization and denormalization
+- Keys in Database
+- What is OS, Purpose of OS, Different Types of OS:
+- 10 Case Studies: Whatsapp, Instagram, Yelp, Uber, Dropbox, Google Drive, URL Shortner, Netflix
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+
+
+
+
+
+
+
+
+- Caching: DONE
+- Choice of DB: DONE
+- CAP Theorem: DONE
+- Polling (Long/Short) vs Web Sockets vs SSE:  WIP
+- Data Partitioning
+- Indexing
+- Redundancy and Replication
+- Consistent Hashing
+- Proxies and Types, Proxies vs Gateways
+
+
+
+
+
+-----> Caching in Browser: LIVE DEMO
+
+LightHouse DEMO: DONE
+
+
+
+
+-----> DATABASES:
+
+There are mainly two types of Databases:
+
+- SQL (Relational DB)
+- NoSQL (Non-Relational DB)
+
+Relational DB:
+- Structured, have pre-defined schemas.
+
+Non-Relational DB:
+- No pre-defined schema
+
+
+
+Examples:
+
+(1) Bank Transaction:
+
+Sender_ID      Receiver_ID        UTR          Timestamp          Amount
+
+123             456               A112         01062024.11        10
+
+
+-----> All Transactions have EXACTLY Same Structure: SQL DB
+
+
+(2) Multiple Response Type
+
+
+req-1:
+{
+	resp
+}
+
+
+req-2:
+{
+	resp1,
+	resp2
+}
+
+
+
+------> NoSQL DB
+
+
+
+
+
+
+
+
+------> SQL:
+
+- Relational DB store data in rows and columns
+- Rows: Records, Columns: Fields
+- Every Row has the same structure
+
+Eg:
+MySQL, OracleDB, MS SQL Server, Postgres, SQLite, Maria DB
+
+
+
+
+------> NoSQL:
+
+(1) Key-Value Store:
+
+Data is stored in an array of key-value pairs
+
+Eg: JSON Format
+
+{
+	req: resp
+	req2: [resp1, resp2]
+}
+
+
+Eg: MongoDB, Redis, Voldemort, Couchbase, DynamoDB
+
+
+(2) Document Database:
+
+- Data is stored in documents
+- Documnets are collected together as collections
+
+Eg: Couch DB, Mongo DB
+
+
+(3) Wide-Column Database:
+- Instead of tables, use columns as containers for rows
+- Best Used for LARGE DATA SIZE
+
+EG: Cassandra and HBase
+
+
+
+(4) Graph Database:
+
+- Databases where relationships are best represented in graphs (Vertices and Edges)
+- Data is saved in graph structures with nodes and vertices
+
+
+Eg: Neo4J, InfiniteGraph
+
+
+
+Refer: 
+Image
+
+
+
+
+
+
+
+
+
+
+
+
+---------->  CAP Theorem: 
+
+CAP Theorem States That:
+It is impossible for a "Distributed Software System" to simulatneously provide more than two out of three of the following:
+CAP:
+
+Consistency
+Availability
+Partition Tolerance
+
+
+Consistency:
+- All Nodes/Instances see the exact same data at the same time
+- Consistency is achieved by updating all nodes before allowing further reads
+
+
+Availability:
+- Every request gets a response : success / non-success
+- Availability is achieved by having your system running up 24*7
+- 9 Times: 99.9999999
+
+
+Partition Tolerance:
+- System continues to work despite data loss or partial failure
+- A System that is Partition-Tolerant can sustain any Amount of network failure
+that doesnt result in failure of Entire Network
+- Data is sufficiently replicated across combination of nodes to keep the system
+from intermittent outages
+
+
+Distributed Software System ------> Partition Tolerance (By Default)
+
+
+
+Eg:
+
+
+Amazon:
+
+Cart ----> Buy ----> Address -----> Payment
+
+
+If Payment is not working,
+Adding to functionality cart is still working
+
+
+
+Eg:
+
+
+Linkedin
+
+
+Updating DP, Writing Post, Likes, Comments
+
+
+If Updating DP is not working, 
+Writing Post is still working
+
+
+
+
+
+Reasoning of CAP Theorem:
+
+
+Consistent:
+
+- All Nodes should see the same set of updates in same order
+
+- If Network suffers a failure,
+Updates in one Partition cannot be there in other partition
+before a Read Request is made from other partition
+
+- The only thing that can be done to cope up is stop serving requests from
+out-of-date partition, that means that Service is no longer 100% Availabile
+
+
+
+
+Refer Research Paper: Google Spanner
+
+
+
+
+
+
+
+
+DB:
+
+- DBP-1
+Replicas: DBP-1_R1, DBP-1_R2
+
+- DBP-2
+Replicas: DBP-2_R1, DBP-2_R2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> Polling (Long/Short) vs Web Sockets vs SSE (Server-Side Events): 
+
+
+     Client   ---- HTTP Req -------> Server
+	     		<----- Response
+
+
+Basic Web Application with the Client-Server model flow will be:
+
+- Client makes an HTTP Request requesting a webpage/resource from server
+- Server calculates the response
+- Server sends the response (JSON/XML) to Client
+
+
+Polling:
+
+Polling is a technique by which client asks the server for the new data regularly
+
+(1) Short Polling/ AJAX Based Polling
+- Makes request after a fixed delays (time/regular intervals)
+
+AJAX: Asynchronous Javascript and XML
+
+
+
+
+     Client   ---- HTTP Req (Every 30 sec) -------> Server
+	     		        <----- Response
+
+
+In Short Polling:
+
+- Client makes a request to the server
+- Server can respond in 2 ways:
+(A) If a new data is available: Sends Response Immediately
+(B) If No new data is available: Sends Empty Response
+
+- As soon as Client Receives a response (either Empty or Reponse), it will 
+repeat the same process again.
+
+
+
+
+Diagram:
+
+
+req1 ---- resp1 ---- 30 sec ----- req2 ----- resp2 ----- 30 sec ----- req3 ----- resp3
+
+resp1/2/3: null or actual response
+
+
+Adv:
+Message Ordering is Guaranteed
+
+
+Challenges:
+
+- Making repeated requests to the server, wastes resources as each new request
+must be established, HTTP headers must be passed, a query for data must be performed
+- Connection must be closed and resources cleaned up
+- Majority of responses are going to be null or empty from server end
+
+
+
+
+
+
+Eg:
+
+Brokerage Firm to Buy and Sell : Stocks
+
+NVIDIA: 
+
+fetchPrice(stock)
+
+10:14:15: reponse()
+10:14:45: response()
+
+
+
+
+
+
+
+(2) HTTP Long Polling
+
+Long Polling works differently than short polling in the following way:
+
+In Long Polling:
+
+- Client makes a request to the server
+- Server can respond in 2 ways:
+(A) If a new data is available: Sends Response Immediately
+(B) If No New Data is available: Keep the connection open for a period of time
+and when it receives a new data, it will respond back with the updated data
+
+- Every Request will have a certain Timeout, 
+If the Response is not received within the timeout, 
+The Connection would be closed.
+
+Eg: Connection Timeout Error
+
+
+
+
+
+
+Server -----> DB 
+
+fetchPrice(stock, timestamp1): Result
+fetchPrice(stock, timestamp2): No Result
+
+
+
+
+
+
+
+
+NVIDIA: 
+
+fetchPrice(stock)
+
+10:14:15: reponse()
+10:14:45: response()
+
+
+
+1st Way:
+- Ask every 10 sec the update price of stock
+
+
+
+2nd Way:
+- Rather than asking price every 10 sec,
+Keep the connection open with Server, 
+When the price changes, 
+Server informs the client
+
+
+
+
+Challenges:
+
+Server
+
+
+Req Timeout: 10 sec
+
+
+req-1: 10:00:00 ----> resp-1: 10:00:09
+req-2: 10:00:05 ----> resp-2: 10:00:06
+
+
+
+Chat Applications:
+
+Sender:
+"Hey"
+"How are You"
+
+
+Receiver:
+"How are You"
+"Hey"
+
+
+Challenges:
+- Message Ordering and delivery is not Guaranteed
+Message Ordering cannot be Guaranteed is the same client opens Multiple Connections 
+to the Server
+- Client was not able to receive the message, then it would be possible message loss
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

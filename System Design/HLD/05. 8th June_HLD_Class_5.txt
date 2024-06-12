@@ -1,0 +1,746 @@
+Date : 8th June 2024
+Mentor: DEVANG SHARMA
+Batch: May Batch (System Design) - Tutort Academy
+
+Agenda:  Basics of System Design
+
+- Basic of System Design: 
+- Scalability: DONE
+- Availability: DONE
+- Consistency: DONE
+- Load Balancing: DONE
+- Caching: DONE
+- CDN: DONE
+- Choice of DB: DONE
+- CAP Theorem: DONE
+- Polling (Long/Short) vs Web Sockets vs SSE:  DONE
+- Data Partitioning: DONE
+- Indexing: DONE
+
+- Redundancy and Replication
+- Consistent Hashing
+- Proxies and Types, Proxies vs Gateways
+- Reliability
+- Efficiency
+- Manageability
+- Resiliency
+- Thread in OS, Process vs Thread
+- Kernal and Different Types of Kernal
+- What is a Scheduling Algorithm?
+- Semaphore and Deadlock and Starvation
+- DBMS and Advantage of DBMS
+- ACID Properties in DBMS
+- Entity Relation Model in DBMS
+- Normalization and denormalization
+- Keys in Database
+- What is OS, Purpose of OS, Different Types of OS:
+- 10 Case Studies: Whatsapp, Instagram, Yelp, Uber, Dropbox, Google Drive, URL Shortner, Netflix
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+- Caching: DONE
+- Choice of DB: DONE
+- CAP Theorem: DONE
+- Polling (Long/Short) vs Web Sockets vs SSE:  DONE
+- Data Partitioning: WIP
+- Indexing
+- Redundancy and Replication
+- Consistent Hashing
+- Proxies and Types, Proxies vs Gateways
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> Problems of Data Partitioning
+
+
+Operations (Queries) across Multiple Tables or Multiple Servers
+Across Different Servers/DB
+
+
+
+JOIN:
+
+
+Table-1:
+User_Information
+
+User_UUID        Name         Email            Address
+123              DEV          dev@gmail.com    Menlo Park
+
+
+User_UUID: Primary Key
+
+
+Table-2:
+User_Data:
+
+
+User_UUID          Pic_ID          Likes       Comments
+
+123                abc             2000         100 
+
+
+
+Use Case:
+Tell me the name, pic, likes, comments of a particluar user
+
+
+Ans: JOIN
+
+
+SELECT User_UUID, Name, Email, Address, Pic_ID, Likes, Comments
+FROM User_Information
+JOIN User_Data
+WHERE User_Information.UUID = User_Data.UUID;
+
+
+
+Solution:
+
+
+User_UUID        Name         Email            Address    Pic_ID          Likes       Comments
+
+123              Dev          dev@gmail.com.   Menlo Park   abc           2000         100
+
+
+
+
+(A) Joins and Normalization
+- Performing joins across multiple tables in 1 machine: Easier
+- Performing joins across multiple tables across different machines: Difficult
+
+
+Such joins will NOT be Performance Efficient:
+Why? ---- Data needs to be compiled across multiple machines/servers: Difficult
+
+
+- Workaround:
+Denormalization
+
+
+Denormalize the database so that queries can be performed in a single table
+
+
+- Overhead of Denormalization:
+Data Inconsistency
+
+
+(B) Referential Integrity
+
+- Performing a cross-partitioning query on a partitioned databased is NOT Easy
+- Includes enforce Integrity Constraints as Foreign Keys in partitioned database
+can be Difficult
+
+
+
+Integrity Constraints:
+(1) Foreign Key MUST be present
+(2) Should match the Type across All Tables 
+(Int - Int, Long- Long, String - String)
+
+
+Solution:
+- Use SQL Based Cron Jobs to clean up dangling references
+
+
+
+Eg:
+
+Table-1:
+User_Information
+
+User_UUID        Name         Email            Address
+123              DEV          dev@gmail.com    Menlo Park
+
+
+User_UUID: Primary Key
+
+
+Table-2:
+User_Data:
+
+
+User_UUID          Pic_ID          Likes       Comments
+
+123                abc             2000         100 
+
+
+Pic_ID: Primary Key
+User_UUID: Foreign Key
+
+
+Primary Key:
+- Should not be NULL
+- Should not have duplicate values
+- Can be Composite as well
+
+Purpose: 
+- Identify a Record Uniquely
+
+
+
+Foreign Key:
+
+- Not a Primary Key for current table
+- But is a Primary Key for some other table
+
+
+
+
+
+
+(C) Rebalancing
+
+There can be many reasons to rebalance our partitioned scheme
+
+
+Orig: 1 DB 
+Partition: 100 Partitions
+
+Change:
+
+Partition: 100 -> 200
+
+Partition: 100 -> 50
+
+
+- Rebalancing
+
+
+
+Eg:
+
+- Too much load on 1 partition (Eg: Instagram User Photos Partition)
+- Uneven Distribution
+
+
+
+Either we need to add more partitions or reduce partitions
+
+- Doing this without any downtime is very difficult
+- If a schema like Directory based partition makes rebalacing 
+much more difficult, 
+Because it can create a single point of failure (Look Up Service)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> INDEXING:
+
+DB Indexing allows us to cut down the number of records/rows that needs
+be searched/queried when a query is executed
+
+
+OR
+
+Indexing in a DB just optimises my lookup time in a DB/Table
+
+
+
+
+
+Eg:
+
+Table
+
+
+ID     Name      Email           Phone         Address
+
+- 100 Mn Records
+
+
+Query:
+
+SELECT *
+FROM Table
+Where Name = "dev";
+
+Behind the Scenes:
+
+Every Single Row is checked to see if Name == "dev" 
+Whole Table is scanned (Sequential Search) ------> Full Table Scan: 100 Mn Records
+
+
+
+
+
+
+
+
+-----> An Index is a Data Structure that stores the values for a certain
+specific column of a table and help us to avoid a full table scan
+
+
+
+
+Eg:
+Indexing in a Book
+
+
+
+Book:
+
+(1) Original
+
+Pages: 1000 (Records)
+There are No Chapters
+
+Full Table Scan: 1000 Pages
+
+
+(2) Indexing on Chapters - [PRIMARY INDEX]
+
+Pages: 1000 (Records)
+
+Chap-1: Page: 1 - 50
+Chap-2: Page: 51 - 100
+
+
+
+You need to lookup Chap-2,
+Sample Size becomes: 51-100 Pages: 50 Pages
+
+
+Lookup Size: 50 Pages
+
+
+
+(3) Indexing on Sub-Chapters - [SECONDARY INDEX]
+
+Chap-1: Page: 1 - 50
+	- SubChapter - 1.1: Page: 1-10
+	- SubChapter - 1.2: Page: 11-20
+
+Chap-2: Page: 51 - 100
+	- SubChapter - 2.1: Page: 51-60
+	- SubChapter - 2.2: Page: 61-70
+
+
+Lookup Size: 10 Pages
+
+
+
+The Goal of Creating an Index is that:
+"TO MAKE IT FASTER TO SEARCH THROUGH THE TABLE
+AND FIND THE ROW(S) THAT WE WANT"
+
+
+
+
+
+
+
+
+
+
+------> Create an Index:
+
+
+(1) On 1 Column
+
+CODE:
+
+CREATE INDEX name_index ON TABLE (Col_Name)
+
+
+(2) On Multiple Columns
+
+CODE:
+
+CREATE INDEX name_index ON TABLE (Col_Name1, Col_Name2....)
+
+
+Note:
+
+Index should be created on a table if the data in the indexed column(s)
+is frequently fetched, because Indexing has disadvantages as well
+
+
+
+
+
+
+
+------> How Indexing Works Internally?
+
+
+Table: BOOKS
+
+
+Writer	         Title     			  Date
+
+
+JK Rowling       Harry Potter        2007
+JK Rowling       Harry Potter        2007
+JK Rowling       Harry Potter        2007
+JK Rowling       Harry Potter        2007
+JK Rowling       Harry Potter        2007
+
+George Brown       Stranger          2009
+George Brown       Stranger          2009
+George Brown       Stranger          2009
+George Brown       Stranger          2009
+George Brown       Stranger          2009
+
+JK Rowling       Harry Potter        2007
+
+
+Query:
+
+
+SELECT *
+FROM BOOKS
+WHERE Writer = 'JK Rowling';
+
+Lookup Size: 11 
+- Full Table Scan
+
+
+
+
+
+
+Indexing:
+On Column - Writer
+
+
+Query:
+
+CREATE INDEX writer_index ON BOOK (Writer);
+
+
+Index: writer_index
+
+
+Search Key           Pointer
+
+JK Rowling           [1,2,3,4,5,11]
+George Brown         [6,7,8,9,10]
+
+
+
+Lookup Size: 6
+
+
+
+
+
+
+
+
+
+
+-------> How do Indexes Decrease Write Performance?
+
+(1) An index can be used to speed up data retrieval BUT
+May Itself be VERY LARGE due to Large Size, which will slow down
+the Write Operations - Insertion and Updation
+
+Data Insertion: POST
+Updation: PUT
+
+
+While adding rows or maling updates to existing rows,
+We NOT ONLY Have to update database, but also have to update the index
+------> This Decreases the WRITE Performance
+
+
+
+This Performance Degradation applied to All WRITE Operations:
+- Insertion
+- Updation
+- Deletion
+
+
+For this reason, 
+Adding Unnecessary indexes on tables should be avoided.
+
+
+
+Case Not to Use Indexes Heavily
+- For Write Heavy Applications
+
+Best Case to Use Indexed:
+- For Read Heavy Applications
+
+
+
+
+DB:
+
+Query:
+
+CREATE INDEX writer_index ON BOOK (Writer);
+
+(1) INSERT INTO BOOKS 
+VALUES (,,);
+
+(2) UPDATE writer_index ADD VALUES ();
+
+
+
+
+Table: BOOKS
+
+
+Writer	         Title     			  Date
+
+
+JK Rowling       Harry Potter        2007
+JK Rowling       Harry Potter        2007
+JK Rowling       Harry Potter        2007
+JK Rowling       Harry Potter        2007
+JK Rowling       Harry Potter        2007
+
+George Brown       Stranger          2009
+George Brown       Stranger          2009
+George Brown       Stranger          2009
+George Brown       Stranger          2009
+George Brown       Stranger          2009
+
+JK Rowling       Harry Potter        2007
+
+
+JK Rowling       Harry Potter        2007 -------> NEW RECORD
+
+
+Indexing:
+On Column - Writer
+
+
+Query:
+
+CREATE INDEX writer_index ON BOOK (Writer);
+
+
+Index: writer_index
+
+
+Search Key           Pointer
+
+JK Rowling           [1,2,3,4,5,11]
+George Brown         [6,7,8,9,10]
+
+
+
+
+
+Index: writer_index ---------> UPDATED INDEX
+
+
+Search Key           Pointer
+
+JK Rowling           [1,2,3,4,5,11,12]
+George Brown         [6,7,8,9,10]
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> Data Structures Used for Indexing:
+
+Different Databases have different data strutures to implement indexing.
+
+
+(1) B+ Trees
+
+- Efficient for quick lookup, deletion and insertion
+- Data Stored: Sorted
+
+
+All Operation: O(log N)
+
+
+(2) Hash Tables
+
+Indices which use Hash Tables are called Hash Index.
+
+
+In Hash Index:
+Key: Column Value
+Value: Pointer of the Rows
+
+
+- Base Case Complexity: O(1)
+- Worst Case Complexity: O(log N)
+
+- Not Sorted Data, might not be efficient for certain type of queries (for sorted data)
+
+
+Result of Contest:
+Rank - Sorted Order
+
+
+(3) R- Tree
+
+- Spatial Databases
+- Longitudes and Latitudes
+
+
+Queries Like:
+"Find Cafe within 2 miles"
+
+
+(4) Bitmap Index
+Works for Columns that have boolean values
+
+Eg: Column haveing boolean values
+
+
+True/False
+Male/Female
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------> System Design Interviews: A Step by Step Guide
+
+Eg:
+"Create Facebook/Instagram"
+
+
+Pattern/ Template:
+
+
+(1) Requirements Clarification
+- Functional Requirements
+- Non-Functional Requirements
+
+
+(2) Back of the Envelope Estimation
+
+- Scale
+- Load Balancing
+- Caching
+- Partitioning
+- Memory
+
+(3) System Interface Design / System API
+
+
+(4) Defining the DB Schema
+
+- Type of Data to Store
+- Choice of DB
+- Mapping across different tables/Databases
+
+(5) High Level Design
+
+Client, Server, Application Server, Databases, Caching
+
+
+
+(6) Detailed Component Level Design
+
+- Load Balancing
+- Caching
+- CDN
+- DB Partitions
+
+
+
+(7) Bottleneks Tradeoffs
+
+- Single Point of Failure?
+- Enough Replicas fo Store Data?
+- Auto Scaling
+- Error Scenarios
+
+
+(8) Analytics
+- Monitoring
+- Performance
+
+
+
+
+
+
+
+
+
+
+
+Next Class:
+Case Study - 1: Designing TinyURL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

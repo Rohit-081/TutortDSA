@@ -1,0 +1,639 @@
+Date : 8th June 2024
+Mentor: DEVANG SHARMA
+Batch: May Batch (System Design) - Tutort Academy
+
+Agenda:  Basics of System Design
+
+- Scalability: DONE
+- Availability: DONE
+- Consistency: DONE
+- Load Balancing: WIP
+- Reliability
+- Efficiency
+- Manageability
+- Resiliency
+- Load Balancing
+- Caching: DONE
+- Choice of DB: DONE
+- CAP Theorem: DONE
+- Polling (Long/Short) vs Web Sockets vs SSE: DONE
+- Data Partitioning: DONE
+- Indexing: DONE
+- Redundancy and Replication: DONE
+- Consistent Hashing
+- Proxies and Gateways
+
+(1) System Design Interviews: A step by step guide: DONE
+(2) Designing a URL Shortening service like TinyURL: WIP
+(3) Designing Pastebin
+(4) Designing Instagram
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+--------> System Design Interviews: A Step by Step Guide
+
+Eg:
+"Create Instagram"
+
+
+Pattern/ Template:
+
+
+(1) Requirements Clarification
+- Functional Requirements: Defines the Functional Aspects
+Eg for Instagram:
+- Uploading Pic, Like, Comment, Message etc.
+
+- Non-Functional Requirements
+Eg: Availability, Latency, Consistency
+
+- Additional Requirements:
+(Good to Have)
+
+(2) Back of the Envelope Estimation
+
+- Scale
+- Load Balancing
+- Caching
+- Partitioning
+- Memory
+
+- Number of DAU (Daily Active Users)/ MAU
+- Incoming Traffic Requests: QPS (Queries per Second)
+- Size of DB, How Many Partitions?
+- Size of Caching
+
+80-20 Rule:
+80% Traffic is generate via 20% data
+
+
+Eg:
+2 Billion Websites
+On Browser: Should I keep cache for 2 Billion Websites?
+www.google.com/www.youtube.com: 80% of Search ---> Use this in Cache
+
+
+
+
+
+(3) System Interface Design / System API
+
+Eg for Instagram, System API:
+
+POST: /instagram/post/v1/{postID}
+GET: /instagram/get/v1/{postID}
+
+
+
+
+(4) Defining the DB Schema
+
+- Type of Data to Store
+- Choice of DB
+- Mapping across different Tables/Databases
+
+(5) High Level Design
+
+Client, Server, Application Server, Databases, Caching
+
+
+
+(6) Detailed Component Level Design
+
+- Load Balancing
+- Caching
+- CDN
+- DB Partitions
+
+
+
+(7) Bottleneks Tradeoffs
+
+- Single Point of Failure?
+- Enough Replicas fo Store Data?
+- Auto Scaling
+- Error Scenarios
+
+
+(8) Analytics
+- Monitoring
+- Performance
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------> Case Study - 1: Designing a URL Shortening service like TinyURL
+
+
+URL Shortening Service:
+
+Long URL ----- App --> Short URL (6-8 characters)
+
+Browser ----> Short URL ------> Long URL
+
+
+
+Similar Services:
+bit.ly, goo.gl, qlink.me, tinyurl
+
+
+Demo:
+https://tinyurl.com/app
+
+Eg:
+https://www.linkedin.com/in/devang25/  --------> https://tinyurl.com/t8fxc4jz
+
+In Browser:
+
+https://tinyurl.com/t8fxc4jz ----------> https://www.linkedin.com/in/devang25/
+
+
+
+(1) Why do we need URL Shortening?
+
+
+- Short URL: Much Easier to Use (Less typos/mistakes)
+- Limit on character size: Short URL  are useful
+(Eg: Twitter: 140 chars)
+- Marketing Campaigns:
+Tracking, Analysing Audiences and Campaign Performances: Affiliate Marketing
+- Hiding Sensitive Information
+
+Tracking:
+Link Shared: 1000
+Viewed: 500
+Clicked: 100
+
+
+
+(2) Requirements Clarification
+
+(A) Functional Requirements
+- Given a Long URL, Users should be able to convert it into a short URL which is unique
+- When that Short URL is Accessed, it should redirect to Long URL
+- Each link will have a default timespan before it expires (5 Years)
+
+Additional:
+- User should be able to pick a custom short URL
+- User can explicitly mention the expiry time of Short URL
+
+
+(B) Non-Functional Requirements
+- System should be HIGHLY Available
+Because, If Our System is Down, All URL Redirections will Start Failing
+- URL Redirections should happen in real-time with minimum latency
+
+
+(C) Extended Requirements:
+- Analytics: Redirections, Clicks, Views, Audience etc
+- Third Party Integrations: REST API to Other Systems
+
+
+
+(3) Capacity Estimation/ Back of the Envelope Estimation
+
+Read-Heavy or Write-Heavy?
+
+
+- Read-Heavy
+- Lots of Re-Directions requests compared to new URL Shortenings
+- Read-Write Ratio: 100:1
+
+
+
+
+Eg:
+
+Read-Heavy:
+- More Number of Reads as compared to number of writes in the system
+
+
+Eg:
+Blogging Websites
+Twitter
+
+
+Write-Heavy:
+- More Number of Writes as compared to number of reads in the system
+
+Eg:
+Chat Communications (Whatsapp, Messenger)
+
+
+
+(A) Traffic Estimates:
+
+Assumption,
+500 Mn Write Requests in a Month
+
+R/W Ratio: 100: 1
+
+No of Write Calls in a Month = 500 Mn
+No of Read Calls in a Month = 500 Mn * 100 = 50 Bn
+
+
+(B) Queries Per Second
+
+------> Write Case:
+New URL Shortenings = 500 Mn/ Month
+500 Million/ (30 Days * 24 Hours * 3600) ~= 200 URLs/second
+
+
+
+------> Read Case:
+R/W Ratio: 100: 1
+
+
+100 * 200 URLs/second = 20K URL Re-directions/second
+
+
+
+
+(C) Storage Estimates
+
+Assumption:
+Every URL is stored for 5 Years/ Expires after 5 Years
+
+
+Total Number of Links to Store:
+
+500 Millions URLs every Month * 12 Months * 5 Years = 30 Billion URLs
+
+
+1 URL = 500 Bytes
+
+
+https://tinyurl.com/t8fxc4jz
+
+Size for 8 chars: 16 Bytes
+
+Additional details: 
+user_uuid, location, creation_time, expiry_time, metadata etc
+
+Total Size for 1 URL: 500 Bytes
+
+
+
+Total Storage Required in 5 Years = 30 Billions URLs * 500 Bytes = 15 TB
+
+
+(D) Cache Memory Estimates
+
+20K Read Requests/second * 3600 * 24 = 1.7 Billion Read Requests/Day
+
+
+Following 80-20 Rule for My Cache:
+Cache 20% of my data
+
+
+To Store 20% of these Requests:
+
+0.2 * 1.7 Billion * 500 Bytes/URL = 170 GB of Cache Memory
+
+
+
+
+
+
+
+
+
+(3) Defining the DB Schema
+
+
+- Type of Data to Store: DONE
+- Choice of DB: DONE
+- Mapping across different Tables/Databases: DONE
+
+
+
+
+------> Observations:
+
+(1) We need to store billions of records
+(2) Each Object we store is small (~500 Bytes)
+(3) There are NO Relationships between Records, apart from which user created which URL
+(4) Our Service is READ-HEAVY
+
+
+
+------> DB Schema:
+
+
+Table-1: URL
+
+- Hash (short_url): varchar : PK
+- original_url: varchar
+- creation_time: timestamp
+- expiration_time: timestamp
+- user_uuid: Int: FK
+
+
+
+Table-2: User
+
+- user_uuid: Int: PK
+- name: varchar
+- email: varchar
+
+
+
+
+-------> Choice of Database?
+
+
+We anticipate storing billions of records,
+and we dont need to use Relationships between Tables
+
+
+Ideal DB:
+NoSQL DB
+
+Eg: MongoDB, Dynamo DB etc
+
+
+
+
+
+
+
+(4) Algorithms
+
+Major Part: How do you generate a short AND Unique URL?
+
+short: 6-8 characters
+
+
+(A) Encoding Actual URL - Hashing
+
+- We can compute a unique hash of the given URL
+That Hash can be encoded for displaying
+
+
+- Algos:
+MD5, SHA256, SHA512, Base64 etc
+
+
+
+Display in Short URL:
+- Alphanumeric values
+
+
+a-z: 26 characters
+A-Z: 26 characters
+0-9: 10 characters
+
+Total: 62 Characters
+
+
+Size: 6-8 Characters
+
+
+Short URL: 6 Characters
+Total Combinations = _ _ _ _ _ _ = 62^6 Ways ~= 60 Billion Strings/URLs
+
+
+Short URL: 8 Characters
+Total Combinations = _ _ _ _ _ _ _ _ = 62^8 Ways ~= 260 Trillions Strings/URLs
+
+
+For Our Use Case, 
+For 5 Years, We need 30 Billions URLs,
+Hence, we are good with 6 characters.
+
+
+
+
+
+
+-------> Issue?
+
+(1) If Multiple Users Enter the Same URL, They get Same Shortened URL
+
+Because: MD5/SHA256 will create the same Hash for same input for different users
+
+(2) System ------> Long URL -------> Hashing/Encoding -----> Short URL
+
+- Extra Latency introduced while encoding
+- Hashing is generated "On the Go/ On the Fly" (Generated in Run Time)
+
+
+
+------> Workaround?
+
+Problem:
+
+
+(1) If Multiple Users Enter the Same URL, They get Same Shortened URL
+
+
+Solution:
+
+(A) Add user_uuid to make it unique
+You need to use users information to login/XSRF Token in Short URL
+
+OR
+
+
+(B) I can Add a Counter/Sequence Number to make it Unique
+
+https://www.linkedin.com/in/devang25/  --------> https://tinyurl.com/t8fxc4jz_1
+
+https://www.linkedin.com/in/devang25/  --------> https://tinyurl.com/t8fxc4jz_2
+
+https://www.linkedin.com/in/devang25/  --------> https://tinyurl.com/t8fxc4jz_3
+
+https://www.linkedin.com/in/devang25/  --------> https://tinyurl.com/t8fxc4jz_4
+
+
+For Very Large Number of Shortenings:
+
+Sequence Number would become very large
+
+
+
+
+HLD Diagram for Using Encoding Method:
+- Diagram
+
+
+
+
+
+
+(2) Generate Keys Offline
+
+
+
+Problem:
+
+System ------> Long URL -------> Hashing/Encoding -----> Short URL
+
+- Extra Latency introduced while encoding
+- Hashing is generated "On the Go/ On the Fly" (Generated in Run Time)
+
+
+
+Solution:
+
+Have a KGS (Key Generation Service) that generates random 6 characters beforehand
+AND store them in a database (Key-DB)
+
+
+Whenever a user wants to shorten a URL,
+Just take one of the pre-generated keys and Use it.
+
+Advantages:
+
+- Extremely fast (Not creating on the go, pre-generated keys)
+- No need to worry about duplicates
+- No Collisions
+- KGS will make sure that All Keys that are Inserted into Key-DB are Unique
+
+
+
+
+
+--------> What About Concurrency?
+
+As soon as a key is used,
+It should be marked in database to ensure its nor reused.
+
+If there are multiple servers reading keys concurrently,
+we might have case where 2 or more servers try to read the same key from database?
+
+
+
+DB:
+
+key-1 <----- Server-1, Server-2
+key-2
+......
+......
+
+
+
+Solution:
+
+
+(1) Assign Range of Keys to Servers
+
+Key-1 to 1 Mn: Server-1
+Key-1 to 2 Mn: Server-2
+
+
+(2) Keep the KGS Synchronized
+
+Server can use KGS to read/mark keys in the database
+KGS can store 2 tables: 
+(A) Used Keys
+(B) UnUsed Keys
+
+
+As soon as a key is used, move to used keys table.
+
+Alternatively, 
+Use a Flag:
+
+isAlreadyUsed: True/False
+
+
+
+
+
+
+
+
+----> Size of Key-DB:
+
+6 Characters per Key * 60 Billion Unique Keys = 400 GB
+
+
+-----> Is KGS a Single Point of Faiture?
+
+Yes, It is.
+
+
+Solution:
+
+We can create replica/standby/secondary of KGS
+Whenever the primary server is down, standby server takes over to generate and provide keys.
+
+
+
+
+------> How to perform key lookup?
+
+We can lookup the key in our database to get the full URL
+
+If its present in the DB,
+Send the Stored URL (Long URL)
+
+
+If Key Not Present, 
+Get New Key and Send Response
+
+
+
+
+https://www.linkedin.com/in/devang25/  --------> https://tinyurl.com/t8fxc4jz
+
+https://tinyurl.com/t8fxc4jz ------> https://www.linkedin.com/in/devang25/: TINYURL SERVER
+
+
+
+HLD Diagram:
+Image
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

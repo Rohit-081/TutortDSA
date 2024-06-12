@@ -1,0 +1,478 @@
+Date : 26th May 2024
+Mentor: DEVANG SHARMA
+Batch: May Batch (System Design) - Tutort Academy
+
+Agenda:  Basics of System Design
+
+- Basic of System Design: 
+- Scalability: DONE
+- Availability: DONE
+- Consistency: DONE
+- Load Balancing: DONE
+- Caching: DONE
+- CDN: DONE
+- Data Partitioning
+- CAP Theorem
+- Choice of DB
+- Reliability
+- Efficiency
+- Manageability
+- Resiliency
+- Thread in OS, Process vs Thread
+- Kernal and Different Types of Kernal
+- What is a Scheduling Algorithm?
+- Semaphore and Deadlock and Starvation
+- DBMS and Advantage of DBMS
+- ACID Properties in DBMS
+- Entity Relation Model in DBMS
+- Normalization and denormalization
+- Keys in Database
+- What is OS, Purpose of OS, Different Types of OS:
+- 10 Case Studies: Whatsapp, Instagram, Yelp, Uber, Dropbox, Google Drive, URL Shortner, Netflix
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+------> Where to Put Load Balancers?
+
+To Utilise full Scalability and Redundancy, 
+We can try to balance "EACH LAYER" of the System
+
+Ideally, We can add LB at 3 Places:
+
+(1) Between User (Client) and Web Server
+(2) Between Web Server and an Internal Platform (Application Server or Cache Server)
+(3) Between Internal Platform Layer and Database
+
+
+Client -----> LB ------> WS - 1 --------> LB ------> AS - 1 ------> LB -------> DB - 1
+						 WS - 2						 AS - 2                     DB - 2
+
+
+
+
+
+
+
+
+
+
+---------> Benefits of LB:
+
+
+(1) Users experience faster, uninterrupted service
+Requests are moved to a more readily available server, hence no wait time
+
+(2) Less Downtime and Higher Throughput
+- Even a Full Server Failure wont affect the end user experience
+as LB will route to a healthy server
+
+(3) Keeping track of heartbeat of All Servers
+
+(4) LB can also cache some data for faster reterieval
+
+(5) Smart Predictive Load Balancing:
+
+Predictive Analysis:
+
+Determines the Traffic Bottlenecks before they happen
+
+As a result,
+Smart Load Balancers will give actionable Insights
+- Automation and Drive Business Insights/Decisions
+
+
+
+Eg:
+
+Walmart and Amazon
+- Black Friday Sale
+
+
+
+
+
+
+
+
+
+
+-------> Load Balancing Algos:
+
+(1) Least Connection Method
+Incoming traffic routes to server with fewest active connections
+
+(2) Least Response Time Method
+Incoming traffic routes to server with least response time
+
+(3) Round Robin Method:
+- Iterate through all list of servers and sends each new request to the next server
+- At the end, start iterating from beginning
+
+(4) Weighted Round Robin
+- Requests with priority gives for Weighted Round Robin
+
+(5) IP Hashing
+- Hash of IP Address is redirected to server
+
+(6) Least Bandwidth Method
+Incoming Traffic routes to server with least Bandwidth (Mbps)
+
+
+IP: 102.204.55.98
+
+98 % N : Server-ID
+
+Eg:
+98%5 = 3rd Server
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- Caching: DONE
+- CDN: DONE
+- Data Partitioning
+- CAP Theorem
+- Choice of DB
+
+
+
+
+
+
+------> Caching:
+
+Eg:
+
+Redis
+Memcache:
+Hazelcast
+
+
+
+Load Balancing helps you scale horizontaly across the increasing number of servers.
+
+
+Caching helps you to make better use of resources you already have
+	OR
+Attain product requirements quickly.
+
+
+
+------ Principle of Caching:
+
+Locality of Reference:
+Recently requested data is likely to be requested again
+
+
+
+			       Request -> 
+		Client ---   Cache ----   Server
+			      <- Response
+
+
+		Browser                   Google Server	      
+
+
+Req: www.google.com
+Response: Google Home Page
+
+Lookup in Cache: 1000x faster than lookup in Server
+
+
+iOS, Android, Mac - M1, M2 etc, Windows, Blackberry
+
+
+Application: 
+- Cache
+
+
+Whatsapp:
+- Cache
+
+
+Note:
+Cache is NOT a Permanent Memory.
+Cache is a short term memory (TTL: Time to Live)
+
+
+
+
+
+
+
+
+--------> Application Server Cache
+
+
+Request -------> Cache ---------> Application Database
+
+
+1: www.google.com: In Cache
+2: www.medium.com: Not in Cache
+
+
+(1) Cache Hit: (Req - 1)
+- Finds the response for request in the cache layer
+- Quick Response Time
+- No need to lookup in database
+
+
+(2) Cache Miss: (Req - 2)
+- Look in Cache -> Not Found: Cache Miss
+- Go to Database, fetch response
+- Put it in the cache, so next time, it can be directly fetched from cache
+
+
+HashMap:
+req: resp
+
+
+(3) Cache Miss Rate
+
+(4) Cache Hit Rate
+
+
+
+
+Browser:
+
+www.google.com: Faster
+New Website: Delay
+
+Live Example: DONE
+
+www.google.com: 3.18 ms
+w3schools: 86 ms
+
+
+
+
+
+
+
+
+
+--------> Cache Invalidation
+
+
+
+Request -------> Cache ---------> Application Database
+
+
+- Cache must be coherent/consistent with database
+- If the data is modified in the database, it should be
+invalidated in cache, and updated with the new values
+
+- Source of Truth/ Boom of Records: Database NOT Cache
+
+This is called Cache Invalidation.
+
+
+Eg:
+
+Before:
+
+reqABC: respABC
+
+- database
+- cache
+
+Returning Response from Cache: Cache HIT
+
+
+
+In DB:
+reqABC: respPQR
+
+- Not updated in Cache
+
+
+After, A New Request Comes:
+
+- DB: reqABC: respPQR
+- Cache: reqABC: respABC
+
+Response: respABC : Cache HIT - INCORRECT
+
+
+
+
+
+-----> 3 Ways to Resolve Cache Invalidation:
+
+(1) Write - Through Cache
+
+- Data is written into the cache and corresponding database at SAME TIME
+- Cached data allows for fast reterieval, since the same data gets written in DB
+- Ensures Data Consistency b/w DB and Cache
+- Any Crash, System Disruptions, Cache is Always Updated
+- Minimise risk of data loss because every written operation is Saved in cache
+
+Disadv:
+- Every Write is Happening Twice (Cache + DB)
+- Higher Latency for Write Operations
+
+
+Eg:
+
+Twitter: 100:1 R/W Ratio: Read Heavy Application
+(3 Cluster of Redis)
+
+
+
+
+
+(2) Write - Around Cache
+
+- Similar to Write-Through Cache but data is directly written to DB, bypassing the Cache and later update the cache
+- Reduce the cache being flooded with Write Operations
+- Disadv: In case of Cache Miss, Read from DB, Re-Write into cache and then return response
+- Higher Latency
+
+Eg: Payment Transactions
+
+
+(3) Write - Back Cache
+
+- Data is written to cache alone and completion is immediately confirmed to the client
+- The Write to DB is done after specified intervals (Eg: 30 seconds)
+- Low Latency for Write-Intensive Applications
+- Risk of Data loss in case of crash because it is only in Cache
+
+Eg: Used for Write Heavy Applications
+
+Eg: Batch Profiles/ Loggers
+
+
+
+
+
+
+Read Heavy vs Write Heavy:
+
+Youtube: 
+Watching: Read
+Posting Video: Write
+
+
+
+Read Heavy:
+- Blogging
+- Youtube
+- Twitter
+- Netflix
+
+
+
+
+
+
+
+
+-----> Cache Eviction Policies
+
+
+(1) FIFO: 
+Cache evicts the first block accessed first
+
+(2) LIFO:
+Cache evicts the last block accessed first
+
+(3) LRU
+
+(4) MRU
+
+(5) LFU
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------> CDN (Content Distribution/Delivery Network)
+
+
+- CDN are kind of cache which comes into play for serving LARGE Amount of STATIC Media
+- CDN are Usually distributed across different geolocations
+
+
+Eg:
+
+Netflix ------> Movie -----> Nearest CDN Server (Location) -----> Fetch Response from There
+
+India -> CDN: Mumbai
+Eurpose -> CDN: Amsterdam
+North America -> CDN: California
+
+
+Netflix: Own CDN: 2015 - 2018: Openstack
+
+
+
+
+Eg:
+
+Whatsapp Application
+
+Sports Event/ Political Event
+----> 1 Image/ Poster / Video (Content) --------> Circulated a Lot (Viral)
+
+(Forwarded Many Times)
+
+
+Client -------> Server -----> DB
+
+Media: Uploaded to S3 with a Hash ------> CDN
+
+Before uploading the same media on S3 
+---> Check the Hash 
+---> If Already Present, Reuse from CDN
+---> Else, Upload to S3
+
+
+
+
+
+
+
+-----> When Not to Use CDN?
+
+- If System is NOT Large Enough
+- Keep static data in a separate domain (onedrive, googledrive)
+and using a HTTP Server like NginX, read from there
+
+
+
+
+
+
+
+
+
+
+
+
+
+

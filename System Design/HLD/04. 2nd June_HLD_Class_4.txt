@@ -1,0 +1,582 @@
+Date : 2nd June 2024
+Mentor: DEVANG SHARMA
+Batch: May Batch (System Design) - Tutort Academy
+
+Agenda:  Basics of System Design
+
+- Basic of System Design: 
+- Scalability: DONE
+- Availability: DONE
+- Consistency: DONE
+- Load Balancing: DONE
+- Caching: DONE
+- CDN: DONE
+- Choice of DB: DONE
+- CAP Theorem: DONE
+- Polling (Long/Short) vs Web Sockets vs SSE:  DONE
+- Data Partitioning: WIP
+- Indexing
+- Redundancy and Replication
+- Consistent Hashing
+- Proxies and Types, Proxies vs Gateways
+- Reliability
+- Efficiency
+- Manageability
+- Resiliency
+- Thread in OS, Process vs Thread
+- Kernal and Different Types of Kernal
+- What is a Scheduling Algorithm?
+- Semaphore and Deadlock and Starvation
+- DBMS and Advantage of DBMS
+- ACID Properties in DBMS
+- Entity Relation Model in DBMS
+- Normalization and denormalization
+- Keys in Database
+- What is OS, Purpose of OS, Different Types of OS:
+- 10 Case Studies: Whatsapp, Instagram, Yelp, Uber, Dropbox, Google Drive, URL Shortner, Netflix
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+
+- Caching: DONE
+- Choice of DB: DONE
+- CAP Theorem: DONE
+- Polling (Long/Short) vs Web Sockets vs SSE:  DONE
+- Data Partitioning: WIP
+
+- Indexing
+- Redundancy and Replication
+- Consistent Hashing
+- Proxies and Types, Proxies vs Gateways
+
+
+
+
+
+
+
+
+
+
+(3) Web Sockets
+
+TCP:
+
+Send ------> Received ------> ACK
+
+
+Web Socket is a communication protocol that provides full-duplex comuunication channel
+over a single TCP Connection.
+
+Half-Duplex
+
+Client ----> Server (HTTP)
+         Resp
+
+
+Full-Duplex
+
+Client ----> Server (TCP)
+AND
+Server ----> Client (TCP)
+
+
+
+
+
+		Req
+Client  ----->      Server 
+		<---- Resp
+	ACK
+
+
+
+
+Resp:
+10 Frames/Packets
+
+Client:
+Packet-1: Received: ACK-1
+
+
+Server Received ACK-1,
+Server will send Packet-2
+
+Client:
+Packet-2: Received: ACK-2
+
+
+
+
+- Websockets enable interaction between a client and a server with less overheads
+- Provides real-time data transfer between client and server
+- Websockets keep the connection open, allowing messages to be send to
+and from between client and server
+- 2-Way Active Communication happens between client and server
+
+
+Real-Life Use Case:
+
+(1) Chat Applications: Whatsapp, Messgener
+(2) Video Calls: Zoom, Whatsapp - TCP
+
+
+
+
+Advantages:
+
+- Websocket keeps a unique connection open while eliminating the 
+latency problem in long polling
+- Long Polling is much more resource-intensive (because multiple connections are open)
+Websockets are very lightweight on server
+- Used in Real Time Applications like Whatsapp, Video call etc
+
+
+
+
+
+
+
+
+
+
+(4) Server Side Events
+
+- Under the SSE, the client will establish a persistent and long term connection with the server
+- Server uses this connection to send data to client
+- Client wants to send data to the server, it would require anothe protocol (eg: TCP)
+
+
+
+Real Life Example:
+(1) In Social Media when there is a new content/update,
+Server informs client and push it to client
+
+Eg: Linkedin, Instagram
+
+
+(2) Server Side Notifications / Push Down Notifications
+
+
+
+
+
+
+
+Flow:
+
+(1) Client requests the data from a server using HTTP 
+(2) Requested webpage/resource opens a connection to the server
+(3) Server sends the data to the client whenever new event/information is available
+
+
+
+Eg:
+
+SSE are best when the server is generating data (feed) and multiple events (notifications)
+and send to client
+
+
+
+
+
+
+
+
+
+--------> How to Choose SSE vs Websockets vs Polling?
+
+
+To Ensure, Best Data Delivery: SSE is the Best Option
+
+----> Applications for SSE:
+
+- Real-Time Stock Market Applications
+- Real-Time Coverage of News/Tweets/Links/Feeds
+- Live Dashboard (Scorecard)
+- Live Dashboards for your system (Eg: Kibana, Grafana)
+
+
+However,
+SSE is NOT a viable option for fast communication from client-server
+
+
+Eg:
+MMO (Massive Multiplayer Online) Games that needs huge amount of messaging 
+from both client and server side
+
+- Websockets > SSE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> Data Partitioning
+
+
+What?
+- Technique to break up a big database (DB) into smaller parts
+- Process of splitting up a DB Across Multiple Machines/Servers
+
+Why?
+After a certain scale, it is more feasible to scale horizontally
+
+
+
+--------> Partitioning Methods
+
+
+(A) Horizontal Partitioning/ Data Sharding
+- Put Different Rows into Different Machines
+
+
+Eg:
+- Storing locations in DB with ZIP Codes
+
+
+S No        Name         Contact        ZIP Code
+
+1 Mn Rows
+
+
+- ZIP Code is one of my columns
+- Partition:
+
+
+
+ZIP Code > 0 and < 100000: Machine-1
+ZIP Code > 100000 and < 200000:  Machine-2
+
+
+				DB-1: Instance: ZIP Code > 0 and < 100000
+
+				DB-2: Instance: ZIP Code > 100000 and < 200000
+
+
+
+Replicas
+
+DB-1A     Db-1B    DB-1C
+
+
+DB-2A     Db-2B    DB-2C
+
+
+
+Disadvantages:
+
+"Uneven Distributed Load"
+
+
+- If Wrong Partitioning Logic is Used,
+It will Lead to Un-Evenly Distributed Data
+
+ZIP Code > 0 and < 100000: Machine-1: 5 Values
+ZIP Code > 100000 and < 200000:  Machine-2: 5 Million Values
+
+
+Query on DB-2 is slower than Query on DB-1.
+
+
+
+
+
+
+
+
+
+
+
+
+(B) Vertical Partitioning
+
+- Divide our Database tables related to a specific feature in their own server
+
+
+
+
+Eg:
+
+Building Instagram
+- User Data: DB-1
+- Photos They Upload: DB-2
+- Followers and Following: DB-3
+
+
+- User Data: DB-1
+Probably a SQL
+
+Schema:
+
+Usrer-UUID     Name      Email         Phone
+
+
+- Photos They Upload: DB-2
+Different from SQL
+
+Eg: Document based DB
+
+user_uuid: {collection of photos}
+
+
+
+- Followers and Following: DB-3
+SQL based may not be the best solution for celebrity users
+
+
+
+
+
+
+
+Disadvantages:
+
+For Additional Application Users,
+It Might Require further Partitioning
+
+Eg:
+
+1 Bn Users ------> 10 Bn Pics:
+				  Cannot be stored in 1 DB Instance
+				  ----> Divide across multiple DB Instances (Horizontal Partitioning)	
+
+
+
+
+
+
+
+
+
+
+
+
+(3) Directory Based Partitioning
+
+
+- Loosely coupled approach to solve the issues from both Horizontal and Vertical Partitioning
+- Create a lookup service which knows your current Partitioning and provides much easier access
+to DB Partition
+- To Find a Particular Data Entry ----> Directory Service ----> Response
+
+
+
+Directory Service ----> Check partitioning logic -----> (Req: Resp [DB-Partition])
+
+Key: Tuple 
+Value: DB Server
+
+
+
+
+Eg:
+
+In Vertical Scaling,
+If data for UUID_123 is stored in DB-189
+
+First, Directly lookup in Directory Service ----> Go to DB-189
+
+
+
+
+
+
+In Horizontal Scaling,
+If data for ZIP 123456 is stored in DB-289
+
+First, Directly lookup in Directory Service ----> Go to DB-289
+
+
+
+
+HashMap:
+
+
+ZIP123456 ---- DB-289: Horizontal
+ZIP223457 ---- DB-290: Horizontal
+USER_123 ----- DB-189: Vertical
+USER_457 ----- DB-289: Vertical
+
+
+
+Disadvantages:
+
+(1) For New Entries in DB, Directory Service needs to be updated
+(2) Huge Size of Multiple Key-Value Pairs - Might Need to Partitioned
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------> Partitioning Crieria
+
+
+
+(1) Key Based/ Hash Based Partitioning
+
+- Apply a Hash Function to some key attributes (columns) to give a Partition Number
+- Store data in corresponding database with partition number
+
+
+
+
+Eg:
+
+We have 100 DB Partitions
+
+S_No: Numeric Value
+Everytime new row is inserted, S_No is incremented by 1
+
+Hash Function: S_No % Size_of_Partitions
+
+Hash Function: S_No % 100
+
+
+115th Record -> 115 % 100 = 15th DB
+
+1085th Record -> 1085 % 100 = 85th DB
+
+
+
+Advantages:
+
+Hash Function: S_No % Size_of_Partitions
+
+
+- Evenly Distributed Data
+
+
+
+Disadvantages:
+
+Before: Size_of_Partitions = 100
+After: Size_of_Partitions = 200 or Size_of_Partitions = 50
+
+Add New Partition ----> Change the Hash Function ----> Rehashing
+
+
+Solution:
+
+Consistent Hashing
+
+
+
+
+
+
+
+
+
+
+
+(2) List Based Partitioning
+
+
+- Each DB Partition is assigned a list of values
+- Whenever you want to insert a new record, we will see which partition contains our key
+and then store in that position
+
+
+Eg:
+
+Data of All Countries
+
+List Partition: DB - 1: Shengen Countries
+[France, Germany, Italy, Switzerland]
+
+
+List Partition: DB - 2: Asian Countries
+[India, Sri Lanka, China]
+
+
+
+Record:
+
+1   India        GDP       FY ------> DB - 2
+2   Italy        GDP       FY ------> DB - 1
+
+
+
+
+(3) Round Robin Partitioning
+
+Req 1 -> DBP - 1
+Req 1 -> DBP - 2
+
+
+- Uniform Data Distribution across Instances
+- With N partitions, ith row (row counter) is assigned to (i%n) partition
+
+
+(4) Composite/ Hybrid Partitioning
+
+- Combine Any of the Above Partitioning Menthods
+
+
+Eg:
+
+Problem: If you need to store country wise data and then city wise data.
+
+Solution:
+
+For Country Wise Queries:
+First Apply List Based Partitioning
+
+For City Wise Queries:
+Apply Hash Partitioning
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
