@@ -1,0 +1,1227 @@
+Date : 16th June 2024
+Mentor: DEVANG SHARMA
+Batch: May Batch (System Design) - Tutort Academy
+
+Agenda: System Design - Case Studies
+
+(1) System Design Interviews: A step by step guide: DONE
+(2) Designing a URL Shortening service like TinyURL: DONE
+(3) Designing Pastebin: DONE
+
+(4) Designing Instagram: WIP
+(5) Designing Facebook Feed
+(6) Designing Twitter
+
+(7) Designing Dropbox/Google Drive
+
+(8) Designing Yelp/Justdial/Sulekha
+(9) Designing Uber/Grab/Ola
+
+Extra:
+- Payment System and
+- Trading app like Zerodha 
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------> Case Study-2: Designing a Text Sharing Service like Pastebin
+
+Pastebin = TinyUrl (URL Shortening) + Data (Textual Data Only)
+
+Pastebin:
+
+- Web Service where users can store textual content (plain text, Software Licenses, Source Code etc)
+
+
+
+Similar Services:
+pasted.co, chopapp.com
+
+
+
+(1) Demo:
+https://pastebin.com
+
+
+Eg:
+https://pastebin.com/gr8gLtJG
+
+
+- Unique Link for Every Paste
+- Link can be Public/Unlisted/Private
+- API/Tools Integration
+- Analytics/ Telemetry
+
+
+Allows Users to store textual content and generate a short Unique URL for it.
+
+
+
+(2) Requirements Clarification:
+
+(A) Functional Requirements
+- User should be able to upload or paste their textual data and get a unique URL
+to access it.
+- Upload: Only Textual Data (.txt, .json etc)
+- Only able to upload textual data
+- Each data and link will have a default timespan before it expires (5 Years)
+- Provides Option to User to Delete the Paste
+- Shortened Pastebin URL should be Unique
+- Max Content Size: 10K Chars
+- Formatting, Languages Support, Syntax Highlighting
+- Author can update the edit (After Sign In)
+
+
+
+Additional:
+- User should be able to pick a custom short link for URL
+- User can explicitly mention expiry time
+
+
+
+
+(B) Non-Functional Requirements
+
+- System should be HIGHLY Available
+Because, If Our System is Down, All Pastebin URL will Start Failing
+- System should be HIGHLY RELIABLE
+Any data uploaded/pasted should not be lost.
+- Users should be able to access their Paste/Content in Real Time (Minimum Latency)
+
+
+(C) Extended Requirements:
+- Analytics/ Telemetry: Clicks, Views, Audience etc
+- Third Party Integrations: REST API to be consumed by Other Systems
+
+
+
+
+
+
+
+Very Popular Services:
+- Very Popular Services: Instagram/FB/Twitter/Uber etc: 1 Bn+ Requests/Month
+- Medium Popular Services: TinyURL, Picaso, Figma etc: 500 Mn Requests/Month
+- Less Popular Services: Pastebin, Imgur: 50 Mn Requests/Month
+
+
+
+(3) Capacity Estimation/ Back of the Envelope Estimation
+
+
+Read-Heavy or Write-Heavy?
+
+
+- Read-Heavy
+- Lots of Reads from Pastebin as compared to new Writes
+- Read-Write Ratio: 10:1
+
+
+(A) Traffic Estimates:
+
+Assumption,
+1 Million paste to our system on daily basis.
+
+- Read-Write Ratio: 10:1
+
+No of Write Calls in a Second = 1 Mn/24 Hrs * 3600 sec ~= 12 pastes/sec
+
+No of Read Calls in a Second = 10:1 Ratio ~= 120 reads/sec
+
+
+(B) Queries Per Second
+
+------> Write Case:
+No of Write Calls in a Second = 1 Mn/24 Hrs * 3600 sec ~= 12 pastes/sec
+
+
+
+------> Read Case:
+R/W Ratio: 10: 1
+
+
+No of Read Calls in a Second = 10:1 Ratio ~= 120 reads/sec
+
+
+
+(C) Storage Estimates
+
+Assumption:
+Every Paste is stored for 5 Years/ Expires after 5 Years
+
+Limit: Users can upload maximum of 10 KB of data
+
+Why?
+- Data stored is: Source Code, Configs, Logs -  Textual Data
+
+
+Average Storage Estimates per day:
+1 Mn * 10 KB  ~= 10 GB/Day
+
+
+Total Number of Links/Paste to Store:
+
+30 Million URLs every Month * 12 Months * 5 Years = 1.8 Billions pastes
+
+
+Content Size = 10 KB
+Additional Details: user_uuid, location, creation_time, expiry_time, metadata etc
+
+Total Size for 1 Paste = 10 KB + 10 KB = 20 KB
+
+Total Storage Required in 5 Years
+= 1.8 Billions Paste * 20 KB = 36 TB
+
+
+
+
+(D) Cache Memory Estimates
+
+120 Read Requests/second * 3600 * 24 = 10 Millions Read Requests/Day
+
+Following 80-20 Rule for My Cache:
+Cache 20% of my data
+
+
+To Store 20% of these Requests:
+
+0.2 * 10 Millions * 20 KB/URL = 400 GB of Cache Memory/Day
+
+
+
+
+
+
+(4) System API:
+
+
+(A) Request: createPaste(user_uuid, content, expiry_date)
+POST/WRITE Request
+
+Parameters:
+
+user_uuid/XSRF Token: Unique Identifier for a user: STRING
+content: Textual Data/File: STRING
+expiry_date: By Default: 5 Years, Extended Requirements: Might be able to change
+
+
+
+XSRF Token: User not logged in
+user_uuid: User logged in
+
+
+
+Response:
+
+Returns the Short URL to the Paste: STRING
+
+
+Success:
+Return the Short Unique URL to the Paste which is MAPPED to the content you pasted.
+
+
+Non-Success:
+Error Code
+
+
+
+
+
+
+
+
+(B) Request: deletePaste(user_uuid, pastebin_link)
+DELETE/WRITE Request
+
+
+Parameters:
+
+user_uuid: Unique Identifier for a user: STRING
+pastebin_link: Unique Short URL to the Paste
+
+
+Logic:
+
+if (user_uuid == admin_id || user_uuid == author_id)
+	set permission == true;
+
+
+Response:
+
+- Successfully Deleted: String
+
+Success:
+Successfully Deleted
+
+Non-Success:
+Error Code
+
+
+
+
+
+
+(C) Request: getPaste(user_uuid, pastebin_link)
+GET/READ Request
+
+Parameters:
+
+user_uuid/XSRF Token: Unique Identifier for a user: STRING
+pastebin_link: STRING
+
+
+Response:
+- Web Page
+
+
+Logic:
+
+if (user_uuid == admin_id || user_uuid == author_id || user_uuid == whitelisted_id)
+	set viewPermission == true;
+
+
+Success:
+Successfully Loaded Webpage
+
+Non-Success:
+Error Code
+
+
+
+
+
+
+
+URL - Textual Content
+1:1 Relationship
+
+
+
+-------> How do we avoid abuse/malicious practise?
+
+Abuse Case:
+
+- Someone generating infinite Paste
+
+- Each Short URL: 6-8 characters: Limit for number of paste,
+Eventually exhaust all possible combinations
+
+- No Other Shortening Possible
+
+
+Solution:
+
+Rate Limiting for user_uuid
+
+
+
+
+Cyber Security:
+
+XSS
+DOS
+DDOS
+Man in Middle
+
+
+
+
+
+
+
+
+
+
+
+(5) Defining Data Model
+
+
+- Type of Data to Store: DONE
+- Choice of DB: DONE
+- Mapping across different Tables/Databases: DONE
+
+
+
+
+------> Observations:
+
+Part-A: Short URLs
+
+(1) We need to store billions of records
+(2) Each Object we store is small (~500 Bytes)
+(3) There are NO Relationships between Records, apart from which user created which URL
+(4) Our Service is READ-HEAVY
+
+Part-B: Actual Textual Content Mapped to the Short URL
+
+(1) Object Storage: Maximum of 10KB per Object (Text/File)
+(2) Our Service is READ-HEAVY
+
+
+
+
+
+------> DB Schema:
+
+
+Table-1: Paste
+
+- pastebin_link: varchar: PK
+- content_id: varchar
+- creation_time: timestamp
+- expiration_time: timestamp
+- user_uuid: Int: FK
+
+
+Table-2: User
+
+- user_uuid: Int: PK
+- name: varchar
+- email: varchar
+
+
+
+
+Note: 
+
+Each pastebin_link would be a Unique and Short URL which would map to a unique content_id
+
+
+
+
+
+-------> Choice of Database?
+
+
+(1) For ShortURL:
+
+We anticipate storing billions of records,
+and we dont need to use Relationships between Tables
+
+
+Ideal DB:
+NoSQL DB
+
+Eg: MongoDB, Dynamo DB etc
+
+
+(2) For Content:
+
+We anticipate storing large amount of objects with each object max size: 10 KB
+and we dont need to use Relationships between those Objects
+
+
+User----Content_ID: Relationships
+
+Content_ID_1 ----- Content_ID_2: No Relationships
+
+
+Ideal DB?
+Object Storage/ Blob Storage
+
+
+Eg: Amazon S3
+
+
+
+Key: content_ID
+value: Object/Blob
+
+
+
+End to End Journey:
+
+User Upload a JSON ------> AWS S3 Bucket ------> Link Generated  -----> Mapped to Paste Table ----> Mapped to User Table
+
+
+Link: aws.cdn.amazoneast001.link
+
+
+Storage:
+
+
+Key: aws.cdn.amazoneast001.link: content_ID
+Value: file.json
+
+
+
+
+
+
+
+
+--------> High Level Diagram: 
+Image
+
+
+
+
+(6) Algorithms
+
+Major Part: How do you generate a short AND Unique URL?
+
+short: 6-8 characters
+
+
+(A) Encoding Actual URL - Hashing
+
+- We can compute a unique hash of the given URL
+That Hash can be encoded for displaying
+
+
+- Algos:
+MD5, SHA256, SHA512, Base64 etc
+
+
+
+Display in Short URL:
+- Alphanumeric values
+
+
+a-z: 26 characters
+A-Z: 26 characters
+0-9: 10 characters
+
+Total: 62 Characters
+
+
+Size: 6-8 Characters
+
+
+Short URL: 6 Characters
+Total Combinations = _ _ _ _ _ _ = 62^6 Ways ~= 60 Billion Strings/URLs
+
+
+Short URL: 8 Characters
+Total Combinations = _ _ _ _ _ _ _ _ = 62^8 Ways ~= 260 Trillions Strings/URLs
+
+
+For Our Use Case, 
+For 5 Years, We need 30 Billions URLs,
+Hence, we are good with 6 characters.
+
+
+
+
+
+
+-------> Issue?
+
+(1) If Multiple Users Enter the Same URL, They get Same Shortened URL
+
+Because: MD5/SHA256 will create the same Hash for same input for different users
+
+(2) System ------> Long URL -------> Hashing/Encoding -----> Short URL
+
+- Extra Latency introduced while encoding
+- Hashing is generated "On the Go/ On the Fly" (Generated in Run Time)
+
+
+
+------> Workaround?
+
+Problem:
+
+
+(1) If Multiple Users Enter the Same URL, They get Same Shortened URL
+
+
+Solution:
+
+(A) Add user_uuid to make it unique
+You need to use users information to login/XSRF Token in Short URL
+
+OR
+
+
+(B) I can Add a Counter/Sequence Number to make it Unique
+
+https://www.linkedin.com/in/devang25/  --------> https://tinyurl.com/t8fxc4jz_1
+
+https://www.linkedin.com/in/devang25/  --------> https://tinyurl.com/t8fxc4jz_2
+
+https://www.linkedin.com/in/devang25/  --------> https://tinyurl.com/t8fxc4jz_3
+
+https://www.linkedin.com/in/devang25/  --------> https://tinyurl.com/t8fxc4jz_4
+
+
+For Very Large Number of Shortenings:
+
+Sequence Number would become very large
+
+
+
+
+HLD Diagram for Using Encoding Method:
+- Diagram
+
+
+
+
+
+
+(2) Generate Keys Offline
+
+
+
+Problem:
+
+System ------> Long URL -------> Hashing/Encoding -----> Short URL
+
+- Extra Latency introduced while encoding
+- Hashing is generated "On the Go/ On the Fly" (Generated in Run Time)
+
+
+
+Solution:
+
+Have a KGS (Key Generation Service) that generates random 6 characters beforehand
+AND store them in a database (Key-DB)
+
+
+Whenever a user wants to shorten a URL,
+Just take one of the pre-generated keys and Use it.
+
+Advantages:
+
+- Extremely fast (Not creating on the go, pre-generated keys)
+- No need to worry about duplicates
+- No Collisions
+- KGS will make sure that All Keys that are Inserted into Key-DB are Unique
+
+
+
+
+
+--------> What About Concurrency?
+
+As soon as a key is used,
+It should be marked in database to ensure its not reused.
+
+If there are multiple servers reading keys concurrently,
+we might have case where 2 or more servers try to read the same key from database?
+
+
+
+DB:
+
+key-1 <----- Server-1, Server-2
+key-2
+......
+......
+
+
+
+Solution:
+
+
+(1) Assign Range of Keys to Servers
+
+Key-1 to 1 Mn: Server-1
+Key-1 to 2 Mn: Server-2
+
+
+(2) Keep the KGS Synchronized
+
+Server can use KGS to read/mark keys in the database
+KGS can store 2 tables: 
+(A) Used Keys
+(B) UnUsed Keys
+
+
+As soon as a key is used, move to used keys table.
+
+Alternatively, 
+Use a Flag:
+
+isAlreadyUsed: True/False
+
+
+
+
+
+
+
+
+----> Size of Key-DB:
+
+6 Characters per Key * 60 Billion Unique Keys = 400 GB
+
+
+-----> Is KGS a Single Point of Failure?
+
+Yes, It is.
+
+
+Solution:
+
+We can create replica/standby/secondary of KGS
+Whenever the primary server is down, standby server takes over to generate and provide keys.
+
+
+
+
+------> How to perform key lookup?
+
+We can lookup the key in our database to get the full URL
+
+If its present in the DB,
+Send the Stored URL (Long URL)
+
+
+If Key Not Present, 
+Get New Key and Send Response
+
+
+
+
+https://www.linkedin.com/in/devang25/  --------> https://tinyurl.com/t8fxc4jz
+
+https://tinyurl.com/t8fxc4jz ------> https://www.linkedin.com/in/devang25/: TINYURL SERVER
+
+
+
+HLD Diagram:
+Image
+
+
+
+
+(8) Data Partitioning and Replication
+
+
+To scale out our DB, we need to partition it so that we can store information
+about Billions of URLs
+
+--------> What Should be the Partitioning Schemes?
+
+(1) Range Based Partitioning
+
+Short URLs: 6-8 Characters
+
+- We can store URLs in separate partitioning  based on the first letter of hash key
+
+- Save All URLs starting with letter 'a' - partition: 1
+- Save All URLs starting with letter 'b' - partition: 2
+
+a-z: 26
+A-Z: 26
+0-9: 10
+Total: 62
+
+Total Partitions: 62
+
+
+Problem:
+
+- Unbalanced Partitioning/ Uneven Load Distribution
+
+
+Eg:
+
+partition-1: starting with 'a' has more Short URLs: HIGH LOAD
+partition-2: starting with 'b' has less Short URLs: LESS LOAD
+
+
+
+
+(2) Hash Based Partitioning
+
+We take hash of object we are storing
+Then calculate which partition to use based upon hash
+
+
+In Our Use Case:
+
+Short URL ------> Hash ------> Key
+Based upon Key -----> Partition Number
+
+
+
+Eg:
+
+hash() = key % 256 (any constant)
+
+Hash Upto 256 Values
+
+
+256 Partitions -----> Follow Round Robin Approach
+
+
+req-1 - 1st short URL: DB Partition-1
+req-1 - 2nd short URL: DB Partition-2
+.....................................
+
+
+
+
+
+
+
+Replication of Partitions:
+
+To Avoid any point of failure,
+We can replicate each partitions
+
+
+
+
+
+
+(9) Caching:
+
+- Which Cache (Why?)
+- Size of Cache (80-20 Rule)
+- Which Cache Eviction Policy? (Why)
+- Handle Cache Invalidation (Cache Miss Case)
+
+
+-----> Which Cache
+
+Cache:
+Cache the URLs that are frequently used
+
+Eg: Redis, Memcache, Hazelcast
+
+
+The Application Servers, before hitting the DB Storage ------> Quickly check in Cache
+
+
+
+-------> Size of Cache
+
+
+
+120 Read Requests/second * 3600 * 24 = 10 Millions Read Requests/Day
+
+Following 80-20 Rule for My Cache:
+Cache 20% of my data
+
+
+To Store 20% of these Requests:
+
+0.2 * 10 Millions * 20 KB/URL = 400 GB of Cache Memory/Day
+
+
+
+Server: 256 GB/ 512 GB
+1 Server is sufficient
+
+
+
+
+------> Which Cache Eviction Policy? 
+
+
+When the cache is full, and we want to replace a link with a newer link
+
+link-1: 5 Times: Last Used: 24 Hrs Ago - LFU
+link-2: 10 Times: Last Used: 1 Year Ago - LRU
+
+
+LRU can be a good solution.
+Discard the least recently used URL first and store the new URL
+
+
+
+
+
+
+---------> How can each replica of cache be updated?
+
+In Case of Cache Miss,
+Request will go to Database
+
+
+When this happens,
+After Retrieving from Database, we can update the Cache and pass the new entry to all replicas.
+
+
+- Each replica can update its cache by adding the new entry
+- If a replica already has that entry, ignore it.
+
+
+
+
+Image: 
+HLD Diagram
+
+
+
+
+
+(10) Load Balancers
+
+Where do we Add Load Balancers:
+
+(1) Between Client and Application Servers
+(2) Between Application Servers and Database Servers
+(3) Between Application Servers and Cache Servers
+
+
+
+------> Which Policy to use for Load Balancers?
+
+(1) Use Round Robin:
+
+Adv:
+
+- Equally distributed load among servers
+- If 1 server is not responding, LB will move to next available server
+
+(2) Problem with Round Robin?
+- Load amount is not taken care of for a server
+
+
+Better Solution:
+
+Predictive Analysis for Load Balancing/Smart Load Balancers
+
+LB Solution can be periodically queries to know the health and load of DB Servers
+
+Eg:
+
+Netapp,
+NginX
+
+
+
+
+
+
+(11) Purging or DB Cleanup Service
+
+Do I need URL Entries Forever?
+- No
+
+
+Should I check daily or actively for expired links?
+- Put a lot of pressure on servers
+
+
+Instead,
+We can slowly remove expired links and do a lazy cleanup.
+Our Cleanup Service will make sure that only expired links are deleted
+
+
+Possible Scenarios:
+
+(1) When a user tries to access an expired link
+
+google.com -------> tinyurl/abc
+
+After 5 Years, 
+tinyurl/abc has expired 
+
+(1) delete the short url key
+(2) Mark that short url key -> available to use
+(3) Reponse to Client: URL expired
+
+
+(2) A separate cleanup service can run periodically to remove the expired link
+from DB and Cache.
+Serices should be VERY Lighweight (less resource intensive)
+
+
+Run Only when the user-traffic is at non-peak hours.
+
+
+(3) Default Expiration Time: 5 Years
+
+(4) After removing a short URL Key, 
+We can put back that key in Key-DB to be reused.
+
+
+Non-Peak Hours:
+
+Grafana, Kibana, Dynatrace, AWS Metrics
+
+
+
+
+
+
+
+(12) Analytics/Telemetry: EXTENDED
+
+Metrics:
+
+- Country of Visitors
+- Date and Time
+- No of Views
+- CTR etc
+
+
+
+Generate Kafka Event everytime a URL Re-direction happens
+Put that Event in an EQ (Event Queue) for Analytics
+
+On Top of that, 
+Run Apache Spark and Hadoop Queries to get more insights.
+
+
+(13) Security and Permissions: EXTENDED
+
+
+Can Users create a custom shortened URL?
+
+
+Can Users create a private shortened URL for particular set of users ONLY?
+
+
+Solution:
+
+You can use permssion levels (public/private) of URL 
+along with URL in Database
+
+private: Specific Set of Users ----> Whitelist them
+
+
+For Custom Shortened URL,
+Check the (isPremiumMember == true).
+
+
+
+
+
+
+
+
+
+
+
+Final Detailed Component Level Diagram:
+Image
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------> Case Study - 3: Designing Instagram
+
+
+Instagram:
+- Social Media with Photo (Videos/GIFs etc) sharing service
+where users can upload photos to share with others
+
+
+Similar Services:
+Facebook, Picasa etc
+
+
+Demo:
+https://instagram.com/
+
+
+
+A Social Media Platform where a user is able to:
+- Upload Content (Reels, GIFs, Pics, IGTV etc)
+- Share:
+(A) Public Account: Anyone can see
+(B) Private Account: Selected Users can see
+- Comment
+- Like
+- News Feed Generation
+- Chat: 1:1 Chat, Channels (Only Admin), Group Chats
+- Follow Other Users
+- Posts Stories
+- Calls - Audio, Video
+- Homepage/Profile Page/ Timeline
+
+
+
+(1) Requirements Clarification
+
+(A) Functional Requirements
+
+- User should be able to upload and view photos/content
+- User can follow other users
+- User can search based upon hashtags and keywords
+- System should be able to generate a users Instagram Feed 
+which consists if top photos/recent from all the accounts a user follws
+- User should have a homepage/timeline/profile page consisting of all content posted by user
+- User can upload stories (Valid: 24 Hrs) - Open to All, Close Account
+- Instagram Live
+
+
+Additional:
+- Search Content based upon keywords or location (included lookup from Captions and Tagged Locations)
+Eg: California Bridge
+
+
+
+(B) Non-Functional Requirements:
+
+- Our Service should be highly available
+
+- Minimum Latency for:
+(1) News Feed Generation: Most Customer Facing Feature (~< 100 ms)
+(2) User Services: Prodile Service (Changing DP, Username, Bio, Account Details etc)
+(3) Search Service: Hashtags, Keywords, Locations, Usernames
+
+- Highly RELIABLE
+Any uploaded content (photo/video) should not be deleted
+
+- Availability > Consistency
+(Consistency can take a hit in the interest of Availability)
+(A User does not see a photo for some milliseconds, its acceptable)
+(My services should be up 24*7)
+
+- Eventual Consistency
+
+
+
+
+(C) Extended Requirements:
+
+- Adding Tags to Photos
+- Tag People to Collaborate
+- Searching Photos on Hashtags, locations, keywords etc
+
+- Recommendation System:
+(1) Content to Show (Reels/Pics etc) - Feed Personalization
+(2) Users to Follow/Suggested Friends/Pages
+
+
+
+Very Popular Services:
+- Very Popular Services: Instagram/FB/Twitter/Uber etc: 1 Bn+ Requests/Month
+- Medium Popular Services: TinyURL, Picaso, Figma etc: 500 Mn Requests/Month
+- Less Popular Services: Pastebin, Imgur: 50 Mn Requests/Month
+
+
+
+(2) Capacity Estimation/ Back of the Envelope Estimation
+
+
+Read-Heavy or Write-Heavy?
+
+
+- Read-Heavy for Feed Service, R/W: 1:1 for Chat Service
+- Lots of Reads from Instagram as compared to new Posts
+- Read-Write Ratio: 100:1
+
+
+(A) Traffic Estimates
+
+Assumption,
+- Total Users: 3.1 Bn
+- Monthly Active Users: 2 Bn
+- Daily Active Users: 1 Bn
+
+
+On An Average,
+1 Person/Account Posts 2 pics per day
+
+
+- Read/Write Ratio: 100:1
+
+
+
+------> No of Writes Calls in a Day:
+
+1 Bn * 2  ~= 2 Bn Writes/Day
+
+
+------> No of Read Calls in a Day:
+
+100:1 Read/Write Ratio  ~= 200 Bn Reads/Day
+
+
+(B) Queries Per Second
+
+
+-----> Write Case:
+
+1 Bn * 2  ~= 2 Bn Writes/Day
+
+2 Bn / 24 * 3600 seconds ~= 24K Writes or Uploads/sec
+
+
+
+
+-----> Read Case:
+
+100:1 R/W Ratio:
+
+100*24K = 2.4 Mn Reads/sec
+
+
+(3) Storage Estimates:
+
+Average Photo Size: 200 KB (After Compression)
+
+Compression/Encoding Algo: RLE (Run Length Encoding)
+
+
+Total Storage for 1 Day:
+
+1 Bn * 200 KB * 2 Pics ~= 400 TB/Day
+
+
+10^9 ^ 10^5 = 10^14
+1 TB = 10^12 Bytes
+
+
+Total Storage for 10 Years:
+400 TB * 365 Days * 10 Years ~= 1430 PB ~= 1.42 ZB
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
