@@ -1,0 +1,764 @@
+Date : 16th June 2024
+Mentor: DEVANG SHARMA
+Batch: May Batch (System Design) - Tutort Academy
+
+Agenda: System Design - Case Studies
+
+(1) System Design Interviews: A step by step guide: DONE
+(2) Designing a URL Shortening service like TinyURL: DONE
+(3) Designing Pastebin: DONE
+
+(4) Designing Instagram: WIP
+(5) Designing Facebook Feed
+(6) Designing Twitter
+
+(7) Designing Dropbox/Google Drive
+
+(8) Designing Yelp/Justdial/Sulekha
+(9) Designing Uber/Grab/Ola
+
+Extra:
+- Payment System and
+- Trading app like Zerodha 
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+
+
+---------> Case Study - 3: Designing Instagram
+
+
+Instagram:
+- Social Media with Photo (Videos/GIFs etc) sharing service
+where users can upload photos to share with others
+
+
+Similar Services:
+Facebook, Picasa etc
+
+
+Demo:
+https://instagram.com/
+
+
+
+A Social Media Platform where a user is able to:
+- Upload Content (Reels, GIFs, Pics, IGTV etc)
+- Share:
+(A) Public Account: Anyone can see
+(B) Private Account: Selected Users can see
+- Comment
+- Like
+- News Feed Generation
+- Chat: 1:1 Chat, Channels (Only Admin), Group Chats
+- Follow Other Users
+- Posts Stories
+- Calls - Audio, Video
+- Homepage/Profile Page/ Timeline
+
+
+
+(1) Requirements Clarification
+
+(A) Functional Requirements
+
+- User should be able to upload and view photos/content
+- User can follow other users
+- User can search based upon hashtags and keywords
+- System should be able to generate a users Instagram Feed 
+which consists of top photos/recent from all the accounts a user follws
+- User should have a homepage/timeline/profile page consisting of all content posted by user
+- User can upload stories (Valid: 24 Hrs) - Open to All, Close Account
+- Instagram Live
+
+
+Additional:
+- Search Content based upon keywords or location (included lookup from Captions and Tagged Locations)
+Eg: California Bridge
+
+
+
+(B) Non-Functional Requirements:
+
+- Our Service should be highly available
+
+- Minimum Latency for:
+(1) News Feed Generation: Most Customer Facing Feature (~< 100 ms)
+(2) User Services: Profile Service (Changing DP, Username, Bio, Account Details etc)
+(3) Search Service: Hashtags, Keywords, Locations, Usernames
+
+- Highly RELIABLE
+Any uploaded content (photo/video) should not be deleted
+
+- Availability > Consistency
+(Consistency can take a hit in the interest of Availability)
+(A User does not see a photo for some milliseconds, its acceptable)
+(My services should be up 24*7)
+
+- Eventual Consistency
+
+
+
+
+(C) Extended Requirements:
+
+- Adding Tags to Photos
+- Tag People to Collaborate
+- Searching Photos on Hashtags, locations, keywords etc
+
+- Recommendation System:
+(1) Content to Show (Reels/Pics etc) - Feed Personalization
+(2) Users to Follow/Suggested Friends/Pages
+
+
+
+Very Popular Services:
+- Very Popular Services: Instagram/FB/Twitter/Uber etc: 1 Bn+ Requests/Month
+- Medium Popular Services: TinyURL, Picaso, Figma etc: 500 Mn Requests/Month
+- Less Popular Services: Pastebin, Imgur: 50 Mn Requests/Month
+
+
+
+(2) Capacity Estimation/ Back of the Envelope Estimation
+
+
+Read-Heavy or Write-Heavy?
+
+
+- Read-Heavy for Feed Service, R/W: 1:1 for Chat Service
+- Lots of Reads from Instagram as compared to new Posts
+- Read-Write Ratio: 100:1
+
+
+(A) Traffic Estimates
+
+Assumption,
+- Total Users: 3.1 Bn
+- Monthly Active Users: 2 Bn
+- Daily Active Users: 1 Bn
+
+
+On An Average,
+1 Person/Account Posts 2 pics per day
+
+
+- Read/Write Ratio: 100:1
+
+
+
+------> No of Writes Calls in a Day:
+
+1 Bn * 2  ~= 2 Bn Writes/Day
+
+
+------> No of Read Calls in a Day:
+
+100:1 Read/Write Ratio  ~= 200 Bn Reads/Day
+
+
+(B) Queries Per Second
+
+
+-----> Write Case:
+
+1 Bn * 2  ~= 2 Bn Writes/Day
+
+2 Bn / 24 * 3600 seconds ~= 24K Writes or Uploads/sec
+
+
+
+
+-----> Read Case:
+
+100:1 R/W Ratio:
+
+100*24K = 2.4 Mn Reads/sec
+
+
+(3) Storage Estimates:
+
+Average Photo Size: 200 KB (After Compression)
+
+Compression/Encoding Algo: RLE (Run Length Encoding)
+
+
+Total Storage for 1 Day:
+
+1 Bn * 200 KB * 2 Pics ~= 400 TB/Day
+
+
+10^9 ^ 10^5 = 10^14
+1 TB = 10^12 Bytes
+
+
+Total Storage for 10 Years:
+400 TB * 365 Days * 10 Years ~= 1430 PB ~= 1.42 ZB
+
+
+
+
+(4) Cache Estimates:
+
+Following 80-20 Rule for Cache:
+Cache 20% of my data
+
+
+To Store 20% of these Requests:
+
+0.2 * 400 TB/Day = 80 TB of Cache Memory/Day
+
+
+
+
+
+
+
+
+
+(3) High Level System Design
+
+
+At High Level,
+We need to support 2 scenarios:
+
+- Upload Photo/Content
+- View/Search Photo/Content
+
+
+
+Data:
+- Actual Content (Pic/Video/Reel/GIF etc)
+- Metadata about content
+
+
+HLD Diagram:
+Image
+
+
+
+
+
+
+
+
+
+
+(4) Defining Data Model:
+
+- Type of Data to Store: DONE
+- Choice of DB: DONE
+- Mapping across different Tables/Databases: DONE
+
+
+
+
+------> Observations:
+
+
+We need to store:
+- Users
+- Their Uploaded Photos
+- People they Follow
+
+
+
+Photo Table:
+- Store All Information Related to Photo
+
+
+
+
+
+
+
+
+
+------> DB Schema:
+
+Table-1: Photo
+
+- PhotoID: int: PK
+- UserID: int: FK
+- PhotoPath: varchar
+- PhotoLat: int
+- PhotoLong: int
+- UserLat: int: Current Location
+- UserLong: int: Current Location
+- Creation Date: timestamp
+
+
+Table-2: User
+
+- UserID: int: PK
+- Name: varchar
+- Email: varchar
+
+
+Table-3: UserFollow
+
+UserID1: int. ----  Composite Key
+UserID2: int. ----
+
+
+
+PhotoPath: 
+Location Storage of Photo (S3 or Cassandra or HDFS)
+
+Eg: 
+aws.s3.cdn.0001east.com/link
+
+
+
+
+
+
+
+Photo_ID: Unique
+= User_ID + Incrementing Sequence + Timestamp 
+
+
+User_ID: 112345677
+
+Photo-1: 112345677_1_22062024
+Photo-2: 112345677_2_22062024
+
+
+Check in Instagram:
+instagram/com/posts/{username}/id_1/2/3
+
+
+
+
+POST:
+
+
+post/photos/
+
+{
+	user_ID: 123,
+	photos:
+	{
+		a,b,c,d....upto 10
+	}
+}
+
+
+
+
+
+
+
+-------> Choice of Database?
+
+
+A straightforward approach for storing above schema 
+would be to use Relational DB like MySQL
+
+
+Challenges:
+
+- Partitioning will be challeging
+- Querying would be very slow for billions of rows (clustered indexing)
+- Not Easily Horizontally Scalable
+
+
+
+
+Solution:
+
+We Can Store above Schema in a Distributed Key-value Storage
+to have easier Horizontal Scaling.
+
+
+SQL to Key- Value DB Model Conversion:
+PK -> Key
+Other Keys -> Object -> Value
+
+
+
+Key: PhotoID: 
+Value: Object
+{
+ UserID: int: 
+ PhotoPath: varchar
+ PhotoLat: int
+ PhotoLong: int
+ UserLat: int: Current Location
+ UserLong: int: Current Location
+ Creation Date: timestamp
+}
+
+
+
+For Photos/Content:
+- Distributed File Storage
+
+
+Eg: Amazon S3 or HDFS (Apache Hadoop)
+
+
+PhotoPath: Link to S3/HDFS
+
+
+PhotoPath: 
+Location Storage of Photo (S3 or Cassandra or HDFS)
+
+Eg: 
+aws.s3.cdn.0001east.com/link
+
+
+
+
+
+
+
+
+
+
+-------> Where to Store Relationships between Users and Photos
+
+
+Wide- Column Databases:
+Eg: Cassandra
+
+
+Key: User_ID
+Value: [List of Photo_IDs]
+
+
+
+Example:
+
+User_ID: 112345677
+
+Photo-1: 112345677_1_22062024
+Photo-2: 112345677_2_22062024
+
+
+
+
+User ID   | Photo ID -1        | Photo ID -2        | Photo ID - 3
+
+112345677 112345677_1_22062024 112345677_2_22062024  112345677_3_22062024
+
+
+
+
+
+-------> Why Wide Column Database:
+
+- Cassandra or Any Other Wide Column Database DB always maintain a certain number of Replicas
+(To Offer RELIABILITY)
+
+- Read Operations are Extremely Fast
+
+- Deletions dont get applied instantly, 
+data is retained for some days before permanent removal
+
+
+
+
+CQL: 
+Cassandra Query Language
+
+JSON:
+MongoDB
+
+
+
+
+
+Summary:
+
+User Information: Relational DB/ SQL DB
+Content: S3 / Blob
+Relationship b/w User-Content: Wide Column DB (Cassandra)
+User-Follower: Composite Key: Relational DB / SQL DB
+
+
+
+
+
+Next:
+
+- News Feed Generation
+- News Feed Publishing
+- Sharding/Partitioning
+- Caching
+- Ranking
+- Load Balancing
+
+
+
+
+
+
+
+
+At High Level,
+We need to support 2 scenarios:
+
+- Upload Photo/Content
+- View/Search Photo/Content
+
+
+
+Data:
+- Actual Content (Pic/Video/Reel/GIF etc)
+- Metadata about content
+
+
+HLD Diagram:
+Image
+
+
+
+Uploading Content Service/Write Call Service is much slower than
+Reading Content Service/ Read Call Service owing to Caching etc
+
+
+Problems with keeping a common service for Read and Write:
+
+(1) Much higher latency for Read Calls
+(2) Can block my system - bottlnecks
+
+
+
+Solution:
+
+
+To avoid this bottleneck, 
+We use dedicated separate servers for read and write.
+
+This allows us to scale and optimise both read and write operations independently.
+
+
+
+Updated HLD Diagram:
+Image
+
+
+
+
+User -------> Read/Write  ----- Read: App Server-1  -------> DB
+								Write: App Server-2	
+
+
+get/photos/v1/{userID} -------> Application Server - 1
+
+post/userID/v1/{photoID} ------> Application Server - 2
+
+
+
+
+
+
+
+
+
+
+(5) Redundancy and Replication
+
+
+
+------> Redundancy
+
+- Losing Files is NOT an Option for My Services ----- Highly RELIABLE
+- Store Multiple Copies of Each File - Redundancy
+- If one db server crashes, we can pick photos from another db server
+
+
+
+
+
+
+-----> Replication
+
+To Ensure High Availability of My System,
+We need to have multiple replicas of database
+
+
+Reason: To Avoid Single Point of Failures
+
+
+Detailed Architecture Diagram with Replication:
+Image
+
+
+
+
+
+
+
+
+
+
+
+
+
+(6) News Feed Generation
+
+
+Newsfeed is generated from posts of users followed (excluding suggestions/ promoted posts)
+
+Basic Understanding:
+
+(1) Retrieve User_IDs of All Users that a particular User Follows
+(2) Retrive Latest, most popular and relevant posts for those ID
+(3) Rank these posts as per Users Interest
+(4) Store in Cache and return Top Results (Like 50) to be rendered on a user homepage
+(5) On the Front-End, When User reaches at the end of Current Feed,
+They can fetch next 50 posts
+
+Achieve: By Paging
+
+
+------> Fixed Size Timeline: Instagram
+
+"You're all Caught Up" - Insta, Not On Facebook
+https://about.instagram.com/blog/announcements/introducing-youre-all-caught-up-in-feed
+
+Solution: By Paging
+
+
+-----> Infinite Timeline:
+Facebook (2018)
+
+Before 2018: Fixed Timeline
+
+
+
+User_ID: 1000 Following
+
+
+
+
+Ranking:
+Goal: Maximise User Engagement with the Content
+
+Degree of Closeness with Another User:
+
+- Likes
+- Comments
+- Shared
+- Save
+- Mention in Stories/Captions
+- Chat
+- Watch Time
+
+
+
+
+
+
+
+
+
+------> How to Generate NewsFeed
+
+
+2 Ways are There:
+(1) Online/On the Go for NewsFeed Generation: Compile Time Generation
+(2) Offline Feed Generation
+
+
+
+Suggested Content:
+- Location
+- Sports/Events near you
+
+Zomato
+
+Open -----> Take Some Time to Load
+- Generated at Compile Time
+- No Stale Data
+
+
+
+
+Instagram
+
+Open -----> Does Not Take Any Time to Load
+- Generated Offline
+- Stale Data
+
+
+
+
+
+(A) On the Go NewsFeed Generation/ Compile Time Load:
+
+There are issues with On the Go Feed Generation:
+
+
+(1) Latency, We need to generate homepage/timeline instantly
+(2) For Users who follows a lot of other users (large following - not followers),
+we need to perform sorting/merging/ranking for a huge number of posts ----- VERY VERY SLOW
+(3) For Live Updates, Each Update will result in creating new query to get the most updated result
+(4) For Celebrity Users (Many Followers), live update would have very heavy loads to push 
+for new content to all their followers.
+
+
+
+(B) Offline Feed Generation
+
+Structure: 
+User_ID: {pre-generated feed items}
+
+Eg:
+
+123: {feed1: {name:, content:, duration:}, feed2: {}}
+
+
+
+- We have dedicated service for offline feed generation
+- Continuously generate user feed and store in memory (Top 50)
+- Whenever a user logs in to their feed,
+Immediately serve the pre-generated/ pre-computed feed ----- STALE DATA
+- For Subsequent requests ------> Run the Query Again
+(Regular Intervals: Have a lookup for New Items in the Feed)
+
+
+
+
+
+For New Updates:
+
+(1) Server ------> Client Communication
+"New Posts": Linkedin
+Automatic Refresh: Instagram
+
+
+(2) Client -----> Server Communication
+Pull/Refresh the App Screen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

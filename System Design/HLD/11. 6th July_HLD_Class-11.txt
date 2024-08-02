@@ -1,0 +1,1438 @@
+Date : 6th July 2024
+Mentor: DEVANG SHARMA
+Batch: May Batch (System Design) - Tutort Academy
+
+Agenda: System Design - Case Studies
+
+(1) System Design Interviews: A step by step guide: DONE
+(2) Designing a URL Shortening service like TinyURL: DONE
+(3) Designing Pastebin: DONE
+
+(4) Designing Instagram: DONE
+(5) Designing Facebook Feed: DONE
+(6) Designing Twitter: DONE
+
+(7) Designing Dropbox/Google Drive/OneDrive
+
+(8) Designing Yelp/Justdial/Sulekha
+(9) Designing Uber/Grab/Ola
+
+(10) Design Netflix/Youtube/Hotstar
+
+Extra:
+- Payment System and
+- Trading app like Zerodha 
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+
+
+
+
+---------> Case Study-5: Designing Twitter (X)
+
+
+Twitter: https://github.com/twitter/the-algorithm
+
+
+
+Twitter
+
+- Social Media Platform where users post and read short posts (140 chars) called "Tweets"
+- Tweet can support: Pics, Videos, GIFs, Location etc
+- Non-Registered Users: Can just read the tweets (No Private Tweets, All Tweets are Public)
+- Registered Users: Read and Write
+- Multi-Platforms: Web, Mobile, Smart Watches etc
+
+
+
+Demo:
+
+https://x.com
+https://twitter.com
+
+
+
+(1) Requirements Clarification
+
+(A) Functional Requirements
+
+
+- User should be able to post new tweets
+- User should be able to follow other users
+- Users should be able to favorite/bookmark a tweet (Similar to saved in Insta/FB)
+- Create User Timeline (Top Tweets from All People a User Follows)
+- User Profile Page (Tweets/Re-Tweets Posted by User)
+- Tweet can support: Pics, Videos, GIFs, Location etc
+
+
+Additional:
+- Search content based upon keywords or locations (includes lookup from captions) 
+
+
+(B) Non-Functional Requirements:
+
+
+- Our Service should be highly available
+
+- Minimum Latency for:
+(1) Timeline Generation: Most Customer Facing Feature (~< 100 ms)
+(2) User Services: Profile Service (Changing DP, Username, Bio, Account Details etc)
+(3) Search Service: Hashtags, Keywords, Locations, Usernames
+
+- Highly RELIABLE
+Any uploaded content (photo/video) should not be deleted
+
+- Availability > Consistency
+(Consistency can take a hit in the interest of Availability)
+(A User does not see a tweet for some milliseconds, its acceptable)
+(My services should be up 24*7)
+
+- Eventual Consistency
+
+
+
+(C) Extended Requirements:
+
+- Adding Tags to Photos
+- Tag People to Collaborate
+- Searching Photos on Hashtags, locations, keywords etc
+
+- Recommendation System:
+(1) Content to Show (Reels/Pics etc) - Feed Personalization
+(2) Users to Follow/Suggested Friends/Pages
+
+
+
+Very Popular Services:
+- Very Popular Services: Instagram/FB/Twitter/Uber etc: 1 Bn+ Requests/Month
+- Medium Popular Services: TinyURL, Picaso, Figma etc: 500 Mn Requests/Month
+- Less Popular Services: Pastebin, Imgur: 50 Mn Requests/Month
+
+
+
+
+
+
+(2) Capacity Estimation/ Back of the Envelope Estimation
+
+
+Read-Heavy or Write-Heavy?
+
+
+- Read-Heavy for Feed Service, R/W: 1:1 for Chat Service
+- Lots of Reads from Twitter as compared to new Posts/Tweets
+- Read-Write Ratio: 100:1
+
+
+(A) Traffic Estimates
+
+Assumption,
+- Total Users: 1 Bn
+- Monthly Active Users: 800 Mn
+- Daily Active Users: 200 Mn
+
+
+
+-------> Tweet Views
+
+On an average, 
+1 User visits their profile (2 times a day) and 5 times for user timeline
+Each Page Contains 20 tweets
+
+200 Mn * ((2+5) * 20) = 28 Bn Views/Day
+
+
+-------> Tweet Likes
+
+
+1 Person likes 5 tweets a day.
+
+200 Mn * 5 = 1 Bn Likes/Day
+
+
+
+(B) Queries per second:
+
+-----> Write Case:
+
+1 Bn * 2  ~= 2 Bn Writes/Day
+
+2 Bn / 24 * 3600 seconds ~= 24K Writes or Uploads/sec
+
+
+-----> Read Case:
+
+100:1 R/W Ratio:
+
+100*24K = 2.4 Mn Reads/sec
+
+
+(C) Storage Estimates:
+
+1 Tweet:
+
+140 chars: 140 chars * 2 Bytes/char = 280 bytes
+Metadata: TweetID, timestamp, location ~= 30 bytes
+
+1 Tweet Size = 280 + 30 ~= 300 bytes
+
+
+Total Storage for 1 Day: 
+200 Mn * 300 Bytes ~= 60 GB/Day
+
+
+Considering Media as well (Pics/Videos/GIFs etc)
+
+1 out of 5 posts with a pic.
+1 out of 10 posts with a video.
+
+
+Photo: 200 KB (After Compression)
+Video: 2 MB (After Compression)
+
+
+Size: (200 Mn/5 * 200 KB) + (200 Mn/10 * 2 MB) ~= 48 TB/Day
+
+
+
+Total Storage for 10 Years:
+40 TB * 365 Days * 10 Years ~= 142 PB
+
+
+
+
+(4) Cache Estimates:
+
+Following 80-20 Rule for Cache:
+Cache 20% of my data
+
+
+To Store 20% of these Requests:
+
+0.2 * 48 TB/Day = 8 or 9.6 TB of Cache Memory/Day
+
+
+
+
+
+
+
+
+(3) System API:
+
+
+(A) POST API:
+
+createTweet(UserUUID, tweet_data, tweet_location, media_ids[])
+
+Parameters:
+
+- UserUUID: Unique Identifier for User: STRING
+- tweet_data: 140 chars limit tweet: STRING
+- tweet_location: Given By User: lat, long
+- media_ids[]: List of Medias (URL)
+
+
+Response:
+
+2xx: Successful Post
+4xx: Client Side Error
+5xx: Server Side Error
+
+
+
+
+
+(4) High Level System Design
+
+At High Level, We Need to Support:
+
+WEITE CALLS: 200 Mn / 86,400 sec = 2000 Posts/second
+
+READ CALLS: 28 Bn / 86,400 sec = 300 K Reads/ second
+
+
+At Peak Times: 
+
+- Few Thousands Write/Sec
+- Half a Million Reads/sec
+
+
+
+HLD Diagram: Image
+
+
+
+
+
+
+
+
+
+
+
+
+API
+API - GA: General Availability
+
+
+
+Medium
+Blog
+
+Share:
+- Mail
+- Twitter
+- Platform
+
+
+
+
+
+Content ------> Compression ------> Encoding
+
+
+(5) Defining Data Models:
+
+
+- Type of Data to Store: DONE
+- Choice of DB: DONE
+- Mapping across different Tables/Databases: DONE
+
+
+------> Observations:
+
+We need to store:
+- Users
+- Their uploaded Tweets
+- People They Follow
+- Favorite Tweets
+
+
+Tweet Table:
+- Store All Information Related to a Tweet
+
+
+------> DB Schema:
+
+
+Table-1: Tweet
+
+- Tweet_ID: int: PK
+- UserID: int: FK
+- Content: varchar
+- TweetLat: int
+- TweetLong: int
+- UserLat: int - Current Location
+- UserLong: int - Current Location
+- CreationDate: timestamp
+- No_of_likes: int
+- No_of_views: int
+- No_of_retweets: int
+- media_file_path: varchar
+
+
+
+Table-2: User
+
+- UserID: PK
+- Name: varchar
+- Email: varchar
+
+
+Table-3: UserFollow
+
+
+UserID1: int ----  Composite Key
+UserID2: int ----
+
+
+
+Table-4: Likes/Favorites
+
+
+TweetID: int ------- Composite Keys
+UserID: int  -------
+
+
+
+
+
+
+media_file_path/Content Path:
+Location Storage of Tweet (S3 or Cassandra or HDFS)
+
+Eg: 
+aws.s3.cdn.0001east.com/link
+
+
+
+
+Tweet_ID: Unique
+= User_ID + Incrementing Sequence + Timestamp 
+
+
+User_ID: 112345677
+
+Tweet-1: 112345677_1_22062024
+Tweet-2: 112345677_2_22062024
+
+
+Check in Twitter:
+twitter/com/posts/{username}/id_1/2/3
+
+
+
+
+POST:
+
+
+post/tweets/
+
+{
+	user_ID: 123,
+	tweets:
+	{
+		a,b,c,d....upto 10
+	}
+}
+
+
+
+
+
+-------> Choice of Database?
+
+
+A straightforward approach for storing above schema 
+would be to use Relational DB like MySQL
+
+
+Challenges:
+
+- Partitioning will be challeging (JOINS)
+- Querying would be very slow for billions of rows (clustered indexing)
+- Not Easily Horizontally Scalable
+
+
+
+
+Solution:
+
+We Can Store above Schema in a Distributed Key-value Storage
+to have easier Horizontal Scaling.
+
+
+SQL to Key- Value DB Model Conversion:
+PK -> Key
+Other Keys -> Object -> Value
+
+
+
+Key: TweetID: 
+Value: Object
+{
+  UserID: int: FK
+  Content: varchar
+  TweetLat: int
+  TweetLong: int
+  UserLat: int - Current Location
+  UserLong: int - Current Location
+  CreationDate: timestamp
+  No_of_likes: int
+  No_of_views: int
+  No_of_retweets: int
+  media_file_path: varchar
+}
+
+
+
+For Photos/Content:
+- Distributed File Storage
+
+
+Eg: Amazon S3 or HDFS (Apache Hadoop)
+
+
+PhotoPath: Link to S3/HDFS
+
+
+media_file_path/Content Path:
+Location Storage of Tweet (S3 or Cassandra or HDFS)
+
+Eg: 
+aws.s3.cdn.0001east.com/link
+
+
+
+
+
+
+
+
+
+
+
+-------> Where to Store Relationships between Users and Tweets
+
+
+Wide- Column Databases:
+Eg: Cassandra
+
+
+Key: User_ID
+Value: [List of Photo_IDs]
+
+
+
+Example:
+
+User_ID: 112345677
+
+Tweet-1: 112345677_1_22062024
+Tweet-2: 112345677_2_22062024
+
+
+
+
+User ID   | Tweet ID -1        | Tweet ID -2        | Tweet ID - 3
+
+112345677 112345677_1_22062024 112345677_2_22062024  112345677_3_22062024
+
+
+
+
+
+-------> Why Wide Column Database:
+
+- Cassandra or Any Other Wide Column Database DB always maintain a certain number of Replicas
+(To Offer RELIABILITY)
+
+- Read Operations are Extremely Fast
+
+- Deletions dont get applied instantly, 
+data is retained for some days before permanent removal
+
+
+
+
+CQL: 
+Cassandra Query Language
+
+JSON:
+MongoDB
+
+
+
+
+
+Summary:
+
+User Information: Relational DB/ SQL DB
+Content: S3 / Blob
+Relationship b/w User-Content: Wide Column DB (Cassandra)
+User-Follower: Composite Key: Relational DB / SQL DB
+
+
+
+
+
+
+
+
+Next:
+
+- News Feed Generation
+- News Feed Publishing
+- Sharding/Partitioning
+- Caching
+- Ranking
+- Load Balancing
+
+
+
+
+
+
+
+
+
+
+(6) Redundancy and Replication
+
+
+
+------> Redundancy
+
+- Losing Files is NOT an Option for My Services ----- Highly RELIABLE
+- Store Multiple Copies of Each File - Redundancy
+- If one db server crashes, we can pick photos from another db server
+
+
+
+
+
+
+-----> Replication
+
+To Ensure High Availability of My System,
+We need to have multiple replicas of database
+
+
+Reason: To Avoid Single Point of Failures
+
+
+Detailed Architecture Diagram with Replication:
+Image
+
+
+
+
+
+
+
+
+
+
+
+
+
+(7) Timeline Generation
+
+
+Timeline is generated from posts of users followed (excluding suggestions/ promoted posts)
+
+Basic Understanding:
+
+(1) Retrieve User_IDs of All Users that a particular User Follows
+(2) Retrieve Latest, most popular and relevant tweets for those ID
+(3) Rank these posts as per Users Interest
+(4) Store in Cache and return Top Results (Like 50) to be rendered on a user homepage
+(5) On the Front-End, When User reaches at the end of Current Feed,
+They can fetch next 50 posts
+
+Achieve: By Paging
+
+
+------> Fixed Size Timeline: Instagram
+
+"You're all Caught Up" - Insta, Not On Facebook
+https://about.instagram.com/blog/announcements/introducing-youre-all-caught-up-in-feed
+
+Solution: By Paging
+
+
+-----> Infinite Timeline:
+Facebook (2018)
+
+Before 2018: Fixed Timeline
+
+
+
+User_ID: 1000 Following
+
+
+
+
+Ranking:
+Goal: Maximise User Engagement with the Content
+
+Degree of Closeness with Another User:
+
+- Likes
+- Comments
+- Shared
+- Save
+- Watch Time
+- Retweets
+
+
+
+
+
+
+
+
+------> How to Generate Timeline
+
+
+2 Ways are There:
+(1) Online/On the Go for Timeline Generation: Compile Time Generation
+(2) Offline Timeline Generation
+
+
+
+Suggested Content:
+- Location
+- Sports/Events near you
+
+Zomato
+
+Open -----> Take Some Time to Load
+- Generated at Compile Time
+- No Stale Data
+
+
+
+
+Instagram
+
+Open -----> Does Not Take Any Time to Load
+- Generated Offline
+- Stale Data
+
+
+
+
+
+(A) On the Go Timeline Generation/ Compile Time Load:
+
+There are issues with On the Go Feed Generation:
+
+
+(1) Latency, We need to generate homepage/timeline instantly
+(2) For Users who follows a lot of other users (large following - not followers),
+we need to perform sorting/merging/ranking for a huge number of posts ----- VERY VERY SLOW
+(3) For Live Updates, Each Update will result in creating new query to get the most updated result
+(4) For Celebrity Users (Many Followers), live update would have very heavy loads to push 
+for new content to all their followers.
+
+
+
+(B) Offline Timeline Generation
+
+Structure: 
+User_ID: {pre-generated feed items}
+
+Eg:
+
+123: {feed1: {name:, content:, duration:}, feed2: {}}
+
+
+
+- We have dedicated service for offline Timeline generation
+- Continuously generate user Timeline and store in memory (Top 50)
+- Whenever a user logs in to their feed,
+Immediately serve the pre-generated/ pre-computed feed ----- STALE DATA
+- For Subsequent requests ------> Run the Query Again
+(Regular Intervals: Have a lookup for New Items in the Feed)
+
+
+
+
+
+For New Updates:
+
+(1) Server ------> Client Communication
+"New Posts": Linkedin
+Automatic Refresh: Instagram
+
+
+(2) Client -----> Server Communication
+Pull/Refresh the App Screen
+
+
+
+
+
+
+
+Client Devices:
+
+
+- Laptop
+- Mobile: Data Usage is Very Expensive
+
+
+
+Mobile: Wifi: Consume More Bandwidth
+Mobile: Mobile Data: Consume less bandwidth 
+
+
+Perfect Example - Youtube
+Two Users are watching the same Video
+
+User-A: Mobile : Wifi: 4G
+Video: Load in 720P
+
+
+User-B: Mobile : Mobile Data: 3G
+Video: Load in 240P/360P
+
+
+Its always better to show the content in less quality (360P)
+rather than showing buffering content in high quality (720P)
+
+
+
+
+
+
+-------> How many Feed Items to Store in Memory for a User?
+
+
+
+Initially, we can decide 100 Items per User.
+But, we can change as per usage pattern of the user.
+
+Paging: 20 posts per page
+
+On an average, 
+User scrolls 10 pages
+Total Posts: 200 Posts
+
+
+Optimisation:
+(1) Based upon User Behaviour, User-ID: {pre-generated feed} are kept dynamic
+(2) Avoid Generating News Feed for Inactive Users
+
+
+User            Following              Followers
+
+User-1:         1000                   100000
+
+User-2:         500                    5000
+
+
+
+User-ID: {pre-generated feed items}
+
+Actual Storage:
+
+User-A: Reads 500 Posts at 7 PM
+User-B: Reads 200 Posts at 11 AM
+
+
+A: {feed, time}
+B: {feed, time}
+
+
+
+
+
+
+
+
+
+-------> Should we generate (and store in memory- CACHE) newsfeed for ALL USERS?
+
+DAU: 1 Bn
+MAU: 2+ Bn
+
+
+(1) Users which do not login frequently, we dont need to generate actively newsfeed for them
+(2) Users:
+
+
+- Passive Users: Not Very Frequent
+- Active Users: Very Frequent, Atleast once in a day
+
+
+
+2 Ways:
+
+(1) LRU Based Cache:
+Remove Newsfeed for Users that have not accessed newsfeed for a long time
+
+
+(2) Optmised Way:
+Find the login pattern of active users
+
+
+- What time of the day: Most Active
+- Which days of the week: Most Active
+
+
+
+
+
+
+
+
+
+
+
+
+
+(7) Timeline Publishing
+
+Process of pushing a post to all followers is called - FANOUT
+
+There are 2 Approaches:
+
+- Pull Model / Fan Out on Load
+- Push Model/ Fan Out on Write
+
+
+
+
+(1) Pull Model / Fan Out on Load
+
+Clients can pull data on a regular basis whenever they need it
+
+Problems:
+
+(1) Client Must Request to Get New Data, Server Itself is NOT Pushing Data to Client
+(2) Majority of Pull Requests will Lead into Empty Responses: AJAX Call / Short Polling
+
+
+
+(2) Push Model / Fan Out on Write
+
+Once a User published a post, 
+we can immediately push this to ALL FOLLOWERS.
+
+
+Advantage:
+- Make my system less read-heavy
+
+
+
+Usual Flow:
+
+
+User -----> Check for all Following UserIDs ----> Check for most updated content: Too many read calls
+
+In Push Model,
+Updated data is sent to the user followers without asking for Read Calls
+
+-----> Saved Many Read operations
+
+
+Users Maintain (Client) Long Polling with the Servers.
+
+
+Disadvantage:
+
+(1) For Celebrity Users (Millions+ Followers)
+Server will need to push updates to Million+ Accounts: WRITE HEAVY
+
+(2) For Inactive Users,
+Push Down is waste of resources
+
+
+
+
+
+
+(3) Hybrid Model:
+
+Combination of Pull Model + Push Model
+
+
+(A) Normal Users:
+- Use Push Model
+- For People with few thousand followers,
+just use the server to send the most updated content
+
+
+
+(B) Celebrity Users:
+- Use Pull Model
+- Users/Followers can pull data on a regular basis whenever they need it.
+
+
+
+
+Customer:
+
+500 Following
+
+450: Normal Users
+50: Celebrity Users
+
+
+When you open your feed?
+- There would be NO post from Celebrity Users,
+Only posts from Normal Users
+
+
+
+Refresh:
+Top: Celebrity User Post
+
+
+
+
+
+
+
+
+
+---------> How Many Feed Items to return in each request?
+
+In 1 Request,
+We can have 50 Items
+
+
+Depends on Client Device (Mobile vs Laptop)
+
+
+
+---------> When do you notify users for new posts available? (Push Model)
+
+For New Updates:
+
+(1) Server ------> Client Communication
+"New Posts": Linkedin
+Automatic Refresh: Instagram
+
+
+(2) Client -----> Server Communication
+Pull/Refresh the App Screen
+
+
+
+
+Its useful to update users whenever new data is available.
+However, on Mobile Devices, data usage is relatively expensive.
+
+To avoid consuming more bandwidth,
+Just a Notification is shown to the user,
+"\|/ New Items to See"
+
+
+Then a user creates a pull request -----> PULL Model ----> Consume Bandwidth ----> Most updated data in feed
+
+
+
+
+IMP:
+Client Devices:
+
+
+- Laptop
+- Mobile: Data Usage is Very Expensive
+
+
+
+Mobile: Wifi: Consume More Bandwidth
+Mobile: Mobile Data: Consume less bandwidth 
+
+
+Perfect Example - Youtube
+Two Users are watching the same Video
+
+User-A: Mobile : Wifi: 4G
+Video: Load in 720P
+
+
+User-B: Mobile : Mobile Data: 3G
+Video: Load in 240P/360P
+
+
+Its always better to show the content in less quality (360P)
+rather than showing buffering content in high quality (720P)
+
+
+
+
+
+
+
+
+
+
+
+
+
+(8) Feed Ranking:
+
+
+Factors Contributing to Ranking in Feed:
+
+Ranking Score:
+
+- Time of Content Watched
+- Degree of Closeness with User
+- Number of Likes
+- Comments
+- Shares
+- Images/Videos/Reels (Highly Ranked)
+- Users Interest
+
+
+
+
+
+
+
+
+
+(9) Data Partitioning / Sharding 
+
+
+For My Newsfeed Creation,
+We can use DB Sharding
+
+
+Basis of Sharding/ Partitioning Key:
+User_ID or Media_ID
+
+
+Problem with Media_ID based Sharding:
+
+- 1 User can posts a lot of content
+
+Profile Page: All Content posted by the User
+
+Go to all Partitions/shards, merge the responses for that particular user 
+and return ---- VERY SLOW
+
+
+- Too many people can post the same photo
+
+Lead to Uneven Distribution of Load
+
+
+
+Solution:
+Keep Sharding/Partitioning Key as User_ID
+
+
+Advantage:
+Get All Information for a User under 1 Partition, 
+No Need to Aggregate responses from multiple Partitions
+
+
+
+
+
+
+
+(10) Caching
+
+- Which Cache (Why?)
+- Size of Cache (80-20 Rule)
+- Which Cache Eviction Policy? (Why)
+- Handle Cache Invalidation (Cache Miss Case)
+
+
+
+Cache:
+
+We need a very highly scalable photo delivery system across the globe.
+Our service should be able to push its content closest to the servers distributed globally
+Hence, we use CDN.
+
+
+
+
+-----> Which Cache
+
+Cache:
+Cache the URLs that are frequently used
+
+Eg: Redis, Memcache, Hazelcast
+
+
+The Application Servers, before hitting the DB Storage ------> Quickly check in Cache
+
+
+
+-------> Size of Cache
+
+
+
+Following 80-20 Rule for Cache:
+Cache 20% of my data
+
+
+To Store 20% of these Requests:
+
+0.2 * 48 TB/Day = 8 TB of Cache Memory/Day
+
+
+
+
+
+
+------> Which Cache Eviction Policy? 
+
+
+When the cache is full, and we want to replace a content with a newer content
+
+
+LRU can be a good solution.
+Discard the least recently used content first and store the new content
+
+
+
+
+
+
+---------> How can each replica of cache be updated?
+
+In Case of Cache Miss,
+Request will go to Database
+
+
+When this happens,
+After Retrieving from Database, we can update the Cache and pass the new entry to all replicas.
+
+
+- Each replica can update its cache by adding the new entry
+- If a replica already has that entry, ignore it.
+
+
+
+
+
+
+
+(11) Load Balancers
+
+Where do we Add Load Balancers:
+
+(1) Between Client and Application Servers
+(2) Between Application Servers and Database Servers
+(3) Between Application Servers and Cache Servers
+
+
+
+------> Which Policy to use for Load Balancers?
+
+(1) Use Round Robin:
+
+Adv:
+
+- Equally distributed load among servers
+- If 1 server is not responding, LB will move to next available server
+
+(2) Problem with Round Robin?
+- Load amount is not taken care of for a server
+
+
+Better Solution:
+
+Predictive Analysis for Load Balancing/Smart Load Balancers
+
+LB Solution can be periodically queries to know the health and load of DB Servers
+
+Eg:
+
+Netapp,
+NginX
+
+
+
+
+
+
+
+
+
+(12) Analytics/Telemetry: EXTENDED
+
+Metrics:
+
+- Country of Visitors
+- No of Views
+- CTR 
+- Engagement Metrics (Likes, Hours Watched, Views, Shares etc)
+
+
+
+Generate Kafka Event everytime a content engagement happens
+Put that Event in an EQ (Event Queue) for Analytics
+
+On Top of that, 
+Run Apache Spark and Hadoop Queries to get more insights.
+
+
+
+
+
+
+S3:
+File Upload -----> HashCode
+
+New File to Upload:
+
+Check HashCode is present -> Reuse the previous HashCode
+Else, Upload It.
+
+
+
+
+
+
+
+Final HLD Diagram:
+Image
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------> Case Study-6: Designing Cloud Based File Storage System - Dropbox/Google Drive/One Drive/Apple Drive
+
+
+- File Hosting(Storing) and Sharing Service
+- Cloud Hosting Service:
+Users can upload their data/files to cloud from their remote machines
+- Data should be synced across ALL Devices
+
+
+Demo:
+drive.google.com
+
+
+
+
+
+(1) Why Cloud Storage?
+
+- Availability: Upload data from any device
+- Reliability: Uploaded data is not deleted
+- Scalability: G-Drive: 15 GB, Dropbox: 100 GB
+As much as you pay, more storage to buy (Google One: 200 GB)
+- Security: Data is End-to-End Secured
+- Sharing: Share and Control Access with limited set of people (Can Edit/View etc)
+
+
+
+
+(2) Requirements Clarification
+
+(A) Functional Requirements
+
+- User should be able to view, upload and download their files from any device
+- User should be able to share files/folders with other users along with permissions
+- Our service should support Automatic Synchronisation between Devices and Users
+Eg:
+Changing on 1 device, would lead to most updated data/version in all other devices
+- System should be able to support storing very large files (In GBs)
+- ACID Property Should Support for all file operations
+- Our System should support - "Offline Editing"
+User should be able to add/delete/modify while offline 
+and as soon as they come online, their changes are synced to remote servers and other devices
+
+
+
+Additional:
+- Snapshotting of Data
+Users can go back to any version of files
+
+
+(B) Non-Functional Requirements
+
+- Our Service should be highly available
+- Highly RELIABLE
+Any uploaded data should not be deleted
+
+
+- Consistency > Availability
+
+(Availability can take a hit in the interest of Consistency)
+(A user is not able to edit for some milliseconds, its fine, )
+My Data should always be updated and synced 24*7)
+
+- Strong Consistency
+Data should be Synchronised across devices and users.
+
+
+
+
+
+
+
+
+
+(3) Some Design Considerations:
+
+(A) We expect HUGE Read and Write Volumes
+(B) Read-Heavy or Write-Heavy?
+
+Read-Write: 1:1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

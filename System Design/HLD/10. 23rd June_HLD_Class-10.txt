@@ -1,0 +1,549 @@
+Date : 23rd June 2024
+Mentor: DEVANG SHARMA
+Batch: May Batch (System Design) - Tutort Academy
+
+Agenda: System Design - Case Studies
+
+(1) System Design Interviews: A step by step guide: DONE
+(2) Designing a URL Shortening service like TinyURL: DONE
+(3) Designing Pastebin: DONE
+
+(4) Designing Instagram: DONE
+(5) Designing Facebook Feed: DONE
+(6) Designing Twitter: WIP
+
+(7) Designing Dropbox/Google Drive
+
+(8) Designing Yelp/Justdial/Sulekha
+(9) Designing Uber/Grab/Ola
+(10) Design Netflix/Youtube/Hotstar
+
+Extra:
+- Payment System and
+- Trading app like Zerodha 
+
+"Please Type 'Hi' in the Chat Box if you have joined and Can See this Screen".
+
+
+
+
+
+
+
+
+
+-------> How many Feed Items to Store in Memory for a User?
+
+
+
+Initially, we can decide 100 Items per User.
+But, we can change as per usage pattern of the user.
+
+Paging: 20 posts per page
+
+On an average, 
+User scrolls 10 pages
+Total Posts: 200 Posts
+
+
+Optimisation:
+(1) Based upon User Behaviour, User-ID: {pre-generated feed} are kept dynamic
+(2) Avoid Generating Newd Feed for Inactive Users
+
+
+User            Following              Followers
+
+User-1:         1000                   100000
+
+User-2:         500                    5000
+
+
+
+User-ID: {pre-generated feed items}
+
+Actual Storage:
+
+User-A: Reads 500 Posts at 7 PM
+User-B: Reads 200 Posts at 11 AM
+
+
+A: {feed, time}
+B: {feed, time}
+
+
+
+
+
+
+
+
+
+-------> Should we generate (and store in memory- CACHE) newsfeed for ALL USERS?
+
+DAU: 1 Bn
+MAU: 2+ Bn
+
+
+(1) Users which do not login frequently, we dont need to generate actively newsfeed for them
+(2) Users:
+
+
+- Passive Users: Not Very Frequent
+- Active Users: Very Frequent, Atleast once in a day
+
+
+
+2 Ways:
+
+(1) LRU Based Cache:
+Remove Newsfeed for Users that have not accessed newsfeed for a long time
+
+
+(2) Optmised Way:
+Find the login pattern of active users
+
+
+- What time of the day: Most Active
+- Which days of the week: Most Active
+
+
+
+
+
+
+
+
+
+
+
+
+
+(7) News Feed Publishing
+
+Process of pushing a post to all followers is called - FANOUT
+
+There are 2 Approaches:
+
+- Pull Model / Fan Out on Load
+- Push Model/ Fan Out on Write
+
+
+
+
+(1) Pull Model / Fan Out on Load
+
+Clients can pull data on a regular basis whenever they need it
+
+Problems:
+
+(1) Client Must Request to Get New Data, Server Itself is NOT Pushing Data to Client
+(2) Majority of Pull Requests will Lead into Empty Responses: AJAX Call / Short Polling
+
+
+
+(2) Push Model / Fan Out on Write
+
+Once a User published a post, 
+we can immediately push this to ALL FOLLOWERS.
+
+
+Advantage:
+- Make my system less read-heavy
+
+
+
+Usual Flow:
+
+
+User -----> Check for all Following UserIDs ----> Check for most updated content: Too many read calls
+
+In Push Model,
+Updated data is sent to the user followers without asking for Read Calls
+
+-----> Saved Many Read operations
+
+
+Users Maintain (Client) Long Polling with the Servers.
+
+
+Disadvantage:
+
+(1) For Celebrity Users (Millions+ Followers)
+Server will need to push updates to Million+ Accounts: WRITE HEAVY
+
+(2) For Inactive Users,
+Push Down is waste of resources
+
+
+
+
+
+
+(3) Hybrid Model:
+
+Combination of Pull Model + Push Model
+
+
+(A) Normal Users:
+- Use Push Model
+- For People with few thousand followers,
+just use the server to send the most updated content
+
+
+
+(B) Celebrity Users:
+- Use Pull Model
+- Users/Followers can pull data on a regular basis whenever they need it.
+
+
+
+
+Customer:
+
+500 Following
+
+450: Normal Users
+50: Celebrity Users
+
+
+When you open your feed?
+- There would be NO post from Celebrity Users,
+Only posts from Normal Users
+
+
+
+Refresh:
+Top: Celebrity User Post
+
+
+
+
+
+
+
+
+
+---------> How Many Feed Items to return in each request?
+
+In 1 Request,
+We can have 50 Items
+
+
+Depends on Client Device (Mobile vs Laptop)
+
+
+
+---------> When do you notify users for new posts available? (Push Model)
+
+For New Updates:
+
+(1) Server ------> Client Communication
+"New Posts": Linkedin
+Automatic Refresh: Instagram
+
+
+(2) Client -----> Server Communication
+Pull/Refresh the App Screen
+
+
+
+
+Its useful to update users whenever new data is available.
+However, on Mobile Devices, data usage is relatively expensive.
+
+To avoid consuming more bandwidth,
+Just a Notification is shown to the user,
+"\|/ New Items to See"
+
+
+Then a user creates a pull request -----> PULL Model ----> Consume Bandwidth ----> Most updated data in feed
+
+
+
+
+IMP:
+Client Devices:
+
+
+- Laptop
+- Mobile: Data Usage is Very Expensive
+
+
+
+Mobile: Wifi: Consume More Bandwidth
+Mobile: Mobile Data: Consume less bandwidth 
+
+
+Perfect Example - Youtube
+Two Users are watching the same Video
+
+User-A: Mobile : Wifi: 4G
+Video: Load in 720P
+
+
+User-B: Mobile : Mobile Data: 3G
+Video: Load in 240P/360P
+
+
+Its always better to show the content in less quality (360P)
+rather than showing buffering content in high quality (720P)
+
+
+
+
+
+
+
+
+
+
+
+
+
+(8) Feed Ranking:
+
+
+Factors Contributing to Ranking in Feed:
+
+Ranking Score:
+
+- Time of Content Watched
+- Degree of Closeness with User
+- Number of Likes
+- Comments
+- Shares
+- Images/Videos/Reels (Highly Ranked)
+- Users Interest
+
+
+
+
+
+
+
+
+
+(9) Data Partitioning / Sharding 
+
+
+For My Newsfeed Creation,
+We can use DB Sharding
+
+
+Basis of Sharding/ Partitioning Key:
+User_ID or Media_ID
+
+
+Problem with Media_ID based Sharding:
+
+- 1 User can posts a lot of content
+
+Profile Page: All Content posted by the User
+
+Go to all Partitions/shards, merge the responses for that particular user 
+and return ---- VERY SLOW
+
+
+- Too many people can post the same photo
+
+Lead to Uneven Distribution of Load
+
+
+
+Solution:
+Keep Sharding/Partitioning Key as User_ID
+
+
+Advantage:
+Get All Information for a User under 1 Partition, 
+No Need to Aggregate responses from multiple Partitions
+
+
+
+
+
+
+
+(10) Caching
+
+- Which Cache (Why?)
+- Size of Cache (80-20 Rule)
+- Which Cache Eviction Policy? (Why)
+- Handle Cache Invalidation (Cache Miss Case)
+
+
+
+Cache:
+
+We need a very highly scalable photo delivery system across the globe.
+Our service should be able to push its content closest to the servers distributed globally
+Hence, we use CDN.
+
+
+
+
+-----> Which Cache
+
+Cache:
+Cache the URLs that are frequently used
+
+Eg: Redis, Memcache, Hazelcast
+
+
+The Application Servers, before hitting the DB Storage ------> Quickly check in Cache
+
+
+
+-------> Size of Cache
+
+
+
+Following 80-20 Rule for Cache:
+Cache 20% of my data
+
+
+To Store 20% of these Requests:
+
+0.2 * 400 TB/Day = 80 TB of Cache Memory/Day
+
+
+
+
+
+
+------> Which Cache Eviction Policy? 
+
+
+When the cache is full, and we want to replace a content with a newer content
+
+
+LRU can be a good solution.
+Discard the least recently used content first and store the new content
+
+
+
+
+
+
+---------> How can each replica of cache be updated?
+
+In Case of Cache Miss,
+Request will go to Database
+
+
+When this happens,
+After Retrieving from Database, we can update the Cache and pass the new entry to all replicas.
+
+
+- Each replica can update its cache by adding the new entry
+- If a replica already has that entry, ignore it.
+
+
+
+
+
+
+
+(11) Load Balancers
+
+Where do we Add Load Balancers:
+
+(1) Between Client and Application Servers
+(2) Between Application Servers and Database Servers
+(3) Between Application Servers and Cache Servers
+
+
+
+------> Which Policy to use for Load Balancers?
+
+(1) Use Round Robin:
+
+Adv:
+
+- Equally distributed load among servers
+- If 1 server is not responding, LB will move to next available server
+
+(2) Problem with Round Robin?
+- Load amount is not taken care of for a server
+
+
+Better Solution:
+
+Predictive Analysis for Load Balancing/Smart Load Balancers
+
+LB Solution can be periodically queries to know the health and load of DB Servers
+
+Eg:
+
+Netapp,
+NginX
+
+
+
+
+
+
+
+
+
+(12) Analytics/Telemetry: EXTENDED
+
+Metrics:
+
+- Country of Visitors
+- No of Views
+- CTR 
+- Engagement Metrics (Likes, Hours Watched, Views, Shares etc)
+
+
+
+Generate Kafka Event everytime a content engagement happens
+Put that Event in an EQ (Event Queue) for Analytics
+
+On Top of that, 
+Run Apache Spark and Hadoop Queries to get more insights.
+
+
+
+
+
+
+S3:
+File Upload -----> HashCode
+
+New File to Upload:
+
+Check HashCode is present -> Reuse the previous HashCode
+Else, Upload It.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
