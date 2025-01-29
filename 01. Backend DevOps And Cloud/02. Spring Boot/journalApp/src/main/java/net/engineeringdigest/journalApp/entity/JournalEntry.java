@@ -1,6 +1,6 @@
 package net.engineeringdigest.journalApp.entity;
 
-public class JournalEntity {
+public class JournalEntry {
     private long id;
     private String title;
     private String content;
